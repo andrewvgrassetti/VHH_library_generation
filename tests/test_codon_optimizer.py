@@ -38,3 +38,11 @@ def test_s_cerevisiae(optimizer):
 def test_p_pastoris(optimizer):
     result = optimizer.optimize(SAMPLE_AA, "p_pastoris")
     assert isinstance(result["dna_sequence"], str)
+
+def test_h_sapiens(optimizer):
+    result = optimizer.optimize(SAMPLE_AA, "h_sapiens")
+    assert isinstance(result["dna_sequence"], str)
+    dna = result["dna_sequence"]
+    assert len(dna) == len(SAMPLE_AA) * 3
+    translated = translate(dna)
+    assert translated == SAMPLE_AA

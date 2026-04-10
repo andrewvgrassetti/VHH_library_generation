@@ -49,63 +49,68 @@ class TestBarcodeDesignRules:
     """_barcode_passes_rules must enforce all design constraints."""
 
     def test_valid_barcode_passes(self):
-        assert _barcode_passes_rules("LVTDLTK")
+        assert _barcode_passes_rules("KLVTDLT")
 
-    def test_must_end_in_K_or_R(self):
-        assert not _barcode_passes_rules("LVTDLTA")  # ends in A
+    def test_must_start_with_K_or_R(self):
+        assert not _barcode_passes_rules("ALVTDLT")  # starts with A
+
+    def test_starts_with_K(self):
+        assert _barcode_passes_rules("KLVTDLT")
+
+    def test_starts_with_R(self):
+        assert _barcode_passes_rules("RLVTDLT")
 
     def test_no_methionine(self):
-        assert not _barcode_passes_rules("LVTDMTK")  # contains M
+        assert not _barcode_passes_rules("KLVTDMT")  # contains M
 
     def test_no_cysteine(self):
-        assert not _barcode_passes_rules("LVTDCTK")  # contains C
+        assert not _barcode_passes_rules("KLVTDCT")  # contains C
 
     def test_no_NG_motif(self):
-        assert not _barcode_passes_rules("LVTDNGK")  # contains NG
+        assert not _barcode_passes_rules("KLVDNGT")  # contains NG
 
     def test_no_NS_motif(self):
-        assert not _barcode_passes_rules("LNSVLTK")  # contains NS
+        assert not _barcode_passes_rules("KNSVLTT")  # contains NS
 
     def test_no_glycosylation_sequon_NST(self):
         # N-X-T where X is not P should fail
-        assert not _barcode_passes_rules("LNATLTK")  # N-A-T
+        assert not _barcode_passes_rules("KNATLTD")  # N-A-T
 
     def test_glycosylation_sequon_NPS_passes(self):
         # N-P-S should NOT trigger the sequon rule (X == P is excepted)
-        # but check length and basic residue presence
-        # ANPSK: A-N-P-S-K → N at pos 1, P at pos 2 (X=P), S at pos 3 → OK
-        assert _barcode_passes_rules("ANPSVR")
+        assert _barcode_passes_rules("KANPSVE")
 
     def test_must_have_basic_residue(self):
-        # No K, R, or H → should fail
-        # All hydrophobic, no basic residue (except the terminal R which is both cleavage and basic)
-        assert _barcode_passes_rules("LVTDLTR")  # has R (basic) → should pass
-        assert not _barcode_passes_rules("LVTDLTF")  # ends in F (non-basic, non-K/R) → fail (also fails K/R rule)
-        # Test a sequence that would pass length/cleavage but lacks basic residue (impossible
-        # to construct, since K/R at the end always qualifies as basic).  Instead verify H counts.
-        assert _barcode_passes_rules("HLTDLTR")  # has H (basic)
+        # K or R at start provides a basic residue → should pass
+        assert _barcode_passes_rules("KLVTDLT")  # has K (basic)
+        assert _barcode_passes_rules("RLVTDLT")  # has R (basic)
+        # H in the body also counts as basic
+        assert _barcode_passes_rules("KHLTDLT")
 
     def test_length_too_short(self):
-        assert not _barcode_passes_rules("LVTK")  # only 4 chars
+        assert not _barcode_passes_rules("KLVTD")  # only 5 chars
 
     def test_length_too_long(self):
-        assert not _barcode_passes_rules("A" * 12 + "K")  # 13 chars → too long
-        assert _barcode_passes_rules("A" * 11 + "K")  # 12 chars → OK
+        assert not _barcode_passes_rules("K" + "A" * 12)  # 13 chars → too long
+        assert _barcode_passes_rules("K" + "A" * 10 + "H")  # 12 chars → OK (H for basic)
 
     def test_no_internal_lysine(self):
-        assert not _barcode_passes_rules("LVKDLTK")  # internal K
+        assert not _barcode_passes_rules("KLVKDLT")  # internal K
 
     def test_no_internal_arginine(self):
-        assert not _barcode_passes_rules("LVRDLTR")  # internal R
+        assert not _barcode_passes_rules("KLVRDLT")  # internal R
 
     def test_exactly_6_chars_passes(self):
-        assert _barcode_passes_rules("AFHLD" + "K")  # 6 chars, ends K, has H (basic)
+        assert _barcode_passes_rules("KAFHLG")  # 6 chars, starts K, has H (basic)
 
     def test_exactly_12_chars_passes(self):
-        seq = "AFEQTIVHLHEK"
+        seq = "KAFEQTIVHLHE"
         assert len(seq) == 12
-        # check passes (no forbidden motifs)
         assert _barcode_passes_rules(seq)
+
+    def test_old_c_terminal_barcode_fails(self):
+        """Barcodes with K/R at C-terminal end (old design) should now fail."""
+        assert not _barcode_passes_rules("LVTDLTK")  # old-style, starts with L
 
 
 # ── tryptic digest tests ───────────────────────────────────────────────────────
@@ -212,6 +217,24 @@ class TestAssignBarcodes:
         result = generator.assign_barcodes(small_library, top_n=5, linker="GGS")
         for _, row in result.iterrows():
             assert "GGS" in row["barcoded_sequence"]
+
+    def test_barcoded_sequence_contains_c_terminal_tail(self, generator, small_library):
+        result = generator.assign_barcodes(small_library, top_n=5, linker="GGS", c_terminal_tail="AA")
+        for _, row in result.iterrows():
+            assert row["barcoded_sequence"].endswith("AA")
+
+    def test_c_terminal_tail_in_tryptic_peptide(self, generator, small_library):
+        result = generator.assign_barcodes(small_library, top_n=5, linker="GGS", c_terminal_tail="GS")
+        for _, row in result.iterrows():
+            assert row["barcode_tryptic_peptide"].endswith("GS")
+
+    def test_c_terminal_tail_rejects_K(self, generator, small_library):
+        with pytest.raises(ValueError, match="must not contain K or R"):
+            generator.assign_barcodes(small_library, top_n=5, c_terminal_tail="AK")
+
+    def test_c_terminal_tail_rejects_R(self, generator, small_library):
+        with pytest.raises(ValueError, match="must not contain K or R"):
+            generator.assign_barcodes(small_library, top_n=5, c_terminal_tail="RA")
 
     def test_barcode_peptides_pass_design_rules(self, generator, small_library):
         result = generator.assign_barcodes(small_library, top_n=10)
