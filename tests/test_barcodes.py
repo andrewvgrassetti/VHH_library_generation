@@ -157,7 +157,7 @@ class TestBarcodePool:
         assert len(generator.pool) > 0, "Barcode pool should not be empty"
 
     def test_pool_has_200_plus_barcodes(self, generator):
-        assert len(generator.pool) >= 200
+        assert len(generator.pool) >= 250
 
     def test_all_pool_barcodes_pass_rules(self, generator):
         failures = [bc for bc in generator.pool if not _barcode_passes_rules(bc)]

@@ -22,6 +22,12 @@ _SAMPLING_THRESHOLD = 50_000
 # activates iterative refinement instead of pure random sampling.
 _ITERATIVE_THRESHOLD = 1_000_000
 
+# Minimum score improvement per top-K average to continue iterative refinement.
+_CONVERGENCE_THRESHOLD = 1e-4
+
+# Minimum average-score improvement required to unlock an anchor position.
+_ANCHOR_UNLOCK_THRESHOLD = 0.01
+
 
 def _parse_mut_str(mut_str: str) -> list[tuple[int, str]]:
     """Parse a mutations string like ``'X1Y, A2B'`` to ``[(1, 'Y'), (2, 'B')]``."""
@@ -34,7 +40,7 @@ def _parse_mut_str(mut_str: str) -> list[tuple[int, str]]:
                 aa = part[-1]
                 result.append((pos, aa))
             except (ValueError, IndexError):
-                pass
+                logger.debug("Could not parse mutation token %r; skipping.", part)
     return result
 
 
@@ -570,7 +576,7 @@ class MutationEngine:
             top_k_avg = sum(r["combined_score"] for r in pool_sorted[:K]) / K
 
             # Convergence check
-            if top_k_avg <= prev_top_k_score + 1e-4:
+            if top_k_avg <= prev_top_k_score + _CONVERGENCE_THRESHOLD:
                 stagnant_rounds += 1
                 if stagnant_rounds >= 2:
                     logger.info("Iterative refinement converged after %d rounds.", _round)
@@ -634,7 +640,7 @@ class MutationEngine:
             # --- Re-evaluate anchors ------------------------------------------
             # For each anchor position, generate a small batch without it and
             # compare average scores.  If variants without the anchor score
-            # higher on average (by > 0.01), unlock that anchor.
+            # higher on average (by > _ANCHOR_UNLOCK_THRESHOLD), unlock that anchor.
             anchors_to_unlock: set[int] = set()
             for anchor_m in anchor_muts:
                 apos = anchor_m.imgt_pos
@@ -655,7 +661,7 @@ class MutationEngine:
                     avg_unlocked = (
                         sum(r["combined_score"] for r in unlock_rows) / len(unlock_rows)
                     )
-                    if avg_unlocked > avg_constrained + 0.01:
+                    if avg_unlocked > avg_constrained + _ANCHOR_UNLOCK_THRESHOLD:
                         anchors_to_unlock.add(apos)
                         logger.info(
                             "Unlocking anchor %s%d%s (avg score %.4f → %.4f).",
@@ -668,11 +674,16 @@ class MutationEngine:
                 frozenset(_parse_mut_str(r["mutations"])) for r in new_rows
             )
 
-            # If any anchors were unlocked we do NOT remove their positions from
-            # current_mut_list — they were never removed; they will simply fail
-            # to qualify as anchors in the next round because the pool now
-            # contains variants both with and without those positions.
-            _ = anchors_to_unlock  # acknowledged; handled implicitly above
+            # Unlocked anchor positions are re-incorporated implicitly: since the
+            # pool now contains variants both with and without those positions,
+            # the anchors will not meet the frequency threshold in the next round
+            # and will be freely sampled alongside non-anchored positions.
+            if anchors_to_unlock:
+                logger.info(
+                    "Unlocked %d anchor position(s): %s — they will be freely "
+                    "varied in subsequent rounds.",
+                    len(anchors_to_unlock), sorted(anchors_to_unlock),
+                )
 
         # --- Final deduplication and ranking ----------------------------------
         final_sorted = sorted(all_rows, key=lambda r: r["combined_score"], reverse=True)
@@ -685,3 +696,4 @@ class MutationEngine:
                 result.append(r)
 
         return result[:max_variants]
+

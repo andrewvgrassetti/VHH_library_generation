@@ -32,6 +32,13 @@ _MONOISOTOPIC_MASSES: dict[str, float] = {
 _WATER = 18.01056
 _PROTON = 1.00728
 
+# Fallback mass used for amino acid residues not found in the monoisotopic table
+# (approximate average residue mass, Da).
+_DEFAULT_AA_MASS = 111.0
+
+# Maximum number of random-generation attempts for a single barcode.
+_MAX_GENERATION_ATTEMPTS = 5000
+
 
 def _barcode_passes_rules(seq: str) -> bool:
     """Return True if *seq* satisfies all barcode design constraints."""
@@ -61,7 +68,7 @@ def _barcode_passes_rules(seq: str) -> bool:
 
 def _peptide_neutral_mass(seq: str) -> float:
     """Monoisotopic neutral mass of an amino acid sequence (+ water)."""
-    return sum(_MONOISOTOPIC_MASSES.get(aa, 111.0) for aa in seq) + _WATER
+    return sum(_MONOISOTOPIC_MASSES.get(aa, _DEFAULT_AA_MASS) for aa in seq) + _WATER
 
 
 def _mz(seq: str, z: int = 2) -> float:
@@ -84,7 +91,7 @@ def _generate_barcode_algorithmically(exclude: set[str], rng: random.Random | No
     """Generate a single valid barcode sequence not present in *exclude*."""
     if rng is None:
         rng = random.Random()
-    for _ in range(5000):
+    for _ in range(_MAX_GENERATION_ATTEMPTS):
         length = rng.randint(6, 12)
         body = [rng.choice(_ALLOWED_AAs) for _ in range(length - 1)]
         end = rng.choice(["K", "R"])
