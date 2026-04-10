@@ -4,7 +4,7 @@ These scorers use methodologies completely independent from the primary
 :class:`HumAnnotator` and :class:`StabilityScorer` classes, enabling
 cross-validation of the built-in scoring pipeline.
 
-Two scorers are provided:
+Three scorers are provided:
 
 1. **HumanStringContentScorer** – Humanness metric based on *Human String
    Content* (HSC).  The VHH framework sequence is decomposed into
@@ -21,6 +21,14 @@ Two scorers are provided:
    scored higher, weighted by the conservation level (entropy-based).
    This purely evolutionary / statistical approach is orthogonal to the
    biophysical-property scoring in :class:`StabilityScorer`.
+
+3. **NanoMeltStabilityScorer** – Continuous orthogonal stability scoring
+   via NanoMelt predicted melting temperature (Tm).  Uses an ensemble of
+   ESM-based and physicochemical embeddings trained on nanobody Tm data.
+   Requires the optional ``nanomelt`` package (``pip install nanomelt``).
+   The scorer is lazy-loaded; the heavy model weights are only loaded on
+   first use.  If ``nanomelt`` is not installed the scorer is unavailable
+   and :meth:`NanoMeltStabilityScorer.score` raises :exc:`ImportError`.
 """
 
 from __future__ import annotations
@@ -289,3 +297,130 @@ class ConsensusStabilityScorer:
         mutant = VHHSequence("".join(seq_list))
         new_score = self.score(mutant)["composite_score"]
         return round(new_score - original_score, 4)
+
+# ---------------------------------------------------------------------------
+# NanoMelt Stability Scorer
+# ---------------------------------------------------------------------------
+
+# Typical VHH apparent Tm range used for normalisation.
+_NANOMELT_TM_MIN = 45.0   # °C — poor thermostability
+_NANOMELT_TM_MAX = 85.0   # °C — excellent thermostability
+
+
+class NanoMeltStabilityScorer:
+    """Continuous orthogonal stability scoring via NanoMelt Tm prediction.
+
+    NanoMelt is a nanobody-specific thermostability predictor that outputs
+    a continuous predicted apparent melting temperature (Tm) in °C using an
+    ensemble of ESM-1b, ESM-2, one-hot and VHSE embeddings.
+
+    The ``nanomelt`` package (and its heavy dependencies – PyTorch, ESM model
+    weights) are loaded **lazily** — only on the first call to :meth:`score`.
+    This ensures that users who do not have ``nanomelt`` installed can still
+    use the rest of the library without any import errors.
+
+    Parameters
+    ----------
+    None.  Model weights are downloaded automatically by ``nanomelt`` on
+    first use.
+
+    Notes
+    -----
+    Requires ``pip install nanomelt``.  NanoMelt pulls in PyTorch and ESM
+    model weights (~hundreds of MB to several GB).  The first call to
+    :meth:`score` will be slow due to model loading; subsequent calls are
+    significantly faster.
+
+    The NanoMelt API used here is ``NanoMeltPredPipe(seq_records, do_align,
+    ncpus)`` (``nanomelt.model.nanomelt.NanoMeltPredPipe``), which accepts a
+    list of ``Bio.SeqRecord`` objects and returns a DataFrame containing the
+    column ``"NanoMelt Tm (C)"``.  If the upstream NanoMelt package changes
+    its API this method may need adjustment.
+    """
+
+    def __init__(self) -> None:
+        # Lazy-loaded on first use
+        self._nanomelt_pipe = None
+        self._available: Optional[bool] = None
+
+    # -- internal helpers ----------------------------------------------------
+
+    def _load(self) -> None:
+        """Attempt to import nanomelt and cache the pipeline callable."""
+        if self._available is not None:
+            return
+        try:
+            from nanomelt.model.nanomelt import NanoMeltPredPipe  # type: ignore[import]
+            self._nanomelt_pipe = NanoMeltPredPipe
+            self._available = True
+        except ImportError:
+            self._available = False
+
+    def _predict_tm(self, sequence: str) -> float:
+        """Return predicted Tm (°C) for *sequence* via NanoMelt."""
+        from Bio.SeqRecord import SeqRecord  # type: ignore[import]
+        from Bio.Seq import Seq  # type: ignore[import]
+
+        seq_records = [SeqRecord(Seq(sequence), id="query")]
+        # do_align=False: skip ANARCI alignment (already handled by VHHSequence)
+        result_df = self._nanomelt_pipe(seq_records, do_align=False, ncpus=1)
+        return float(result_df["NanoMelt Tm (C)"].iloc[0])
+
+    # -- public API ----------------------------------------------------------
+
+    @property
+    def is_available(self) -> bool:
+        """``True`` if the ``nanomelt`` package is installed and loadable."""
+        self._load()
+        return bool(self._available)
+
+    def score(self, vhh_sequence: VHHSequence) -> dict:
+        """Return NanoMelt stability score for *vhh_sequence*.
+
+        Raises
+        ------
+        ImportError
+            If the ``nanomelt`` package is not installed.
+
+        Returns
+        -------
+        dict with keys:
+            ``composite_score`` (float, 0-1): Tm normalised to
+                ``[0, 1]`` using the range
+                :data:`_NANOMELT_TM_MIN`-:data:`_NANOMELT_TM_MAX`.
+            ``predicted_tm`` (float): raw predicted Tm in °C.
+        """
+        self._load()
+        if not self._available:
+            raise ImportError(
+                "The 'nanomelt' package is required for NanoMeltStabilityScorer. "
+                "Install it with: pip install nanomelt"
+            )
+        tm = self._predict_tm(vhh_sequence.sequence)
+        normalized = min(
+            1.0,
+            max(0.0, (tm - _NANOMELT_TM_MIN) / (_NANOMELT_TM_MAX - _NANOMELT_TM_MIN)),
+        )
+        return {
+            "composite_score": round(normalized, 4),
+            "predicted_tm": round(tm, 2),
+        }
+
+    def predict_mutation_effect(self, vhh_sequence: VHHSequence, position: int, new_aa: str) -> float:
+        """Return delta composite score when mutating *position* to *new_aa*.
+
+        Returns ``0.0`` if *position* is out of range, if the residue is
+        already *new_aa*, or if ``nanomelt`` is not installed.
+        """
+        if not self.is_available:
+            return 0.0
+        original = self.score(vhh_sequence)["composite_score"]
+        seq_list = list(vhh_sequence.sequence)
+        idx = position - 1
+        if idx < 0 or idx >= len(seq_list):
+            return 0.0
+        if seq_list[idx] == new_aa:
+            return 0.0
+        seq_list[idx] = new_aa
+        mutant = VHHSequence("".join(seq_list))
+        return round(self.score(mutant)["composite_score"] - original, 4)

@@ -27,6 +27,7 @@ from vhh_library.developability import (
 from vhh_library.orthogonal_scoring import (
     HumanStringContentScorer,
     ConsensusStabilityScorer,
+    NanoMeltStabilityScorer,
 )
 
 st.set_page_config(
@@ -47,7 +48,11 @@ def load_scorers():
     shyd = SurfaceHydrophobicityScorer()
     hsc = HumanStringContentScorer()
     cons = ConsensusStabilityScorer()
-    return h, s, ptm, clr, shyd, hsc, cons
+    # NanoMelt is optional — gracefully skip if package is not installed
+    nm = NanoMeltStabilityScorer()
+    if not nm.is_available:
+        nm = None
+    return h, s, ptm, clr, shyd, hsc, cons, nm
 
 
 def init_state():
@@ -60,6 +65,7 @@ def init_state():
         "hydrophobicity_scores": None,
         "orthogonal_humanness_scores": None,
         "orthogonal_stability_scores": None,
+        "nanomelt_scores": None,
         "ranked_mutations": None,
         "library": None,
         "library_manager": LibraryManager(),
@@ -173,7 +179,7 @@ def sidebar():
 
 
 def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
-              hydrophobicity_scorer, hsc_scorer, consensus_scorer, viz):
+              hydrophobicity_scorer, hsc_scorer, consensus_scorer, nanomelt_scorer, viz):
     st.header("🔬 Input & Analysis")
     seq_input = st.text_area("Paste VHH amino acid sequence:", value=SAMPLE_VHH, height=100)
 
@@ -188,6 +194,13 @@ def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
             st.session_state.hydrophobicity_scores = hydrophobicity_scorer.score(vhh)
             st.session_state.orthogonal_humanness_scores = hsc_scorer.score(vhh)
             st.session_state.orthogonal_stability_scores = consensus_scorer.score(vhh)
+            if nanomelt_scorer is not None:
+                try:
+                    st.session_state.nanomelt_scores = nanomelt_scorer.score(vhh)
+                except Exception:
+                    st.session_state.nanomelt_scores = None
+            else:
+                st.session_state.nanomelt_scores = None
         except Exception as e:
             st.error(f"Error analyzing sequence: {e}")
 
@@ -272,12 +285,14 @@ def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
     # --- Orthogonal Scoring (Cross-Validation) ---
     orth_h = st.session_state.orthogonal_humanness_scores
     orth_s = st.session_state.orthogonal_stability_scores
+    nm = st.session_state.nanomelt_scores
     if orth_h and orth_s:
         st.subheader("Orthogonal Scoring (Cross-Validation)")
         st.caption(
             "Independent scoring methods for cross-validating the primary scores. "
             "**Human String Content** uses k-mer peptide matching against human germlines. "
-            "**Consensus Stability** scores framework positions against VHH germline consensus."
+            "**Consensus Stability** scores framework positions against VHH germline consensus. "
+            + ("**NanoMelt Tm** predicts apparent melting temperature using ESM-based embeddings." if nm else "")
         )
         orth_html = ""
         orth_html += viz.render_score_bar(
@@ -290,13 +305,29 @@ def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
             f"Consensus Stability ({orth_s['consensus_matches']}/{orth_s['positions_evaluated']} positions matched)",
             "#00695C",
         )
-        st.components.v1.html(orth_html, height=100)
+        if nm:
+            orth_html += viz.render_score_bar(
+                nm["composite_score"],
+                f"NanoMelt Tm (predicted {nm['predicted_tm']:.1f} °C, normalised score)",
+                "#F57C00",
+            )
+        bar_height = 150 if nm else 100
+        st.components.v1.html(orth_html, height=bar_height)
 
-        col1, col2, col3, col4 = st.columns(4)
-        col1.metric("Primary Humanness", f"{hs['composite_score']:.3f}")
-        col2.metric("Orthogonal Humanness (HSC)", f"{orth_h['composite_score']:.3f}")
-        col3.metric("Primary Stability", f"{ss['composite_score']:.3f}")
-        col4.metric("Orthogonal Stability (Consensus)", f"{orth_s['composite_score']:.3f}")
+        if nm:
+            col1, col2, col3, col4, col5, col6 = st.columns(6)
+            col1.metric("Primary Humanness", f"{hs['composite_score']:.3f}")
+            col2.metric("Orthogonal Humanness (HSC)", f"{orth_h['composite_score']:.3f}")
+            col3.metric("Primary Stability", f"{ss['composite_score']:.3f}")
+            col4.metric("Orthogonal Stability (Consensus)", f"{orth_s['composite_score']:.3f}")
+            col5.metric("NanoMelt Tm (°C)", f"{nm['predicted_tm']:.1f}")
+            col6.metric("NanoMelt Score (normalised)", f"{nm['composite_score']:.3f}")
+        else:
+            col1, col2, col3, col4 = st.columns(4)
+            col1.metric("Primary Humanness", f"{hs['composite_score']:.3f}")
+            col2.metric("Orthogonal Humanness (HSC)", f"{orth_h['composite_score']:.3f}")
+            col3.metric("Primary Stability", f"{ss['composite_score']:.3f}")
+            col4.metric("Orthogonal Stability (Consensus)", f"{orth_s['composite_score']:.3f}")
 
 
 def _parse_off_limit_csv(uploaded_file) -> dict:
@@ -639,6 +670,11 @@ def tab_library(viz):
                 "orthogonal_stability_score", "Orthogonal Stability (Consensus)", "#00695C",
                 st.session_state.orthogonal_stability_scores.get("composite_score"),
             ))
+        if "nanomelt_tm_score" in lib.columns and st.session_state.nanomelt_scores:
+            _SCORE_COLS.append((
+                "nanomelt_tm_score", "NanoMelt Tm Score", "#F57C00",
+                st.session_state.nanomelt_scores.get("composite_score"),
+            ))
 
         n_plots = len(_SCORE_COLS)
         n_cols = min(n_plots, 3)
@@ -667,7 +703,8 @@ def tab_library(viz):
         # --- Orthogonal Correlation Plots ---
         _has_orth_h = "orthogonal_humanness_score" in lib.columns
         _has_orth_s = "orthogonal_stability_score" in lib.columns
-        n_corr = sum([_has_orth_h, _has_orth_s])
+        _has_nm = "nanomelt_tm_score" in lib.columns and lib["nanomelt_tm_score"].notna().any()
+        n_corr = sum([_has_orth_h, _has_orth_s, _has_nm])
         if n_corr > 0:
             st.subheader("Orthogonal Score Correlation")
             st.caption(
@@ -675,8 +712,8 @@ def tab_library(viz):
                 "across all library variants.  Strong correlation validates that "
                 "both independent scoring methods agree."
             )
-            # Stability uses 2 subplots (jittered scatter + hexbin); humanness uses 1
-            n_cols = (_has_orth_h * 1) + (_has_orth_s * 2)
+            # Stability uses 2 subplots (jittered scatter + hexbin); humanness uses 1; NanoMelt uses 1
+            n_cols = (_has_orth_h * 1) + (_has_orth_s * 2) + (_has_nm * 1)
             fig_corr, ax_corr_flat = plt.subplots(1, n_cols, figsize=(6 * n_cols, 5), squeeze=False)
             col_idx = 0
             if _has_orth_h:
@@ -719,6 +756,34 @@ def tab_library(viz):
                 ax_hex.set_ylabel("Orthogonal Stability (Consensus)")
                 ax_hex.set_title("Stability Correlation (Density)")
                 fig_corr.colorbar(hb, ax=ax_hex, label="Count")
+                col_idx += 1
+
+            if _has_nm:
+                nm_idx = lib["nanomelt_tm_score"].notna()
+                ax_nm = ax_corr_flat[0][col_idx]
+                ax_nm.scatter(lib.loc[nm_idx, "stability_score"],
+                              lib.loc[nm_idx, "nanomelt_tm_score"],
+                              alpha=0.4, s=10, color="#F57C00")
+                ax_nm.set_xlabel("Primary Stability Score")
+                ax_nm.set_ylabel("NanoMelt Tm Score (normalised)")
+                ax_nm.set_title("Stability vs. NanoMelt Tm")
+                if nm_idx.sum() > 1:
+                    rho, pval = spearmanr(
+                        lib.loc[nm_idx, "stability_score"],
+                        lib.loc[nm_idx, "nanomelt_tm_score"],
+                    )
+                    ax_nm.annotate(f"ρ = {rho:.3f} (p={pval:.2e})", xy=(0.05, 0.95),
+                                   xycoords="axes fraction", fontsize=11,
+                                   verticalalignment="top",
+                                   bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+                # Add predicted Tm axis on the right for interpretability
+                if "predicted_tm" in lib.columns and lib["predicted_tm"].notna().any():
+                    ax_nm2 = ax_nm.twinx()
+                    ax_nm2.set_ylabel("Predicted Tm (°C)", color="#F57C00")
+                    ax_nm2.tick_params(axis="y", labelcolor="#F57C00")
+                    y_lim = ax_nm.get_ylim()
+                    # Tm range: 45°C (score=0) to 85°C (score=1) → scale back
+                    ax_nm2.set_ylim(y_lim[0] * 40.0 + 45.0, y_lim[1] * 40.0 + 45.0)
                 col_idx += 1
 
             fig_corr.tight_layout()
@@ -983,6 +1048,8 @@ def tab_history():
                 save_data["orthogonal_humanness_scores"] = st.session_state.orthogonal_humanness_scores
             if st.session_state.orthogonal_stability_scores:
                 save_data["orthogonal_stability_scores"] = st.session_state.orthogonal_stability_scores
+            if st.session_state.nanomelt_scores:
+                save_data["nanomelt_scores"] = st.session_state.nanomelt_scores
             if st.session_state.library is not None:
                 save_data["library"] = st.session_state.library
             try:
@@ -994,7 +1061,7 @@ def tab_history():
 
 def main():
     init_state()
-    humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer, hydrophobicity_scorer, hsc_scorer, consensus_scorer = load_scorers()
+    humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer, hydrophobicity_scorer, hsc_scorer, consensus_scorer, nanomelt_scorer = load_scorers()
     optimizer = CodonOptimizer()
     tag_manager = TagManager()
     viz = SequenceVisualizer()
@@ -1004,7 +1071,7 @@ def main():
     tabs = st.tabs(["🔬 Input & Analysis", "🎯 Mutation Selection", "📚 Library Results", "🧬 Barcoding", "🔧 Construct Builder", "📁 Session History"])
     with tabs[0]:
         tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
-                  hydrophobicity_scorer, hsc_scorer, consensus_scorer, viz)
+                  hydrophobicity_scorer, hsc_scorer, consensus_scorer, nanomelt_scorer, viz)
     with tabs[1]:
         tab_mutations(humanness_scorer, stability_scorer)
     with tabs[2]:
