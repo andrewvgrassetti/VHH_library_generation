@@ -16,6 +16,7 @@ from vhh_library.tags import TagManager
 from vhh_library.library_manager import LibraryManager
 from vhh_library.visualization import SequenceVisualizer
 from vhh_library.components import sequence_selector
+from vhh_library.barcodes import BarcodeGenerator
 from vhh_library.developability import (
     PTMLiabilityScorer,
     ClearanceRiskScorer,
@@ -53,6 +54,8 @@ def init_state():
         "library": None,
         "library_manager": LibraryManager(),
         "construct": None,
+        "barcoded_library": None,
+        "barcode_reference": None,
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -124,6 +127,33 @@ def sidebar():
     if min_mut > n_mut:
         st.sidebar.warning("Min mutations exceeds max mutations — min will be clamped to max.")
     max_var = st.sidebar.number_input("Max Variants", 100, 10000, 1000, step=100, key="max_variants")
+
+    st.sidebar.subheader("Sampling Strategy")
+    sampling_strategy = st.sidebar.selectbox(
+        "Strategy",
+        ["Auto", "Random Sampling", "Iterative Refinement"],
+        index=0,
+        key="sampling_strategy",
+        help=(
+            "Auto: exhaustive for small spaces, random for medium, iterative for very large (>1M combinations). "
+            "Random Sampling: always uses random sampling. "
+            "Iterative Refinement: anchor-and-explore strategy."
+        ),
+    )
+    anchor_threshold = st.sidebar.slider(
+        "Anchor frequency threshold",
+        0.1, 1.0, 0.6, step=0.05,
+        key="anchor_threshold",
+        disabled=(sampling_strategy == "Random Sampling"),
+        help="Fraction of top-quartile variants a position-mutation must appear in to be soft-locked as anchor.",
+    )
+    max_rounds = st.sidebar.number_input(
+        "Max refinement rounds",
+        1, 10, 5, step=1,
+        key="max_rounds",
+        disabled=(sampling_strategy == "Random Sampling"),
+        help="Maximum number of anchor-and-explore refinement rounds.",
+    )
 
     st.sidebar.subheader("Expression System")
     host = st.sidebar.selectbox("Host", ["e_coli", "s_cerevisiae", "p_pastoris"], key="host")
@@ -471,9 +501,22 @@ def tab_mutations(humanness_scorer, stability_scorer):
         if st.button("Generate Library", type="primary"):
             with st.spinner(f"Generating library (up to {max_var} variants)..."):
                 try:
+                    # Map UI strategy name to engine strategy key
+                    _strategy_map = {
+                        "Auto": "auto",
+                        "Random Sampling": "random",
+                        "Iterative Refinement": "iterative",
+                    }
+                    ui_strategy = st.session_state.get("sampling_strategy", "Auto")
+                    eng_strategy = _strategy_map.get(ui_strategy, "auto")
+                    anchor_thr = st.session_state.get("anchor_threshold", 0.6)
+                    max_rnd = int(st.session_state.get("max_rounds", 5))
                     library = engine.generate_library(
                         vhh, df, n_mutations=n_mut,
                         max_variants=max_var, min_mutations=min_mut,
+                        strategy=eng_strategy,
+                        anchor_threshold=anchor_thr,
+                        max_rounds=max_rnd,
                     )
                     st.session_state.library = library
                     st.success(f"Library generated: {len(library)} variants.")
@@ -637,6 +680,98 @@ def tab_construct(optimizer, tag_manager):
             st.download_button("⬇️ Download DNA", c["dna_construct"].encode(), "construct_dna.fasta", "text/plain")
 
 
+def tab_barcoding():
+    st.header("🧬 Barcoding")
+    st.markdown(
+        "Assign unique trypsin-cleavable peptide barcodes to the top variants for "
+        "co-transfection multiplexed expression screening by LC-MS/MS."
+    )
+
+    if st.session_state.library is None:
+        st.info("Generate a library first (Tab 2).")
+        return
+
+    lib = st.session_state.library
+
+    enable_barcoding = st.checkbox("Enable barcoding", value=False, key="enable_barcoding")
+    if not enable_barcoding:
+        st.info("Check **Enable barcoding** above to assign barcodes to top candidates.")
+        return
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        top_n = st.number_input(
+            "Top N candidates to barcode",
+            min_value=1, max_value=len(lib), value=min(100, len(lib)),
+            step=1, key="barcode_top_n",
+        )
+    with col2:
+        linker = st.text_input("Linker sequence", value="GGS", key="barcode_linker")
+    with col3:
+        st.markdown("&nbsp;")  # spacer
+
+    if st.button("Assign Barcodes", type="primary"):
+        with st.spinner("Assigning barcodes and building reference table..."):
+            try:
+                generator = BarcodeGenerator()
+                barcoded = generator.assign_barcodes(
+                    lib, top_n=int(top_n), linker=linker,
+                )
+                st.session_state["barcoded_library"] = barcoded
+                ref_table = generator.generate_barcode_reference(barcoded)
+                st.session_state["barcode_reference"] = ref_table
+                st.success(f"Barcodes assigned to {len(barcoded)} variants.")
+            except Exception as e:
+                st.error(f"Error assigning barcodes: {e}")
+
+    if st.session_state.get("barcoded_library") is not None:
+        barcoded = st.session_state["barcoded_library"]
+        ref_table = st.session_state.get("barcode_reference")
+
+        st.subheader("Barcode Assignment Table")
+        display_cols = [
+            c for c in [
+                "variant_id", "combined_score", "mutations",
+                "barcode_id", "barcode_peptide", "barcoded_sequence", "barcode_tryptic_peptide",
+            ] if c in barcoded.columns
+        ]
+        st.dataframe(barcoded[display_cols], use_container_width=True)
+
+        if ref_table is not None and len(ref_table) > 0:
+            st.subheader("Barcode Reference Table (for MS method setup)")
+            st.dataframe(ref_table, use_container_width=True)
+
+        st.subheader("Download")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            try:
+                generator = BarcodeGenerator()
+                fasta_str = generator.generate_barcoded_fasta(barcoded)
+                st.download_button(
+                    "⬇️ Barcoded FASTA",
+                    fasta_str.encode(),
+                    "barcoded_library.fasta",
+                    "text/plain",
+                )
+            except Exception:
+                pass
+        with col2:
+            if ref_table is not None and len(ref_table) > 0:
+                st.download_button(
+                    "⬇️ Barcode Reference CSV",
+                    ref_table.to_csv(index=False).encode(),
+                    "barcode_reference.csv",
+                    "text/csv",
+                )
+        with col3:
+            st.download_button(
+                "⬇️ Combined Library CSV",
+                barcoded.to_csv(index=False).encode(),
+                "barcoded_library.csv",
+                "text/csv",
+            )
+
+
 def tab_history():
     st.header("📁 Session History")
     sessions_dir = Path("sessions")
@@ -689,7 +824,7 @@ def main():
 
     raw_weights, enabled_metrics, min_mut, n_mut, max_var, host, strategy = sidebar()
 
-    tabs = st.tabs(["🔬 Input & Analysis", "🎯 Mutation Selection", "📚 Library Results", "🔧 Construct Builder", "📁 Session History"])
+    tabs = st.tabs(["🔬 Input & Analysis", "🎯 Mutation Selection", "📚 Library Results", "🧬 Barcoding", "🔧 Construct Builder", "📁 Session History"])
     with tabs[0]:
         tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
                   hydrophobicity_scorer, viz)
@@ -698,8 +833,10 @@ def main():
     with tabs[2]:
         tab_library(viz)
     with tabs[3]:
-        tab_construct(optimizer, tag_manager)
+        tab_barcoding()
     with tabs[4]:
+        tab_construct(optimizer, tag_manager)
+    with tabs[5]:
         tab_history()
 
 

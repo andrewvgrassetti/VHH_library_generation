@@ -96,3 +96,53 @@ def sliding_window(sequence, window_size: int, func) -> list:
         window = sequence[i:i+window_size]
         results.append(func(window))
     return results
+
+
+def tryptic_digest(sequence: str, missed_cleavages: int = 0) -> list:
+    """Perform in silico tryptic digest (cleave after K/R, not before P).
+
+    Parameters
+    ----------
+    sequence:
+        Amino acid sequence to digest.
+    missed_cleavages:
+        Number of missed cleavages to allow (default 0).
+
+    Returns
+    -------
+    List of tryptic peptide strings.
+    """
+    if not sequence:
+        return []
+
+    # Find cleavage sites: after K or R, unless the next residue is P
+    sites = []
+    for i, aa in enumerate(sequence):
+        if aa in "KR":
+            # Check that the *next* residue (if any) is not P
+            if i + 1 < len(sequence) and sequence[i + 1] == "P":
+                continue
+            sites.append(i + 1)  # cut point is *after* this residue
+
+    # Build peptide list from cut sites
+    cut_points = [0] + sites + [len(sequence)]
+    peptides_0mc = [
+        sequence[cut_points[i]:cut_points[i + 1]]
+        for i in range(len(cut_points) - 1)
+        if cut_points[i] < cut_points[i + 1]
+    ]
+
+    if missed_cleavages == 0:
+        return [p for p in peptides_0mc if p]
+
+    # Build peptides with allowed missed cleavages
+    result = []
+    n = len(peptides_0mc)
+    for i in range(n):
+        joined = ""
+        for j in range(i, min(i + missed_cleavages + 1, n)):
+            joined += peptides_0mc[j]
+            if joined:
+                result.append(joined)
+
+    return [p for p in result if p]
