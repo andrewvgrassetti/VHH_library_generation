@@ -1,5 +1,7 @@
 import itertools
 import logging
+import math
+import random
 from typing import Optional
 import pandas as pd
 from vhh_library.humanness import HumAnnotator
@@ -8,6 +10,10 @@ from vhh_library.developability import (
     PTMLiabilityScorer,
     ClearanceRiskScorer,
     SurfaceHydrophobicityScorer,
+)
+from vhh_library.orthogonal_scoring import (
+    HumanStringContentScorer,
+    ConsensusStabilityScorer,
 )
 from vhh_library.sequence import VHHSequence
 
@@ -94,6 +100,8 @@ class MutationEngine:
         ptm_scorer: PTMLiabilityScorer | None = None,
         clearance_scorer: ClearanceRiskScorer | None = None,
         hydrophobicity_scorer: SurfaceHydrophobicityScorer | None = None,
+        hsc_scorer: HumanStringContentScorer | None = None,
+        consensus_scorer: ConsensusStabilityScorer | None = None,
         w_humanness: float = 0.6,
         w_stability: float = 0.4,
         weights: dict | None = None,
@@ -104,6 +112,8 @@ class MutationEngine:
         self._ptm_scorer = ptm_scorer
         self._clearance_scorer = clearance_scorer
         self._hydrophobicity_scorer = hydrophobicity_scorer
+        self._hsc_scorer = hsc_scorer
+        self._consensus_scorer = consensus_scorer
 
         # Legacy two-weight API
         self.w_humanness = w_humanness
@@ -155,6 +165,18 @@ class MutationEngine:
             self._hydrophobicity_scorer = SurfaceHydrophobicityScorer()
         return self._hydrophobicity_scorer
 
+    @property
+    def hsc_scorer(self) -> HumanStringContentScorer:
+        if self._hsc_scorer is None:
+            self._hsc_scorer = HumanStringContentScorer()
+        return self._hsc_scorer
+
+    @property
+    def consensus_scorer(self) -> ConsensusStabilityScorer:
+        if self._consensus_scorer is None:
+            self._consensus_scorer = ConsensusStabilityScorer()
+        return self._consensus_scorer
+
     # -- scoring helpers ------------------------------------------------------
 
     def _active_weights(self) -> dict[str, float]:
@@ -166,13 +188,21 @@ class MutationEngine:
         return {k: v / total for k, v in raw.items()}
 
     def _score_variant(self, vhh: VHHSequence) -> dict[str, float]:
-        """Score a variant across all five metrics.  Returns raw scores."""
+        """Score a variant across all metrics.  Returns raw scores.
+
+        Includes the five primary metrics used for the combined score
+        plus the two orthogonal scores (which are recorded but never
+        participate in the combined score).
+        """
         scores: dict[str, float] = {}
         scores["humanness"] = self.humanness_scorer.score(vhh)["composite_score"]
         scores["stability"] = self.stability_scorer.score(vhh)["composite_score"]
         scores["ptm_liability"] = self.ptm_scorer.score(vhh)["composite_score"]
         scores["clearance_risk"] = self.clearance_scorer.score(vhh)["composite_score"]
         scores["surface_hydrophobicity"] = self.hydrophobicity_scorer.score(vhh)["composite_score"]
+        # Orthogonal scores (informational only – not in combined score)
+        scores["orthogonal_humanness"] = self.hsc_scorer.score(vhh)["composite_score"]
+        scores["orthogonal_stability"] = self.consensus_scorer.score(vhh)["composite_score"]
         return scores
 
     def _combined_score(self, raw_scores: dict[str, float]) -> float:
@@ -182,13 +212,15 @@ class MutationEngine:
     # -- public API -----------------------------------------------------------
 
     def rank_single_mutations(self, vhh_sequence: VHHSequence, off_limits: set = None,
-                              forbidden_substitutions: Optional[dict] = None) -> pd.DataFrame:
+                              forbidden_substitutions: Optional[dict] = None,
+                              excluded_target_aas: Optional[set] = None) -> pd.DataFrame:
         if off_limits is None:
             off_limits = set()
         if forbidden_substitutions is None:
             forbidden_substitutions = {}
         suggestions = self.humanness_scorer.get_mutation_suggestions(
-            vhh_sequence, off_limits, forbidden_substitutions=forbidden_substitutions
+            vhh_sequence, off_limits, forbidden_substitutions=forbidden_substitutions,
+            excluded_target_aas=excluded_target_aas,
         )
 
         active_w = self._active_weights()
@@ -377,6 +409,8 @@ class MutationEngine:
             "ptm_liability_score": round(raw_scores["ptm_liability"], 4),
             "clearance_risk_score": round(raw_scores["clearance_risk"], 4),
             "surface_hydrophobicity_score": round(raw_scores["surface_hydrophobicity"], 4),
+            "orthogonal_humanness_score": round(raw_scores["orthogonal_humanness"], 4),
+            "orthogonal_stability_score": round(raw_scores["orthogonal_stability"], 4),
             "combined_score": round(combined, 4),
             "aa_sequence": new_seq,
         }

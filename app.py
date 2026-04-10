@@ -22,6 +22,10 @@ from vhh_library.developability import (
     ClearanceRiskScorer,
     SurfaceHydrophobicityScorer,
 )
+from vhh_library.orthogonal_scoring import (
+    HumanStringContentScorer,
+    ConsensusStabilityScorer,
+)
 
 st.set_page_config(
     page_title="VHH Biosimilar Library Generator",
@@ -39,7 +43,9 @@ def load_scorers():
     ptm = PTMLiabilityScorer()
     clr = ClearanceRiskScorer()
     shyd = SurfaceHydrophobicityScorer()
-    return h, s, ptm, clr, shyd
+    hsc = HumanStringContentScorer()
+    cons = ConsensusStabilityScorer()
+    return h, s, ptm, clr, shyd, hsc, cons
 
 
 def init_state():
@@ -50,6 +56,8 @@ def init_state():
         "ptm_scores": None,
         "clearance_scores": None,
         "hydrophobicity_scores": None,
+        "orthogonal_humanness_scores": None,
+        "orthogonal_stability_scores": None,
         "ranked_mutations": None,
         "library": None,
         "library_manager": LibraryManager(),
@@ -163,7 +171,7 @@ def sidebar():
 
 
 def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
-              hydrophobicity_scorer, viz):
+              hydrophobicity_scorer, hsc_scorer, consensus_scorer, viz):
     st.header("🔬 Input & Analysis")
     seq_input = st.text_area("Paste VHH amino acid sequence:", value=SAMPLE_VHH, height=100)
 
@@ -176,6 +184,8 @@ def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
             st.session_state.ptm_scores = ptm_scorer.score(vhh)
             st.session_state.clearance_scores = clearance_scorer.score(vhh)
             st.session_state.hydrophobicity_scores = hydrophobicity_scorer.score(vhh)
+            st.session_state.orthogonal_humanness_scores = hsc_scorer.score(vhh)
+            st.session_state.orthogonal_stability_scores = consensus_scorer.score(vhh)
         except Exception as e:
             st.error(f"Error analyzing sequence: {e}")
 
@@ -256,6 +266,35 @@ def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
             with st.expander("Developability Warnings"):
                 for w in all_warnings:
                     st.warning(w)
+
+    # --- Orthogonal Scoring (Cross-Validation) ---
+    orth_h = st.session_state.orthogonal_humanness_scores
+    orth_s = st.session_state.orthogonal_stability_scores
+    if orth_h and orth_s:
+        st.subheader("Orthogonal Scoring (Cross-Validation)")
+        st.caption(
+            "Independent scoring methods for cross-validating the primary scores. "
+            "**Human String Content** uses k-mer peptide matching against human germlines. "
+            "**Consensus Stability** scores framework positions against VHH germline consensus."
+        )
+        orth_html = ""
+        orth_html += viz.render_score_bar(
+            orth_h["composite_score"],
+            f"Human String Content ({orth_h['matched_kmers']}/{orth_h['total_kmers']} k-mers matched)",
+            "#7B1FA2",
+        )
+        orth_html += viz.render_score_bar(
+            orth_s["composite_score"],
+            f"Consensus Stability ({orth_s['consensus_matches']}/{orth_s['positions_evaluated']} positions matched)",
+            "#00695C",
+        )
+        st.components.v1.html(orth_html, height=100)
+
+        col1, col2, col3, col4 = st.columns(4)
+        col1.metric("Primary Humanness", f"{hs['composite_score']:.3f}")
+        col2.metric("Orthogonal Humanness (HSC)", f"{orth_h['composite_score']:.3f}")
+        col3.metric("Primary Stability", f"{ss['composite_score']:.3f}")
+        col4.metric("Orthogonal Stability (Consensus)", f"{orth_s['composite_score']:.3f}")
 
 
 def _parse_off_limit_csv(uploaded_file) -> dict:
@@ -401,6 +440,26 @@ def tab_mutations(humanness_scorer, stability_scorer):
 
     # --- Region toggles and interactive sequence selector kept adjacent ---
     st.markdown("---")
+
+    # --- Excluded target amino acids (global) ---
+    st.subheader("Excluded Target Amino Acids")
+    st.caption(
+        "Select amino acids that should **never** be introduced by any mutation. "
+        "By default, **Cysteine (C)** is excluded to avoid introducing unintended "
+        "disulfide bonds."
+    )
+    _ALL_AAS = list("ACDEFGHIKLMNPQRSTVWY")
+    excluded_target_aas = set(st.multiselect(
+        "Amino acids to exclude as mutation targets",
+        options=_ALL_AAS,
+        default=["C"],
+        key="excluded_target_aas",
+        help="Mutations to any of these amino acids will be globally blocked.",
+    ))
+    if excluded_target_aas:
+        st.info(f"Globally excluded target amino acids: **{', '.join(sorted(excluded_target_aas))}**")
+
+    st.markdown("---")
     st.subheader("Interactive Sequence Selector")
     st.caption(
         "Click individual residues (or click-and-drag) in the sequence below to "
@@ -481,6 +540,7 @@ def tab_mutations(humanness_scorer, stability_scorer):
                     vhh,
                     off_limits=off_limit_positions,
                     forbidden_substitutions=forbidden_substitutions,
+                    excluded_target_aas=excluded_target_aas,
                 )
                 st.session_state.ranked_mutations = df
             except Exception as e:
@@ -567,6 +627,16 @@ def tab_library(viz):
                 "surface_hydrophobicity_score", "Surface Hydrophobicity", "#795548",
                 st.session_state.hydrophobicity_scores.get("composite_score"),
             ))
+        if "orthogonal_humanness_score" in lib.columns and st.session_state.orthogonal_humanness_scores:
+            _SCORE_COLS.append((
+                "orthogonal_humanness_score", "Orthogonal Humanness (HSC)", "#7B1FA2",
+                st.session_state.orthogonal_humanness_scores.get("composite_score"),
+            ))
+        if "orthogonal_stability_score" in lib.columns and st.session_state.orthogonal_stability_scores:
+            _SCORE_COLS.append((
+                "orthogonal_stability_score", "Orthogonal Stability (Consensus)", "#00695C",
+                st.session_state.orthogonal_stability_scores.get("composite_score"),
+            ))
 
         n_plots = len(_SCORE_COLS)
         n_cols = min(n_plots, 3)
@@ -591,6 +661,52 @@ def tab_library(viz):
         fig.tight_layout()
         st.pyplot(fig)
         plt.close(fig)
+
+        # --- Orthogonal Correlation Plots ---
+        _has_orth_h = "orthogonal_humanness_score" in lib.columns
+        _has_orth_s = "orthogonal_stability_score" in lib.columns
+        n_corr = sum([_has_orth_h, _has_orth_s])
+        if n_corr > 0:
+            st.subheader("Orthogonal Score Correlation")
+            st.caption(
+                "Scatter plots comparing primary scores against orthogonal scores "
+                "across all library variants.  Strong correlation validates that "
+                "both independent scoring methods agree."
+            )
+            n_corr = sum([_has_orth_h, _has_orth_s])  # guaranteed >= 1 by outer guard
+            fig_corr, ax_corr = plt.subplots(1, n_corr, figsize=(6 * n_corr, 5), squeeze=False)
+            corr_idx = 0
+            if _has_orth_h:
+                ax = ax_corr[0][corr_idx]
+                ax.scatter(lib["humanness_score"], lib["orthogonal_humanness_score"],
+                           alpha=0.4, s=12, color="#7B1FA2")
+                ax.set_xlabel("Primary Humanness Score")
+                ax.set_ylabel("Orthogonal Humanness (HSC)")
+                ax.set_title("Humanness Correlation")
+                # Add correlation coefficient
+                if len(lib) > 1:
+                    corr_val = lib["humanness_score"].corr(lib["orthogonal_humanness_score"])
+                    ax.annotate(f"r = {corr_val:.3f}", xy=(0.05, 0.95),
+                                xycoords="axes fraction", fontsize=11,
+                                verticalalignment="top",
+                                bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+                corr_idx += 1
+            if _has_orth_s:
+                ax = ax_corr[0][corr_idx]
+                ax.scatter(lib["stability_score"], lib["orthogonal_stability_score"],
+                           alpha=0.4, s=12, color="#00695C")
+                ax.set_xlabel("Primary Stability Score")
+                ax.set_ylabel("Orthogonal Stability (Consensus)")
+                ax.set_title("Stability Correlation")
+                if len(lib) > 1:
+                    corr_val = lib["stability_score"].corr(lib["orthogonal_stability_score"])
+                    ax.annotate(f"r = {corr_val:.3f}", xy=(0.05, 0.95),
+                                xycoords="axes fraction", fontsize=11,
+                                verticalalignment="top",
+                                bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+            fig_corr.tight_layout()
+            st.pyplot(fig_corr)
+            plt.close(fig_corr)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -806,6 +922,10 @@ def tab_history():
                 save_data["clearance_scores"] = st.session_state.clearance_scores
             if st.session_state.hydrophobicity_scores:
                 save_data["hydrophobicity_scores"] = st.session_state.hydrophobicity_scores
+            if st.session_state.orthogonal_humanness_scores:
+                save_data["orthogonal_humanness_scores"] = st.session_state.orthogonal_humanness_scores
+            if st.session_state.orthogonal_stability_scores:
+                save_data["orthogonal_stability_scores"] = st.session_state.orthogonal_stability_scores
             if st.session_state.library is not None:
                 save_data["library"] = st.session_state.library
             try:
@@ -817,7 +937,7 @@ def tab_history():
 
 def main():
     init_state()
-    humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer, hydrophobicity_scorer = load_scorers()
+    humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer, hydrophobicity_scorer, hsc_scorer, consensus_scorer = load_scorers()
     optimizer = CodonOptimizer()
     tag_manager = TagManager()
     viz = SequenceVisualizer()
@@ -827,7 +947,7 @@ def main():
     tabs = st.tabs(["🔬 Input & Analysis", "🎯 Mutation Selection", "📚 Library Results", "🧬 Barcoding", "🔧 Construct Builder", "📁 Session History"])
     with tabs[0]:
         tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
-                  hydrophobicity_scorer, viz)
+                  hydrophobicity_scorer, hsc_scorer, consensus_scorer, viz)
     with tabs[1]:
         tab_mutations(humanness_scorer, stability_scorer)
     with tabs[2]:
