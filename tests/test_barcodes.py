@@ -91,8 +91,14 @@ class TestBarcodeDesignRules:
         assert not _barcode_passes_rules("A" * 12 + "K")  # 13 chars → too long
         assert _barcode_passes_rules("A" * 11 + "K")  # 12 chars → OK
 
+    def test_no_internal_lysine(self):
+        assert not _barcode_passes_rules("LVKDLTK")  # internal K
+
+    def test_no_internal_arginine(self):
+        assert not _barcode_passes_rules("LVRDLTR")  # internal R
+
     def test_exactly_6_chars_passes(self):
-        assert _barcode_passes_rules("AFHLK" + "K")  # 6 chars, ends K, has K
+        assert _barcode_passes_rules("AFHLD" + "K")  # 6 chars, ends K, has H (basic)
 
     def test_exactly_12_chars_passes(self):
         seq = "AFEQTIVHLHEK"
