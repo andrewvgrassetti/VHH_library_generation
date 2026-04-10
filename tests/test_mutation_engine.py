@@ -83,6 +83,31 @@ def test_generate_library_has_developability_columns(engine, vhh):
                 assert col in library.columns, f"Missing column: {col}"
 
 
+def test_generate_library_has_orthogonal_columns(engine, vhh):
+    """Library output should include orthogonal humanness and stability score columns."""
+    ranked = engine.rank_single_mutations(vhh, off_limits=set())
+    if len(ranked) >= 2:
+        library = engine.generate_library(vhh, ranked.head(5), n_mutations=2, max_variants=50)
+        assert isinstance(library, pd.DataFrame)
+        if len(library) > 0:
+            for col in ("orthogonal_humanness_score", "orthogonal_stability_score"):
+                assert col in library.columns, f"Missing column: {col}"
+            # Orthogonal scores should be in [0, 1]
+            assert library["orthogonal_humanness_score"].between(0, 1).all()
+            assert library["orthogonal_stability_score"].between(0, 1).all()
+
+
+def test_rank_single_mutations_excluded_target_aas(engine, vhh):
+    """Excluded target AAs should be filtered from ranked mutation suggestions."""
+    all_ranked = engine.rank_single_mutations(vhh, off_limits=set())
+    filtered = engine.rank_single_mutations(
+        vhh, off_limits=set(), excluded_target_aas={"C"},
+    )
+    if len(filtered) > 0:
+        assert "C" not in filtered["suggested_aa"].values
+    assert len(filtered) <= len(all_ranked)
+
+
 def test_engine_enabled_metrics():
     """Enabled metrics should affect the combined score calculation."""
     h = HumAnnotator()

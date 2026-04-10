@@ -67,7 +67,8 @@ class HumAnnotator:
         }
 
     def get_mutation_suggestions(self, vhh_sequence: VHHSequence, off_limits: set,
-                                forbidden_substitutions: Optional[dict] = None) -> list:
+                                forbidden_substitutions: Optional[dict] = None,
+                                excluded_target_aas: Optional[set] = None) -> list:
         """Get mutation suggestions for a VHH sequence.
 
         Args:
@@ -76,9 +77,15 @@ class HumAnnotator:
             forbidden_substitutions: Optional dict mapping IMGT position (int) to
                 a set of one-letter amino acid codes that are forbidden as targets
                 at that position. Mutations to these amino acids will be excluded.
+            excluded_target_aas: Optional set of one-letter amino acid codes
+                that are globally forbidden as mutation targets at any position.
+                For example, ``{"C"}`` prevents introducing cysteine residues
+                anywhere, avoiding unintended disulfide bonds.
         """
         if forbidden_substitutions is None:
             forbidden_substitutions = {}
+        if excluded_target_aas is None:
+            excluded_target_aas = set()
         fw_residues = self._framework_sequence(vhh_sequence)
         suggestions = []
         for pos, aa in fw_residues.items():
@@ -93,6 +100,8 @@ class HumAnnotator:
                 if candidate_aa == aa:
                     continue
                 if candidate_aa in pos_forbidden:
+                    continue
+                if candidate_aa in excluded_target_aas:
                     continue
                 cand_score = freq_dict.get(candidate_aa, freq_dict.get("other", 0.0))
                 delta = cand_score - current_score

@@ -11,10 +11,15 @@ from vhh_library.developability import (
     ClearanceRiskScorer,
     SurfaceHydrophobicityScorer,
 )
+from vhh_library.orthogonal_scoring import (
+    HumanStringContentScorer,
+    ConsensusStabilityScorer,
+)
 
 __version__ = "0.1.0"
 __all__ = [
     "VHHSequence", "HumAnnotator", "StabilityScorer", "MutationEngine",
     "CodonOptimizer", "TagManager", "LibraryManager", "SequenceVisualizer",
     "PTMLiabilityScorer", "ClearanceRiskScorer", "SurfaceHydrophobicityScorer",
+    "HumanStringContentScorer", "ConsensusStabilityScorer",
 ]

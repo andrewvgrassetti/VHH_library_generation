@@ -33,3 +33,36 @@ def test_position_scores_exist(annotator, vhh):
 def test_mutation_suggestions(annotator, vhh):
     suggestions = annotator.get_mutation_suggestions(vhh, off_limits=set())
     assert isinstance(suggestions, list)
+
+
+def test_excluded_target_aas_filters_cysteine(annotator, vhh):
+    """Excluding Cysteine as a target should remove all suggestions where
+    suggested_aa is 'C'."""
+    all_suggestions = annotator.get_mutation_suggestions(vhh, off_limits=set())
+    filtered = annotator.get_mutation_suggestions(
+        vhh, off_limits=set(), excluded_target_aas={"C"},
+    )
+    # No suggestion should have C as target
+    for s in filtered:
+        assert s["suggested_aa"] != "C", f"Cysteine should be excluded but found at pos {s['position']}"
+    # Filtered should be a subset of all suggestions
+    assert len(filtered) <= len(all_suggestions)
+
+
+def test_excluded_target_aas_multiple(annotator, vhh):
+    """Excluding multiple amino acids should filter all of them out."""
+    excluded = {"C", "M", "W"}
+    filtered = annotator.get_mutation_suggestions(
+        vhh, off_limits=set(), excluded_target_aas=excluded,
+    )
+    for s in filtered:
+        assert s["suggested_aa"] not in excluded
+
+
+def test_excluded_target_aas_empty_set_no_effect(annotator, vhh):
+    """An empty excluded set should have no effect."""
+    all_suggestions = annotator.get_mutation_suggestions(vhh, off_limits=set())
+    filtered = annotator.get_mutation_suggestions(
+        vhh, off_limits=set(), excluded_target_aas=set(),
+    )
+    assert len(filtered) == len(all_suggestions)
