@@ -291,17 +291,25 @@ def tab_mutations(humanness_scorer, stability_scorer):
         "Click-and-drag to select a range."
     )
     # Use a key that incorporates the region toggle state so the component
-    # re-initialises when the user toggles an entire region.
-    region_key_hash = hash(frozenset(st.session_state.off_limit_regions.items()))
+    # re-initialises when the user toggles an entire region.  Build a
+    # deterministic string key (hash() can produce negatives / vary across runs).
+    region_key_suffix = "_".join(sorted(
+        k for k, v in st.session_state.off_limit_regions.items() if v
+    )) or "none"
     selected_positions = sequence_selector(
         sequence=vhh.sequence,
         imgt_numbered=vhh.imgt_numbered,
         off_limit_positions=region_off_limit_positions,
         forbidden_substitutions=forbidden_substitutions,
-        key=f"seq_selector_{region_key_hash}",
+        key=f"seq_selector_{region_key_suffix}",
     )
 
-    off_limit_positions = set(selected_positions) if selected_positions else region_off_limit_positions
+    # The component returns None on first render before user interaction;
+    # in that case fall back to the region-derived defaults.
+    if selected_positions is not None:
+        off_limit_positions = set(selected_positions)
+    else:
+        off_limit_positions = region_off_limit_positions
 
     # Summary
     n_off = len(off_limit_positions)
