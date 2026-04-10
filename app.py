@@ -3,6 +3,10 @@ import pandas as pd
 import io
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
 from vhh_library.sequence import VHHSequence, IMGT_REGIONS
 from vhh_library.humanness import HumAnnotator
 from vhh_library.stability import StabilityScorer
@@ -65,14 +69,17 @@ def sidebar():
     st.sidebar.write(f"Stability Weight: **{1 - hw:.2f}**")
 
     st.sidebar.subheader("Library Parameters")
+    min_mut = st.sidebar.slider("Min Mutations per Variant", 1, 20, 1, key="min_mutations")
     n_mut = st.sidebar.slider("Max Mutations per Variant", 1, 20, 5, key="n_mutations")
+    if min_mut > n_mut:
+        st.sidebar.warning("Min mutations exceeds max mutations — min will be clamped to max.")
     max_var = st.sidebar.number_input("Max Variants", 100, 10000, 1000, step=100, key="max_variants")
 
     st.sidebar.subheader("Expression System")
     host = st.sidebar.selectbox("Host", ["e_coli", "s_cerevisiae", "p_pastoris"], key="host")
     strategy = st.sidebar.selectbox("Codon Strategy", ["most_frequent", "harmonized", "gc_balanced"], key="strategy")
 
-    return hw, n_mut, max_var, host, strategy
+    return hw, min_mut, n_mut, max_var, host, strategy
 
 
 def tab_input(humanness_scorer, stability_scorer, viz):
@@ -374,12 +381,16 @@ def tab_mutations(humanness_scorer, stability_scorer):
         st.dataframe(df, use_container_width=True)
 
         n_mut = st.session_state.get("n_mutations", 5)
+        min_mut = st.session_state.get("min_mutations", 1)
         max_var = st.session_state.get("max_variants", 1000)
 
         if st.button("Generate Library", type="primary"):
             with st.spinner(f"Generating library (up to {max_var} variants)..."):
                 try:
-                    library = engine.generate_library(vhh, df, n_mutations=n_mut, max_variants=max_var)
+                    library = engine.generate_library(
+                        vhh, df, n_mutations=n_mut,
+                        max_variants=max_var, min_mutations=min_mut,
+                    )
                     st.session_state.library = library
                     st.success(f"Library generated: {len(library)} variants.")
                 except Exception as e:
@@ -397,6 +408,45 @@ def tab_library(viz):
 
     st.subheader("Variant Library")
     st.dataframe(lib, use_container_width=True)
+
+    # --- Distribution plots ---
+    if len(lib) > 0 and "humanness_score" in lib.columns and "stability_score" in lib.columns:
+        st.subheader("Score Distributions")
+
+        orig_h = None
+        orig_s = None
+        if st.session_state.humanness_scores is not None:
+            orig_h = st.session_state.humanness_scores.get("composite_score")
+        if st.session_state.stability_scores is not None:
+            orig_s = st.session_state.stability_scores.get("composite_score")
+
+        fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+
+        # Humanness histogram
+        axes[0].hist(lib["humanness_score"], bins=30, color="#4CAF50", alpha=0.7,
+                     edgecolor="white", label="Variants")
+        if orig_h is not None:
+            axes[0].axvline(orig_h, color="#C62828", linewidth=2, linestyle="--",
+                            label=f"Original ({orig_h:.3f})")
+        axes[0].set_xlabel("Humanness Score")
+        axes[0].set_ylabel("Count")
+        axes[0].set_title("Humanness Score Distribution")
+        axes[0].legend()
+
+        # Stability histogram
+        axes[1].hist(lib["stability_score"], bins=30, color="#2196F3", alpha=0.7,
+                     edgecolor="white", label="Variants")
+        if orig_s is not None:
+            axes[1].axvline(orig_s, color="#C62828", linewidth=2, linestyle="--",
+                            label=f"Original ({orig_s:.3f})")
+        axes[1].set_xlabel("Stability Score")
+        axes[1].set_ylabel("Count")
+        axes[1].set_title("Stability Score Distribution")
+        axes[1].legend()
+
+        fig.tight_layout()
+        st.pyplot(fig)
+        plt.close(fig)
 
     col1, col2 = st.columns(2)
     with col1:
@@ -530,7 +580,7 @@ def main():
     tag_manager = TagManager()
     viz = SequenceVisualizer()
 
-    hw, n_mut, max_var, host, strategy = sidebar()
+    hw, min_mut, n_mut, max_var, host, strategy = sidebar()
 
     tabs = st.tabs(["🔬 Input & Analysis", "🎯 Mutation Selection", "📚 Library Results", "🔧 Construct Builder", "📁 Session History"])
     with tabs[0]:

@@ -37,3 +37,17 @@ def test_generate_library(engine, vhh):
         library = engine.generate_library(vhh, ranked.head(5), n_mutations=2, max_variants=100)
         assert isinstance(library, pd.DataFrame)
         assert len(library) > 0
+        assert "n_mutations" in library.columns
+
+
+def test_generate_library_min_mutations(engine, vhh):
+    ranked = engine.rank_single_mutations(vhh, off_limits=set())
+    if len(ranked) >= 3:
+        library = engine.generate_library(
+            vhh, ranked.head(5), n_mutations=3, max_variants=100, min_mutations=2,
+        )
+        assert isinstance(library, pd.DataFrame)
+        if len(library) > 0:
+            # Every variant should have at least 2 mutations
+            assert library["n_mutations"].min() >= 2
+            assert library["n_mutations"].max() <= 3

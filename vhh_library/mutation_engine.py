@@ -1,8 +1,11 @@
 import itertools
+import logging
 import pandas as pd
 from vhh_library.humanness import HumAnnotator
 from vhh_library.stability import StabilityScorer
 from vhh_library.sequence import VHHSequence
+
+logger = logging.getLogger(__name__)
 
 
 class MutationEngine:
@@ -51,9 +54,33 @@ class MutationEngine:
         return "".join(seq_list)
 
     def generate_library(self, vhh_sequence: VHHSequence, top_mutations: pd.DataFrame,
-                         n_mutations: int, max_variants: int = 10000) -> pd.DataFrame:
+                         n_mutations: int, max_variants: int = 10000,
+                         min_mutations: int = 1) -> pd.DataFrame:
+        """Generate a combinatorial variant library.
+
+        Parameters
+        ----------
+        vhh_sequence:
+            The parent VHH sequence.
+        top_mutations:
+            Ranked single-mutation DataFrame from ``rank_single_mutations``.
+        n_mutations:
+            Maximum number of mutations per variant.
+        max_variants:
+            Upper limit on total variants generated.
+        min_mutations:
+            Minimum number of mutations per variant (default 1).
+        """
         if len(top_mutations) == 0:
             return pd.DataFrame()
+
+        orig_min = min_mutations
+        min_mutations = max(1, min(min_mutations, n_mutations))
+        if min_mutations != orig_min:
+            logger.warning(
+                "min_mutations=%d was clamped to %d (valid range: 1–%d)",
+                orig_min, min_mutations, n_mutations,
+            )
 
         candidates = top_mutations.head(min(len(top_mutations), n_mutations * 3))
         mut_list = list(candidates.itertuples(index=False))
@@ -61,10 +88,7 @@ class MutationEngine:
         rows = []
         variant_counter = 0
 
-        base_h_score = self.humanness_scorer.score(vhh_sequence)["composite_score"]
-        base_s_score = self.stability_scorer.score(vhh_sequence)["composite_score"]
-
-        for k in range(1, n_mutations + 1):
+        for k in range(min_mutations, n_mutations + 1):
             for combo in itertools.combinations(range(len(mut_list)), k):
                 if variant_counter >= max_variants:
                     break
@@ -75,14 +99,17 @@ class MutationEngine:
                 muts_0idx = [(m.imgt_pos - 1, m.suggested_aa) for m in selected]
                 new_seq = self.apply_mutations(vhh_sequence.sequence, muts_0idx)
                 mut_str = ", ".join(f"{m.original_aa}{m.imgt_pos}{m.suggested_aa}" for m in selected)
-                delta_h = sum(m.delta_humanness for m in selected)
-                delta_s = sum(m.delta_stability for m in selected)
-                h_score = min(1.0, max(0.0, base_h_score + delta_h))
-                s_score = min(1.0, max(0.0, base_s_score + delta_s))
+
+                # Score the full combination mutant sequence
+                mutant_vhh = VHHSequence(new_seq)
+                h_score = self.humanness_scorer.score(mutant_vhh)["composite_score"]
+                s_score = self.stability_scorer.score(mutant_vhh)["composite_score"]
                 combined = self.w_humanness * h_score + self.w_stability * s_score
+
                 rows.append({
                     "variant_id": f"VAR-{variant_counter+1:06d}",
                     "mutations": mut_str,
+                    "n_mutations": k,
                     "humanness_score": round(h_score, 4),
                     "stability_score": round(s_score, 4),
                     "combined_score": round(combined, 4),
