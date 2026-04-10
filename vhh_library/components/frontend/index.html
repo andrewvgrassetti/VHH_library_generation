@@ -4,15 +4,24 @@
 <meta charset="UTF-8"/>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: Arial, Helvetica, sans-serif; overflow-x: auto; }
+  body { font-family: Arial, Helvetica, sans-serif; overflow-x: hidden; overflow-y: hidden; }
 
-  #container { display: inline-block; padding: 6px 4px 4px 4px; user-select: none; -webkit-user-select: none; }
+  /* Outer wrapper: constrained to viewport width with horizontal scroll */
+  #scroll-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 4px;
+  }
+
+  #container { display: inline-block; padding: 6px 4px 4px 4px; user-select: none; -webkit-user-select: none; min-width: max-content; }
 
   /* --- Region annotations above the sequence --- */
   #annotations {
     position: relative;
     height: 36px;
     white-space: nowrap;
+    min-width: max-content;
   }
   .region-label {
     position: absolute;
@@ -162,11 +171,13 @@
 </style>
 </head>
 <body>
+<div id="scroll-wrapper">
 <div id="container">
   <div id="annotations"></div>
   <div id="sequence-row"></div>
   <div id="ticks"></div>
   <div id="legend"></div>
+</div>
 </div>
 <div id="tooltip"></div>
 
@@ -333,9 +344,9 @@ function render() {
     legendDiv.appendChild(div);
   }
 
-  // Resize frame
-  var container = document.getElementById("container");
-  Streamlit.setFrameHeight(container.scrollHeight + 8);
+  // Resize frame – account for the scroll wrapper and its scrollbar
+  var wrapper = document.getElementById("scroll-wrapper");
+  Streamlit.setFrameHeight(wrapper.scrollHeight + 14);
 }
 
 /* ------------------------------------------------------------------ */
