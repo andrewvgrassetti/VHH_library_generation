@@ -3,6 +3,10 @@ import pandas as pd
 import io
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
 from vhh_library.sequence import VHHSequence, IMGT_REGIONS
 from vhh_library.humanness import HumAnnotator
 from vhh_library.stability import StabilityScorer
@@ -408,9 +412,6 @@ def tab_library(viz):
     # --- Distribution plots ---
     if len(lib) > 0 and "humanness_score" in lib.columns and "stability_score" in lib.columns:
         st.subheader("Score Distributions")
-        import matplotlib.pyplot as plt
-        import matplotlib
-        matplotlib.use("Agg")
 
         orig_h = None
         orig_s = None

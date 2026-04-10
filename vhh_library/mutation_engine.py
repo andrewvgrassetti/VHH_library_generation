@@ -1,8 +1,11 @@
 import itertools
+import logging
 import pandas as pd
 from vhh_library.humanness import HumAnnotator
 from vhh_library.stability import StabilityScorer
 from vhh_library.sequence import VHHSequence
+
+logger = logging.getLogger(__name__)
 
 
 class MutationEngine:
@@ -71,7 +74,13 @@ class MutationEngine:
         if len(top_mutations) == 0:
             return pd.DataFrame()
 
+        orig_min = min_mutations
         min_mutations = max(1, min(min_mutations, n_mutations))
+        if min_mutations != orig_min:
+            logger.warning(
+                "min_mutations=%d was clamped to %d (valid range: 1–%d)",
+                orig_min, min_mutations, n_mutations,
+            )
 
         candidates = top_mutations.head(min(len(top_mutations), n_mutations * 3))
         mut_list = list(candidates.itertuples(index=False))
