@@ -11,6 +11,7 @@ from vhh_library.codon_optimizer import CodonOptimizer
 from vhh_library.tags import TagManager
 from vhh_library.library_manager import LibraryManager
 from vhh_library.visualization import SequenceVisualizer
+from vhh_library.components import sequence_selector
 
 st.set_page_config(
     page_title="VHH Biosimilar Library Generator",
@@ -157,7 +158,10 @@ def _parse_off_limit_csv(uploaded_file) -> dict:
     content = uploaded_file.read().decode("utf-8")
     uploaded_file.seek(0)
     try:
-        df = pd.read_csv(io.StringIO(content))
+        # Use header=None so every row (including a header row) is treated as
+        # data.  Header rows are harmlessly skipped during position parsing
+        # because labels like "position" won't convert to a valid integer.
+        df = pd.read_csv(io.StringIO(content), header=None)
     except Exception:
         return {}
 
@@ -190,7 +194,7 @@ def _parse_off_limit_csv(uploaded_file) -> dict:
     return forbidden
 
 
-def tab_mutations(humanness_scorer, stability_scorer, viz):
+def tab_mutations(humanness_scorer, stability_scorer):
     st.header("🎯 Mutation Selection")
     if st.session_state.vhh_seq is None:
         st.info("Please analyze a sequence first (Tab 1).")
@@ -198,12 +202,12 @@ def tab_mutations(humanness_scorer, stability_scorer, viz):
 
     vhh = st.session_state.vhh_seq
 
-    # --- Off-limit position selection via interactive linear depiction ---
+    # --- Off-limit position selection via interactive sequence selector ---
     st.subheader("Off-Limit Mutation Positions")
     st.caption(
-        "Select which regions/positions should be protected from mutations. "
-        "CDR regions are off-limits by default. Toggle regions below or add "
-        "individual positions."
+        "Click individual residues (or click-and-drag) in the sequence below to "
+        "toggle them as off-limits.  Use the region checkboxes for bulk selection. "
+        "CDR regions are off-limits by default."
     )
 
     # Initialize off-limit region toggles in session state
@@ -211,7 +215,7 @@ def tab_mutations(humanness_scorer, stability_scorer, viz):
         st.session_state.off_limit_regions = {"CDR1": True, "CDR2": True, "CDR3": True,
                                                "FR1": False, "FR2": False, "FR3": False, "FR4": False}
 
-    # Region toggle row
+    # Region toggle row (convenience for bulk selection)
     st.markdown("**Toggle regions off-limits:**")
     region_cols = st.columns(7)
     region_names = ["FR1", "CDR1", "FR2", "CDR2", "FR3", "CDR3", "FR4"]
@@ -224,34 +228,14 @@ def tab_mutations(humanness_scorer, stability_scorer, viz):
                 key=f"region_toggle_{region_name}",
             )
 
-    # Build off-limit positions from toggled regions
-    off_limit_positions = set()
+    # Build initial off-limit positions from toggled regions
+    region_off_limit_positions = set()
     for region_name, is_off in st.session_state.off_limit_regions.items():
         if is_off:
             start, end = IMGT_REGIONS[region_name]
             for p in range(start, end + 1):
                 if p in vhh.imgt_numbered:
-                    off_limit_positions.add(p)
-
-    # Additional individual positions (text input for ranges)
-    extra_positions_input = st.text_input(
-        "Additional off-limit positions (e.g. `1-5, 23, 50-58`):",
-        value="",
-        key="extra_off_limit_positions",
-        help="Enter individual positions or ranges separated by commas.",
-    )
-    if extra_positions_input.strip():
-        for part in extra_positions_input.split(","):
-            part = part.strip()
-            if "-" in part:
-                try:
-                    a, b = part.split("-", 1)
-                    for p in range(int(a.strip()), int(b.strip()) + 1):
-                        off_limit_positions.add(p)
-                except ValueError:
-                    pass
-            elif part.isdigit():
-                off_limit_positions.add(int(part))
+                    region_off_limit_positions.add(p)
 
     # --- CSV upload for per-position forbidden substitutions ---
     st.markdown("---")
@@ -300,11 +284,24 @@ def tab_mutations(humanness_scorer, stability_scorer, viz):
             else:
                 st.warning("Could not parse any forbidden substitutions from the uploaded CSV.")
 
-    # --- Render the interactive linear depiction ---
+    # --- Interactive sequence selector with annotations above ---
     st.markdown("---")
-    st.markdown("**Sequence Map** — off-limit positions are darkened with hatching:")
-    svg_html = viz.render_off_limits_track(vhh, off_limit_positions, forbidden_substitutions)
-    st.components.v1.html(svg_html, height=100, scrolling=True)
+    st.markdown(
+        "**Click residues below** to toggle off-limits (darkened = off-limit). "
+        "Click-and-drag to select a range."
+    )
+    # Use a key that incorporates the region toggle state so the component
+    # re-initialises when the user toggles an entire region.
+    region_key_hash = hash(frozenset(st.session_state.off_limit_regions.items()))
+    selected_positions = sequence_selector(
+        sequence=vhh.sequence,
+        imgt_numbered=vhh.imgt_numbered,
+        off_limit_positions=region_off_limit_positions,
+        forbidden_substitutions=forbidden_substitutions,
+        key=f"seq_selector_{region_key_hash}",
+    )
+
+    off_limit_positions = set(selected_positions) if selected_positions else region_off_limit_positions
 
     # Summary
     n_off = len(off_limit_positions)
@@ -502,7 +499,7 @@ def main():
     with tabs[0]:
         tab_input(humanness_scorer, stability_scorer, viz)
     with tabs[1]:
-        tab_mutations(humanness_scorer, stability_scorer, viz)
+        tab_mutations(humanness_scorer, stability_scorer)
     with tabs[2]:
         tab_library(viz)
     with tabs[3]:
