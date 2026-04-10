@@ -1,3 +1,4 @@
+from typing import Optional
 from vhh_library.sequence import VHHSequence, IMGT_REGIONS
 
 REGION_COLORS = {
@@ -109,7 +110,7 @@ class SequenceVisualizer:
         return html
 
     def render_off_limits_track(self, vhh_sequence: VHHSequence, off_limit_positions: set,
-                                forbidden_substitutions: dict | None = None) -> str:
+                                forbidden_substitutions: Optional[dict] = None) -> str:
         """Render an interactive single-line linear depiction of the VHH.
 
         Shows each residue as a colored cell with CDR/FR regions labeled above,
