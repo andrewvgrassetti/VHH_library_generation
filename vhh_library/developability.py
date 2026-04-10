@@ -100,9 +100,11 @@ _PI_MAX_DEVIATION = 4.0  # normalisation ceiling
 class ClearanceRiskScorer:
     """Estimate clearance risk from isoelectric-point deviation."""
 
-    def __init__(self):
-        from vhh_library.stability import StabilityScorer
-        self._stability = StabilityScorer()
+    def __init__(self, stability_scorer: "StabilityScorer | None" = None):
+        if stability_scorer is None:
+            from vhh_library.stability import StabilityScorer
+            stability_scorer = StabilityScorer()
+        self._stability = stability_scorer
 
     def score(self, vhh_sequence: VHHSequence) -> dict:
         stability_result = self._stability.score(vhh_sequence)

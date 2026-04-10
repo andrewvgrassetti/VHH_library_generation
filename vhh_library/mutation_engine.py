@@ -262,11 +262,6 @@ class MutationEngine:
         candidates = top_mutations.head(min(len(top_mutations), n_mutations * 3))
         mut_list = list(candidates.itertuples(index=False))
 
-        # Pre-group mutations by position so we can quickly detect conflicts
-        pos_to_indices: dict[int, list[int]] = {}
-        for i, m in enumerate(mut_list):
-            pos_to_indices.setdefault(m.imgt_pos, []).append(i)
-
         n_cands = len(mut_list)
         total_combos = _total_combinations(n_cands, min_mutations, n_mutations)
 
@@ -274,7 +269,7 @@ class MutationEngine:
             # Exhaustive enumeration (fast enough)
             rows = self._generate_exhaustive(
                 vhh_sequence, mut_list, n_mutations, min_mutations,
-                max_variants, pos_to_indices,
+                max_variants,
             )
         else:
             # Random sampling for large spaces
@@ -284,7 +279,7 @@ class MutationEngine:
             )
             rows = self._generate_sampled(
                 vhh_sequence, mut_list, n_mutations, min_mutations,
-                max_variants, pos_to_indices,
+                max_variants,
             )
 
         df = pd.DataFrame(rows)
@@ -322,7 +317,7 @@ class MutationEngine:
         }
 
     def _generate_exhaustive(self, vhh_sequence, mut_list, n_mutations,
-                             min_mutations, max_variants, pos_to_indices):
+                             min_mutations, max_variants):
         rows = []
         variant_counter = 0
         for k in range(min_mutations, n_mutations + 1):
@@ -339,7 +334,7 @@ class MutationEngine:
         return rows
 
     def _generate_sampled(self, vhh_sequence, mut_list, n_mutations,
-                          min_mutations, max_variants, pos_to_indices):
+                          min_mutations, max_variants):
         """Generate variants by random sampling of position-compatible combos.
 
         Strategy: for each variant we pick a random k in [min_mutations,
