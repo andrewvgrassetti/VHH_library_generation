@@ -16,6 +16,11 @@ from vhh_library.tags import TagManager
 from vhh_library.library_manager import LibraryManager
 from vhh_library.visualization import SequenceVisualizer
 from vhh_library.components import sequence_selector
+from vhh_library.developability import (
+    PTMLiabilityScorer,
+    ClearanceRiskScorer,
+    SurfaceHydrophobicityScorer,
+)
 
 st.set_page_config(
     page_title="VHH Biosimilar Library Generator",
@@ -30,7 +35,10 @@ SAMPLE_VHH = "QVQLVESGGGLVQAGGSLRLSCAASGRTFSSYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKG
 def load_scorers():
     h = HumAnnotator()
     s = StabilityScorer()
-    return h, s
+    ptm = PTMLiabilityScorer()
+    clr = ClearanceRiskScorer()
+    shyd = SurfaceHydrophobicityScorer()
+    return h, s, ptm, clr, shyd
 
 
 def init_state():
@@ -38,6 +46,9 @@ def init_state():
         "vhh_seq": None,
         "humanness_scores": None,
         "stability_scores": None,
+        "ptm_scores": None,
+        "clearance_scores": None,
+        "hydrophobicity_scores": None,
         "ranked_mutations": None,
         "library": None,
         "library_manager": LibraryManager(),
@@ -65,8 +76,47 @@ def sidebar():
         st.sidebar.success("Session loaded!")
 
     st.sidebar.subheader("Scoring Weights")
-    hw = st.sidebar.slider("Humanness Weight", 0.0, 1.0, 0.6, step=0.05, key="humanness_weight")
-    st.sidebar.write(f"Stability Weight: **{1 - hw:.2f}**")
+    st.sidebar.caption(
+        "Enable/disable each metric and set its weight.  "
+        "Weights are normalised automatically so they sum to 1."
+    )
+
+    # --- Metric toggles and weight sliders ---
+    _METRICS = [
+        ("humanness", "Humanness", True, 0.35),
+        ("stability", "Stability", True, 0.25),
+        ("ptm_liability", "PTM Liability", False, 0.15),
+        ("clearance_risk", "Clearance Risk", False, 0.15),
+        ("surface_hydrophobicity", "Surface Hydrophobicity", False, 0.10),
+    ]
+    enabled_metrics: dict[str, bool] = {}
+    raw_weights: dict[str, float] = {}
+    for key, label, default_on, default_w in _METRICS:
+        col_en, col_w = st.sidebar.columns([1, 2])
+        with col_en:
+            enabled = st.checkbox(label, value=default_on, key=f"enable_{key}")
+        with col_w:
+            w = st.slider(
+                f"{label} weight",
+                0.0, 1.0, default_w, step=0.05,
+                key=f"weight_{key}",
+                disabled=not enabled,
+                label_visibility="collapsed",
+            )
+        enabled_metrics[key] = enabled
+        raw_weights[key] = w if enabled else 0.0
+
+    # Show normalised weights
+    total_w = sum(raw_weights.values())
+    if total_w > 0:
+        norm = {k: v / total_w for k, v in raw_weights.items()}
+    else:
+        norm = raw_weights
+    weight_summary = "  \n".join(
+        f"**{label}**: {norm[key]:.0%}" if enabled_metrics[key] else f"~~{label}~~: off"
+        for key, label, _, _ in _METRICS
+    )
+    st.sidebar.markdown(weight_summary)
 
     st.sidebar.subheader("Library Parameters")
     min_mut = st.sidebar.slider("Min Mutations per Variant", 1, 20, 1, key="min_mutations")
@@ -79,10 +129,11 @@ def sidebar():
     host = st.sidebar.selectbox("Host", ["e_coli", "s_cerevisiae", "p_pastoris"], key="host")
     strategy = st.sidebar.selectbox("Codon Strategy", ["most_frequent", "harmonized", "gc_balanced"], key="strategy")
 
-    return hw, min_mut, n_mut, max_var, host, strategy
+    return raw_weights, enabled_metrics, min_mut, n_mut, max_var, host, strategy
 
 
-def tab_input(humanness_scorer, stability_scorer, viz):
+def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
+              hydrophobicity_scorer, viz):
     st.header("🔬 Input & Analysis")
     seq_input = st.text_area("Paste VHH amino acid sequence:", value=SAMPLE_VHH, height=100)
 
@@ -92,6 +143,9 @@ def tab_input(humanness_scorer, stability_scorer, viz):
             st.session_state.vhh_seq = vhh
             st.session_state.humanness_scores = humanness_scorer.score(vhh)
             st.session_state.stability_scores = stability_scorer.score(vhh)
+            st.session_state.ptm_scores = ptm_scorer.score(vhh)
+            st.session_state.clearance_scores = clearance_scorer.score(vhh)
+            st.session_state.hydrophobicity_scores = hydrophobicity_scorer.score(vhh)
         except Exception as e:
             st.error(f"Error analyzing sequence: {e}")
 
@@ -149,6 +203,29 @@ def tab_input(humanness_scorer, stability_scorer, viz):
         with st.expander("Stability Warnings"):
             for w in ss["warnings"]:
                 st.warning(w)
+
+    # --- Developability Metrics ---
+    ptm = st.session_state.ptm_scores
+    clr = st.session_state.clearance_scores
+    shyd = st.session_state.hydrophobicity_scores
+    if ptm and clr and shyd:
+        st.subheader("Developability Metrics")
+        dev_html = ""
+        dev_html += viz.render_score_bar(ptm["composite_score"], "PTM Liability (higher = fewer liabilities)", "#E91E63")
+        dev_html += viz.render_score_bar(clr["composite_score"], f"Clearance Risk (pI={clr['pI']:.1f})", "#FF5722")
+        dev_html += viz.render_score_bar(shyd["composite_score"], "Surface Hydrophobicity (higher = fewer patches)", "#795548")
+        st.components.v1.html(dev_html, height=200)
+
+        col1, col2, col3 = st.columns(3)
+        col1.metric("PTM Motifs Found", len(ptm.get("hits", [])))
+        col2.metric("pI Deviation", f"{clr.get('pI_deviation', 0):.2f}")
+        col3.metric("Hydrophobic Patches", shyd.get("n_patches", 0))
+
+        all_warnings = ptm.get("warnings", []) + clr.get("warnings", []) + shyd.get("warnings", [])
+        if all_warnings:
+            with st.expander("Developability Warnings"):
+                for w in all_warnings:
+                    st.warning(w)
 
 
 def _parse_off_limit_csv(uploaded_file) -> dict:
@@ -357,8 +434,15 @@ def tab_mutations(humanness_scorer, stability_scorer):
     col3.metric("Positions with restricted AAs", n_forbidden)
 
     # --- Rank mutations ---
-    hw = st.session_state.get("humanness_weight", 0.6)
-    engine = MutationEngine(humanness_scorer, stability_scorer, w_humanness=hw, w_stability=1 - hw)
+    weights = {}
+    enabled = {}
+    for key in MutationEngine.METRIC_NAMES:
+        weights[key] = st.session_state.get(f"weight_{key}", 0.0)
+        enabled[key] = st.session_state.get(f"enable_{key}", key in ("humanness", "stability"))
+    engine = MutationEngine(
+        humanness_scorer, stability_scorer,
+        weights=weights, enabled_metrics=enabled,
+    )
 
     if st.button("Rank Mutations", type="primary"):
         with st.spinner("Ranking mutations..."):
@@ -420,29 +504,46 @@ def tab_library(viz):
         if st.session_state.stability_scores is not None:
             orig_s = st.session_state.stability_scores.get("composite_score")
 
-        fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+        # Collect all available score columns and their original values
+        _SCORE_COLS = [
+            ("humanness_score", "Humanness", "#4CAF50", orig_h),
+            ("stability_score", "Stability", "#2196F3", orig_s),
+        ]
+        if "ptm_liability_score" in lib.columns and st.session_state.ptm_scores:
+            _SCORE_COLS.append((
+                "ptm_liability_score", "PTM Liability", "#E91E63",
+                st.session_state.ptm_scores.get("composite_score"),
+            ))
+        if "clearance_risk_score" in lib.columns and st.session_state.clearance_scores:
+            _SCORE_COLS.append((
+                "clearance_risk_score", "Clearance Risk", "#FF5722",
+                st.session_state.clearance_scores.get("composite_score"),
+            ))
+        if "surface_hydrophobicity_score" in lib.columns and st.session_state.hydrophobicity_scores:
+            _SCORE_COLS.append((
+                "surface_hydrophobicity_score", "Surface Hydrophobicity", "#795548",
+                st.session_state.hydrophobicity_scores.get("composite_score"),
+            ))
 
-        # Humanness histogram
-        axes[0].hist(lib["humanness_score"], bins=30, color="#4CAF50", alpha=0.7,
-                     edgecolor="white", label="Variants")
-        if orig_h is not None:
-            axes[0].axvline(orig_h, color="#C62828", linewidth=2, linestyle="--",
-                            label=f"Original ({orig_h:.3f})")
-        axes[0].set_xlabel("Humanness Score")
-        axes[0].set_ylabel("Count")
-        axes[0].set_title("Humanness Score Distribution")
-        axes[0].legend()
+        n_plots = len(_SCORE_COLS)
+        n_cols = min(n_plots, 3)
+        n_rows = (n_plots + n_cols - 1) // n_cols
+        fig, axes = plt.subplots(n_rows, n_cols, figsize=(5 * n_cols, 4 * n_rows), squeeze=False)
 
-        # Stability histogram
-        axes[1].hist(lib["stability_score"], bins=30, color="#2196F3", alpha=0.7,
-                     edgecolor="white", label="Variants")
-        if orig_s is not None:
-            axes[1].axvline(orig_s, color="#C62828", linewidth=2, linestyle="--",
-                            label=f"Original ({orig_s:.3f})")
-        axes[1].set_xlabel("Stability Score")
-        axes[1].set_ylabel("Count")
-        axes[1].set_title("Stability Score Distribution")
-        axes[1].legend()
+        for idx, (col_name, label, color, orig_val) in enumerate(_SCORE_COLS):
+            ax = axes[idx // n_cols][idx % n_cols]
+            ax.hist(lib[col_name], bins=30, color=color, alpha=0.7, edgecolor="white", label="Variants")
+            if orig_val is not None:
+                ax.axvline(orig_val, color="#C62828", linewidth=2, linestyle="--",
+                           label=f"Original ({orig_val:.3f})")
+            ax.set_xlabel(f"{label} Score")
+            ax.set_ylabel("Count")
+            ax.set_title(f"{label} Distribution")
+            ax.legend(fontsize=8)
+
+        # Hide unused subplot axes
+        for idx in range(n_plots, n_rows * n_cols):
+            axes[idx // n_cols][idx % n_cols].set_visible(False)
 
         fig.tight_layout()
         st.pyplot(fig)
@@ -564,6 +665,12 @@ def tab_history():
                 save_data["humanness_scores"] = st.session_state.humanness_scores
             if st.session_state.stability_scores:
                 save_data["stability_scores"] = st.session_state.stability_scores
+            if st.session_state.ptm_scores:
+                save_data["ptm_scores"] = st.session_state.ptm_scores
+            if st.session_state.clearance_scores:
+                save_data["clearance_scores"] = st.session_state.clearance_scores
+            if st.session_state.hydrophobicity_scores:
+                save_data["hydrophobicity_scores"] = st.session_state.hydrophobicity_scores
             if st.session_state.library is not None:
                 save_data["library"] = st.session_state.library
             try:
@@ -575,16 +682,17 @@ def tab_history():
 
 def main():
     init_state()
-    humanness_scorer, stability_scorer = load_scorers()
+    humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer, hydrophobicity_scorer = load_scorers()
     optimizer = CodonOptimizer()
     tag_manager = TagManager()
     viz = SequenceVisualizer()
 
-    hw, min_mut, n_mut, max_var, host, strategy = sidebar()
+    raw_weights, enabled_metrics, min_mut, n_mut, max_var, host, strategy = sidebar()
 
     tabs = st.tabs(["🔬 Input & Analysis", "🎯 Mutation Selection", "📚 Library Results", "🔧 Construct Builder", "📁 Session History"])
     with tabs[0]:
-        tab_input(humanness_scorer, stability_scorer, viz)
+        tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
+                  hydrophobicity_scorer, viz)
     with tabs[1]:
         tab_mutations(humanness_scorer, stability_scorer)
     with tabs[2]:
