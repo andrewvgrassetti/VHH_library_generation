@@ -997,11 +997,12 @@ def tab_construct(optimizer, tag_manager):
             bc_id = c.get("barcode_id", "")
             header = f">{vid}"
             if bc_id:
-                header += f" | {bc_id}"
+                header += f"|{bc_id}"
             aa_fasta_lines.append(header)
             aa_fasta_lines.append(c["aa_construct"])
-            dna_fasta_lines.append(header)
-            dna_fasta_lines.append(c["dna_construct"] if c["dna_construct"] else "")
+            if c.get("dna_construct"):
+                dna_fasta_lines.append(header)
+                dna_fasta_lines.append(c["dna_construct"])
 
         col1, col2 = st.columns(2)
         with col1:

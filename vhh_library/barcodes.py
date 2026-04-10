@@ -288,7 +288,7 @@ class BarcodeGenerator:
             # trypsin cleaves after the K/R at the start of the barcode.
             # The identifiable tryptic fragment is the barcode body (after
             # the leading K/R) plus the protective tail.
-            tryptic_frag = linker + bc + tail
+            tryptic_frag = bc[1:] + tail
 
             barcode_ids.append(bc_id)
             barcode_peptides.append(bc)
