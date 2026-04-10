@@ -8,6 +8,9 @@ import random
 import re
 from pathlib import Path
 
+import matplotlib.figure
+import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 from vhh_library.utils import tryptic_digest
@@ -122,10 +125,15 @@ class BarcodeGenerator:
             with open(path) as fh:
                 raw = json.load(fh)
             self.pool: list[str] = [entry["sequence"] for entry in raw]
+            self._pool_sources: dict[str, str] = {
+                entry["sequence"]: entry.get("source", "validated_proteomics")
+                for entry in raw
+            }
             logger.info("Loaded %d barcodes from %s", len(self.pool), path)
         else:
             logger.warning("Barcode pool not found at %s; starting from an empty pool.", path)
             self.pool = []
+            self._pool_sources = {}
 
     # -- public API -----------------------------------------------------------
 
@@ -194,6 +202,8 @@ class BarcodeGenerator:
 
         # -- Filter pool ------------------------------------------------------
         available = [bc for bc in self.pool if bc not in collision_peptides]
+        # Track which barcodes came from the validated pool
+        pool_set = set(available)
         logger.info(
             "Pool size after collision filtering: %d / %d",
             len(available), len(self.pool),
@@ -216,6 +226,7 @@ class BarcodeGenerator:
         barcode_peptides = []
         barcoded_sequences = []
         barcode_tryptic_peptides = []
+        barcode_sources = []
 
         for i, row in top_df.iterrows():
             if i >= len(available):
@@ -223,11 +234,18 @@ class BarcodeGenerator:
                 barcode_peptides.append("")
                 barcoded_sequences.append(row["aa_sequence"])
                 barcode_tryptic_peptides.append("")
+                barcode_sources.append("")
                 continue
 
             bc = available[i]
             bc_id = f"BC-{i + 1:03d}"
             vhh_seq: str = row["aa_sequence"]
+
+            # Determine source: validated pool or algorithmically generated
+            if bc in pool_set:
+                source = self._pool_sources.get(bc, "validated_proteomics")
+            else:
+                source = "algorithmic"
 
             # Build barcoded construct: VHH + linker + barcode
             # If barcode already ends in K/R, no extra terminal residue needed
@@ -243,11 +261,13 @@ class BarcodeGenerator:
             barcode_peptides.append(bc)
             barcoded_sequences.append(barcoded)
             barcode_tryptic_peptides.append(tryptic_frag)
+            barcode_sources.append(source)
 
         top_df["barcode_id"] = barcode_ids
         top_df["barcode_peptide"] = barcode_peptides
         top_df["barcoded_sequence"] = barcoded_sequences
         top_df["barcode_tryptic_peptide"] = barcode_tryptic_peptides
+        top_df["barcode_source"] = barcode_sources
         return top_df
 
     # -- output helpers -------------------------------------------------------
@@ -278,7 +298,8 @@ class BarcodeGenerator:
         Returns a DataFrame with columns:
         ``variant_id``, ``barcode_id``, ``barcode_peptide``,
         ``barcode_tryptic_peptide``, ``neutral_mass_da``,
-        ``mz_1plus``, ``mz_2plus``, ``mz_3plus``.
+        ``mz_1plus``, ``mz_2plus``, ``mz_3plus``,
+        ``hydrophobicity``, ``source``.
         """
         rows = []
         for _, row in barcoded_df.iterrows():
@@ -286,14 +307,111 @@ class BarcodeGenerator:
             tryptic = row.get("barcode_tryptic_peptide", "")
             if not bc:
                 continue
+            target = tryptic or bc
             rows.append({
                 "variant_id": row.get("variant_id", ""),
                 "barcode_id": row.get("barcode_id", ""),
                 "barcode_peptide": bc,
                 "barcode_tryptic_peptide": tryptic,
-                "neutral_mass_da": round(_peptide_neutral_mass(tryptic) if tryptic else _peptide_neutral_mass(bc), 4),
-                "mz_1plus": _mz(tryptic or bc, z=1),
-                "mz_2plus": _mz(tryptic or bc, z=2),
-                "mz_3plus": _mz(tryptic or bc, z=3),
+                "neutral_mass_da": round(_peptide_neutral_mass(target), 4),
+                "mz_1plus": _mz(target, z=1),
+                "mz_2plus": _mz(target, z=2),
+                "mz_3plus": _mz(target, z=3),
+                "hydrophobicity": round(_hydrophobicity(target), 4),
+                "source": row.get("barcode_source", ""),
             })
         return pd.DataFrame(rows)
+
+    def plot_barcode_distributions(
+        self,
+        ref_table: pd.DataFrame,
+    ) -> matplotlib.figure.Figure:
+        """Plot biophysical property distributions for barcode QC.
+
+        Generates a three-panel figure showing:
+        1. Hydrophobicity (Kyte-Doolittle) distribution – indicates expected
+           RP-HPLC retention-time spread.
+        2. m/z at charge state 2+ distribution – the dominant ESI charge state
+           for tryptic peptides of this size.
+        3. Hydrophobicity vs. m/z scatter – highlights how well barcodes
+           separate in 2-D LC-MS space.
+
+        Points are colored by source (validated pool vs. algorithmically
+        generated) when the ``source`` column is present.
+
+        Parameters
+        ----------
+        ref_table:
+            DataFrame produced by :meth:`generate_barcode_reference`.
+
+        Returns
+        -------
+        A :class:`matplotlib.figure.Figure` that can be displayed or saved.
+        """
+        if ref_table is None or ref_table.empty:
+            fig, ax = plt.subplots()
+            ax.text(0.5, 0.5, "No barcode data to plot",
+                    ha="center", va="center", transform=ax.transAxes)
+            return fig
+
+        hydro = ref_table["hydrophobicity"].to_numpy()
+        mz2 = ref_table["mz_2plus"].to_numpy()
+
+        has_source = "source" in ref_table.columns
+        source_colors = {
+            "validated_proteomics": "#2196F3",
+            "algorithmic": "#FF9800",
+        }
+
+        fig, axes = plt.subplots(1, 3, figsize=(15, 4.5), constrained_layout=True)
+
+        # --- Panel 1: Hydrophobicity histogram ---
+        ax = axes[0]
+        if has_source:
+            for src, color in source_colors.items():
+                mask = ref_table["source"] == src
+                if mask.any():
+                    ax.hist(hydro[mask], bins=15, alpha=0.7, color=color,
+                            label=src.replace("_", " "), edgecolor="white")
+            ax.legend(fontsize=8)
+        else:
+            ax.hist(hydro, bins=15, alpha=0.7, color="#2196F3", edgecolor="white")
+        ax.set_xlabel("Hydrophobicity (Kyte-Doolittle avg)")
+        ax.set_ylabel("Count")
+        ax.set_title("Hydrophobicity Distribution")
+
+        # --- Panel 2: m/z 2+ histogram ---
+        ax = axes[1]
+        if has_source:
+            for src, color in source_colors.items():
+                mask = ref_table["source"] == src
+                if mask.any():
+                    ax.hist(mz2[mask], bins=15, alpha=0.7, color=color,
+                            label=src.replace("_", " "), edgecolor="white")
+            ax.legend(fontsize=8)
+        else:
+            ax.hist(mz2, bins=15, alpha=0.7, color="#4CAF50", edgecolor="white")
+        ax.set_xlabel("m/z (2+ charge state)")
+        ax.set_ylabel("Count")
+        ax.set_title("m/z Distribution (2+)")
+
+        # --- Panel 3: scatter hydrophobicity vs m/z ---
+        ax = axes[2]
+        if has_source:
+            for src, color in source_colors.items():
+                mask = ref_table["source"] == src
+                if mask.any():
+                    ax.scatter(hydro[mask], mz2[mask], alpha=0.7, s=30,
+                               color=color, label=src.replace("_", " "),
+                               edgecolors="white", linewidths=0.3)
+            ax.legend(fontsize=8)
+        else:
+            ax.scatter(hydro, mz2, alpha=0.7, s=30, color="#9C27B0",
+                       edgecolors="white", linewidths=0.3)
+        ax.set_xlabel("Hydrophobicity (Kyte-Doolittle avg)")
+        ax.set_ylabel("m/z (2+ charge state)")
+        ax.set_title("Hydrophobicity vs. m/z")
+
+        fig.suptitle("Barcode Peptide Biophysical Distributions", fontsize=13,
+                     fontweight="bold")
+        return fig
