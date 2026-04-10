@@ -72,6 +72,7 @@ def init_state():
         "library": None,
         "library_manager": LibraryManager(),
         "construct": None,
+        "constructs": None,
         "barcoded_library": None,
         "barcode_reference": None,
     }
@@ -174,7 +175,7 @@ def sidebar():
     )
 
     st.sidebar.subheader("Expression System")
-    host = st.sidebar.selectbox("Host", ["e_coli", "s_cerevisiae", "p_pastoris"], key="host")
+    host = st.sidebar.selectbox("Host", ["e_coli", "s_cerevisiae", "p_pastoris", "h_sapiens"], key="host")
     strategy = st.sidebar.selectbox("Codon Strategy", ["most_frequent", "harmonized", "gc_balanced"], key="strategy")
 
     return raw_weights, enabled_metrics, min_mut, n_mut, max_var, host, strategy
@@ -863,11 +864,46 @@ def tab_library(viz):
 
 def tab_construct(optimizer, tag_manager):
     st.header("🔧 Construct Builder")
-    if st.session_state.vhh_seq is None:
-        st.info("Please analyze a sequence first (Tab 1).")
+
+    if st.session_state.library is None:
+        st.info("Generate a library first (Tab 2).")
         return
 
-    vhh = st.session_state.vhh_seq
+    lib = st.session_state.library
+
+    # -- Barcode toggle -------------------------------------------------------
+    include_barcodes = st.checkbox(
+        "Include barcodes in constructs",
+        value=False,
+        key="construct_include_barcodes",
+        help="When enabled, uses barcoded sequences from the Barcoding tab. "
+             "When disabled, uses the top-N un-barcoded candidate sequences.",
+    )
+
+    if include_barcodes:
+        if st.session_state.get("barcoded_library") is None:
+            st.warning(
+                "No barcoded library found. Please assign barcodes first "
+                "in the **🧬 Barcoding** tab."
+            )
+            return
+        source_df = st.session_state["barcoded_library"]
+        seq_column = "barcoded_sequence"
+        st.info(f"Using {len(source_df)} barcoded constructs from the Barcoding tab.")
+    else:
+        construct_top_n = st.number_input(
+            "Top N candidates",
+            min_value=1,
+            max_value=len(lib),
+            value=min(10, len(lib)),
+            step=1,
+            key="construct_top_n",
+        )
+        source_df = lib.nlargest(int(construct_top_n), "combined_score").copy().reset_index(drop=True)
+        seq_column = "aa_sequence"
+        st.info(f"Using top {len(source_df)} un-barcoded candidates by combined score.")
+
+    # -- Tag and linker settings ----------------------------------------------
     available_tags = tag_manager.get_available_tags()
     tag_options = ["None"] + list(available_tags.keys())
 
@@ -881,29 +917,63 @@ def tab_construct(optimizer, tag_manager):
     host = st.session_state.get("host", "e_coli")
     strategy = st.session_state.get("strategy", "most_frequent")
 
-    if st.button("Build Construct", type="primary"):
-        with st.spinner("Optimizing codons and building construct..."):
+    if st.button("Build Constructs", type="primary"):
+        with st.spinner("Optimizing codons and building constructs..."):
             try:
-                opt_result = optimizer.optimize(vhh.sequence, host=host, strategy=strategy)
-                dna = opt_result["dna_sequence"]
-                construct = tag_manager.build_construct(
-                    vhh.sequence, dna,
-                    n_tag=None if n_tag == "None" else n_tag,
-                    c_tag=None if c_tag == "None" else c_tag,
-                    linker=linker,
-                )
-                construct["codon_opt"] = opt_result
-                st.session_state.construct = construct
+                constructs = []
+                for _, row in source_df.iterrows():
+                    aa_seq = row.get(seq_column, row.get("aa_sequence", ""))
+                    opt_result = optimizer.optimize(aa_seq, host=host, strategy=strategy)
+                    dna = opt_result["dna_sequence"]
+                    construct = tag_manager.build_construct(
+                        aa_seq, dna,
+                        n_tag=None if n_tag == "None" else n_tag,
+                        c_tag=None if c_tag == "None" else c_tag,
+                        linker=linker,
+                    )
+                    construct["codon_opt"] = opt_result
+                    construct["variant_id"] = row.get("variant_id", "")
+                    construct["combined_score"] = row.get("combined_score", "")
+                    if include_barcodes:
+                        construct["barcode_id"] = row.get("barcode_id", "")
+                        construct["barcode_peptide"] = row.get("barcode_peptide", "")
+                    constructs.append(construct)
+                st.session_state.constructs = constructs
+                # Keep single-construct backward compat
+                if constructs:
+                    st.session_state.construct = constructs[0]
+                st.success(f"Built {len(constructs)} constructs.")
             except Exception as e:
-                st.error(f"Error building construct: {e}")
+                st.error(f"Error building constructs: {e}")
 
-    if st.session_state.construct:
-        c = st.session_state.construct
-        st.subheader("Construct Schematic")
+    if st.session_state.constructs:
+        constructs = st.session_state.constructs
+
+        # -- Summary table ----------------------------------------------------
+        st.subheader("Construct Summary")
+        summary_rows = []
+        for c in constructs:
+            co = c.get("codon_opt", {})
+            row_data = {
+                "variant_id": c.get("variant_id", ""),
+                "score": c.get("combined_score", ""),
+                "aa_length": len(c["aa_construct"]),
+                "gc_content": f"{co.get('gc_content', 0) * 100:.1f}%",
+                "cai": f"{co.get('cai', 0):.3f}",
+            }
+            if include_barcodes:
+                row_data["barcode_id"] = c.get("barcode_id", "")
+            summary_rows.append(row_data)
+        st.dataframe(pd.DataFrame(summary_rows), use_container_width=True)
+
+        # -- Detailed view for first construct --------------------------------
+        st.subheader("Construct Detail (first construct)")
+        c = constructs[0]
+        st.markdown("**Schematic:**")
         st.code(c["schematic"])
-        st.subheader("Amino Acid Sequence")
+        st.markdown("**Amino Acid Sequence:**")
         st.code(c["aa_construct"])
-        st.subheader("DNA Sequence")
+        st.markdown("**DNA Sequence:**")
         st.code(c["dna_construct"] if c["dna_construct"] else "(DNA encoding not available for all tags)")
         if "codon_opt" in c:
             co = c["codon_opt"]
@@ -916,11 +986,39 @@ def tab_construct(optimizer, tag_manager):
             if co["flagged_sites"]:
                 for fs in co["flagged_sites"]:
                     st.error(fs)
+
+        # -- Downloads --------------------------------------------------------
+        st.subheader("Download")
+        # Build combined FASTA for all constructs
+        aa_fasta_lines = []
+        dna_fasta_lines = []
+        for c in constructs:
+            vid = c.get("variant_id", "construct")
+            bc_id = c.get("barcode_id", "")
+            header = f">{vid}"
+            if bc_id:
+                header += f"|{bc_id}"
+            aa_fasta_lines.append(header)
+            aa_fasta_lines.append(c["aa_construct"])
+            if c.get("dna_construct"):
+                dna_fasta_lines.append(header)
+                dna_fasta_lines.append(c["dna_construct"])
+
         col1, col2 = st.columns(2)
         with col1:
-            st.download_button("⬇️ Download AA", c["aa_construct"].encode(), "construct.fasta", "text/plain")
+            st.download_button(
+                "⬇️ Download All AA (FASTA)",
+                "\n".join(aa_fasta_lines).encode(),
+                "constructs_aa.fasta",
+                "text/plain",
+            )
         with col2:
-            st.download_button("⬇️ Download DNA", c["dna_construct"].encode(), "construct_dna.fasta", "text/plain")
+            st.download_button(
+                "⬇️ Download All DNA (FASTA)",
+                "\n".join(dna_fasta_lines).encode(),
+                "constructs_dna.fasta",
+                "text/plain",
+            )
 
 
 def tab_barcoding():
@@ -951,7 +1049,13 @@ def tab_barcoding():
     with col2:
         linker = st.text_input("Linker sequence", value="GGS", key="barcode_linker")
     with col3:
-        st.markdown("&nbsp;")  # spacer
+        c_terminal_tail = st.text_input(
+            "C-terminal protective tail",
+            value="",
+            key="barcode_c_tail",
+            help="2-3 amino acids appended after the barcode to protect against "
+                 "C-terminal endopeptidase cleavage. Must not contain K or R.",
+        )
 
     if st.button("Assign Barcodes", type="primary"):
         with st.spinner("Assigning barcodes and building reference table..."):
@@ -959,6 +1063,7 @@ def tab_barcoding():
                 generator = BarcodeGenerator()
                 barcoded = generator.assign_barcodes(
                     lib, top_n=int(top_n), linker=linker,
+                    c_terminal_tail=c_terminal_tail,
                 )
                 st.session_state["barcoded_library"] = barcoded
                 ref_table = generator.generate_barcode_reference(barcoded)

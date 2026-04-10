@@ -45,18 +45,25 @@ _MAX_GENERATION_ATTEMPTS = 5000
 
 
 def _barcode_passes_rules(seq: str) -> bool:
-    """Return True if *seq* satisfies all barcode design constraints."""
+    """Return True if *seq* satisfies all barcode design constraints.
+
+    C-terminal barcode orientation: the barcode **starts** with K or R
+    (N-terminal tryptic cleavage site) and has no internal K/R in the
+    remaining body.
+    """
     if not seq:
         return False
     # Length constraint
     if not (6 <= len(seq) <= 12):
         return False
-    # Must end in K or R (tryptic release)
-    if seq[-1] not in "KR":
+    # Must start with K or R (N-terminal tryptic cleavage site for
+    # C-terminal barcodes)
+    if seq[0] not in "KR":
         return False
-    # No internal K or R (would create internal trypsin cleavage sites,
-    # causing incomplete digestion and loss of intact barcode peptide)
-    if any(aa in "KR" for aa in seq[:-1]):
+    # No K or R in the body (positions 1 onwards) – internal trypsin
+    # cleavage sites would cause incomplete digestion and loss of intact
+    # barcode peptide
+    if any(aa in "KR" for aa in seq[1:]):
         return False
     # No Met (oxidation-prone) or Cys (disulfide interference)
     if "M" in seq or "C" in seq:
@@ -68,7 +75,8 @@ def _barcode_passes_rules(seq: str) -> bool:
     for i in range(len(seq) - 2):
         if seq[i] == "N" and seq[i + 1] != "P" and seq[i + 2] in "ST":
             return False
-    # At least one basic residue for good MS ionisation
+    # At least one basic residue for good MS ionisation (the N-terminal
+    # K/R already satisfies this, but check explicitly for clarity)
     if not any(aa in _BASIC_AAs for aa in seq):
         return False
     return True
@@ -96,14 +104,19 @@ def _hydrophobicity(seq: str) -> float:
 
 
 def _generate_barcode_algorithmically(exclude: set[str], rng: random.Random | None = None) -> str | None:
-    """Generate a single valid barcode sequence not present in *exclude*."""
+    """Generate a single valid barcode sequence not present in *exclude*.
+
+    Barcodes start with K or R (N-terminal tryptic cleavage site for
+    C-terminal barcode orientation) followed by a body of allowed amino
+    acids.
+    """
     if rng is None:
         rng = random.Random()
     for _ in range(_MAX_GENERATION_ATTEMPTS):
         length = rng.randint(6, 12)
+        start = rng.choice(["K", "R"])
         body = [rng.choice(_ALLOWED_AAs) for _ in range(length - 1)]
-        end = rng.choice(["K", "R"])
-        seq = "".join(body) + end
+        seq = start + "".join(body)
         if seq not in exclude and _barcode_passes_rules(seq):
             return seq
     return None
@@ -142,6 +155,7 @@ class BarcodeGenerator:
         library_df: pd.DataFrame,
         top_n: int = 100,
         linker: str = "GGS",
+        c_terminal_tail: str = "",
         check_against_sequences: list[str] | None = None,
     ) -> pd.DataFrame:
         """Assign unique barcodes to the top-N variants in *library_df*.
@@ -156,6 +170,11 @@ class BarcodeGenerator:
         5. If the pool is exhausted, generates additional barcodes
            algorithmically.
 
+        Barcodes follow C-terminal orientation: each barcode starts with K
+        or R (N-terminal tryptic cleavage site).  An optional
+        *c_terminal_tail* (2-3 amino acids) is appended after the barcode
+        to protect against C-terminal endopeptidase cleavage.
+
         Parameters
         ----------
         library_df:
@@ -167,6 +186,11 @@ class BarcodeGenerator:
         linker:
             Flexible linker inserted between the VHH and the barcode
             (default ``"GGS"``).
+        c_terminal_tail:
+            Short amino acid sequence (typically 2-3 residues) appended
+            after the barcode to protect against C-terminal endopeptidase
+            cleavage.  Should not contain K or R (to avoid creating
+            additional trypsin cleavage sites).  Default is empty string.
         check_against_sequences:
             Optional list of additional amino acid sequences to include in
             the collision check (e.g. host proteome representative peptides).
@@ -184,6 +208,14 @@ class BarcodeGenerator:
         missing = required - set(library_df.columns)
         if missing:
             raise ValueError(f"library_df is missing required columns: {missing}")
+
+        # Validate c_terminal_tail – must not contain K or R
+        tail = c_terminal_tail.upper().strip() if c_terminal_tail else ""
+        if tail and any(aa in "KR" for aa in tail):
+            raise ValueError(
+                "c_terminal_tail must not contain K or R (would create "
+                "additional trypsin cleavage sites)."
+            )
 
         n = min(top_n, len(library_df))
         top_df = (
@@ -247,15 +279,16 @@ class BarcodeGenerator:
             else:
                 source = "algorithmic"
 
-            # Build barcoded construct: VHH + linker + barcode
-            # If barcode already ends in K/R, no extra terminal residue needed
-            barcoded = vhh_seq + linker + bc
+            # Build barcoded construct: VHH + linker + barcode + tail
+            # Barcode starts with K/R (C-terminal orientation); optional
+            # protective tail is appended at the very end.
+            barcoded = vhh_seq + linker + bc + tail
 
             # The expected tryptic fragment released by trypsin:
-            # trypsin cleaves after the last K/R of the VHH (or the construct
-            # if the VHH doesn't end in K/R).  The linker + barcode constitutes
-            # the identifiable tryptic fragment.
-            tryptic_frag = linker + bc
+            # trypsin cleaves after the K/R at the start of the barcode.
+            # The identifiable tryptic fragment is the barcode body (after
+            # the leading K/R) plus the protective tail.
+            tryptic_frag = bc[1:] + tail
 
             barcode_ids.append(bc_id)
             barcode_peptides.append(bc)
