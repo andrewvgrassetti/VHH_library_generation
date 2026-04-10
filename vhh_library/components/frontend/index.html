@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, Helvetica, sans-serif; overflow-x: auto; }
+
+  #container { display: inline-block; padding: 6px 4px 4px 4px; user-select: none; -webkit-user-select: none; }
+
+  /* --- Region annotations above the sequence --- */
+  #annotations {
+    position: relative;
+    height: 36px;
+    white-space: nowrap;
+  }
+  .region-label {
+    position: absolute;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    pointer-events: none;
+  }
+  .region-bracket {
+    position: absolute;
+    bottom: 0;
+    height: 6px;
+    border-left: 2px solid;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    pointer-events: none;
+  }
+
+  /* --- Sequence row --- */
+  #sequence-row {
+    display: flex;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .residue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 12px;
+    height: 22px;
+    font-family: "Courier New", monospace;
+    font-size: 10px;
+    font-weight: 600;
+    border: 0.5px solid #ccc;
+    transition: opacity 0.1s;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .residue:hover {
+    outline: 2px solid #1976D2;
+    outline-offset: -2px;
+    z-index: 2;
+  }
+  .residue.off-limit {
+    opacity: 1;
+  }
+  .residue.off-limit::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.40);
+    pointer-events: none;
+  }
+  .residue.forbidden-sub::before {
+    content: "";
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #FF6F00;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* --- Position number ticks below --- */
+  #ticks {
+    display: flex;
+    white-space: nowrap;
+    height: 14px;
+    position: relative;
+  }
+  .tick {
+    display: inline-flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 12px;
+    font-size: 7px;
+    color: #999;
+    flex-shrink: 0;
+  }
+
+  /* --- Legend --- */
+  #legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+    font-size: 9px;
+    color: #555;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  .legend-swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid #bbb;
+    flex-shrink: 0;
+  }
+  .legend-swatch.off-limit-swatch {
+    position: relative;
+    overflow: hidden;
+    background: #E3F2FD;
+  }
+  .legend-swatch.off-limit-swatch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.40);
+  }
+  .legend-swatch.forbidden-swatch {
+    position: relative;
+    background: #FFF3E0;
+    border-color: #FF6F00;
+  }
+  .legend-swatch.forbidden-swatch::after {
+    content: "";
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #FF6F00;
+  }
+
+  /* --- Tooltip --- */
+  #tooltip {
+    display: none;
+    position: fixed;
+    background: #333;
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 100;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<div id="container">
+  <div id="annotations"></div>
+  <div id="sequence-row"></div>
+  <div id="ticks"></div>
+  <div id="legend"></div>
+</div>
+<div id="tooltip"></div>
+
+<script>
+/* ------------------------------------------------------------------ */
+/*  Streamlit bi-directional component communication helpers          */
+/* ------------------------------------------------------------------ */
+function sendMessageToStreamlitClient(type, data) {
+  var outData = Object.assign({isStreamlitMessage: true, type: type}, data);
+  window.parent.postMessage(outData, "*");
+}
+
+var Streamlit = {
+  setComponentReady: function() {
+    sendMessageToStreamlitClient("streamlit:componentReady", {apiVersion: 1});
+  },
+  setFrameHeight: function(height) {
+    sendMessageToStreamlitClient("streamlit:setFrameHeight", {height: height});
+  },
+  setComponentValue: function(value) {
+    sendMessageToStreamlitClient("streamlit:setComponentValue", {value: value});
+  }
+};
+
+/* ------------------------------------------------------------------ */
+/*  State                                                              */
+/* ------------------------------------------------------------------ */
+var offLimitSet = new Set();
+var sequence = "";
+var imgtNumbered = {};
+var regions = [];
+var notablePositions = {};
+var forbiddenPositions = new Set();
+var seqLen = 0;
+
+// Drag state
+var isDragging = false;
+var dragStart = -1;
+var dragMode = ""; // "add" or "remove"
+
+/* ------------------------------------------------------------------ */
+/*  Render                                                             */
+/* ------------------------------------------------------------------ */
+function render() {
+  var CELL_W = 12;
+  var annotDiv = document.getElementById("annotations");
+  var seqDiv = document.getElementById("sequence-row");
+  var tickDiv = document.getElementById("ticks");
+  var legendDiv = document.getElementById("legend");
+
+  annotDiv.innerHTML = "";
+  seqDiv.innerHTML = "";
+  tickDiv.innerHTML = "";
+
+  // --- Region annotations (brackets + labels above) ---
+  annotDiv.style.width = (seqLen * CELL_W) + "px";
+  for (var r = 0; r < regions.length; r++) {
+    var reg = regions[r];
+    var rStart = Math.max(1, reg.start);
+    var rEnd = Math.min(seqLen, reg.end);
+    if (rStart > seqLen) continue;
+    var x1 = (rStart - 1) * CELL_W;
+    var x2 = rEnd * CELL_W;
+    var midX = (x1 + x2) / 2;
+
+    // Label
+    var lbl = document.createElement("span");
+    lbl.className = "region-label";
+    lbl.style.left = midX + "px";
+    lbl.style.transform = "translateX(-50%)";
+    lbl.style.top = "2px";
+    lbl.style.color = reg.labelColor;
+    lbl.textContent = reg.name;
+    annotDiv.appendChild(lbl);
+
+    // Bracket
+    var brk = document.createElement("div");
+    brk.className = "region-bracket";
+    brk.style.left = x1 + "px";
+    brk.style.width = (x2 - x1) + "px";
+    brk.style.borderColor = reg.labelColor;
+    annotDiv.appendChild(brk);
+  }
+
+  // --- Residue cells ---
+  for (var i = 0; i < seqLen; i++) {
+    var pos = i + 1;
+    var aa = imgtNumbered[String(pos)] || "?";
+    var cell = document.createElement("span");
+    cell.className = "residue";
+    cell.dataset.pos = pos;
+    cell.textContent = aa;
+
+    // Background color from region
+    var bgColor = "#F5F5F5";
+    var borderColor = "#CCC";
+    for (var r2 = 0; r2 < regions.length; r2++) {
+      if (pos >= regions[r2].start && pos <= regions[r2].end) {
+        bgColor = regions[r2].color;
+        break;
+      }
+    }
+
+    // Notable residue override
+    if (notablePositions[String(pos)]) {
+      bgColor = notablePositions[String(pos)].bg;
+      cell.style.color = notablePositions[String(pos)].fg;
+    }
+
+    cell.style.backgroundColor = bgColor;
+    cell.style.borderColor = borderColor;
+
+    if (offLimitSet.has(pos)) {
+      cell.classList.add("off-limit");
+    }
+    if (forbiddenPositions.has(pos) && !offLimitSet.has(pos)) {
+      cell.classList.add("forbidden-sub");
+    }
+
+    // Events
+    cell.addEventListener("mousedown", onCellMouseDown);
+    cell.addEventListener("mouseenter", onCellMouseEnter);
+    cell.addEventListener("mouseover", onCellHover);
+    cell.addEventListener("mouseout", onCellOut);
+
+    seqDiv.appendChild(cell);
+  }
+
+  // --- Tick marks ---
+  for (var t = 0; t < seqLen; t++) {
+    var tPos = t + 1;
+    var tk = document.createElement("span");
+    tk.className = "tick";
+    if (tPos === 1 || tPos % 10 === 0) {
+      tk.textContent = tPos;
+    }
+    tickDiv.appendChild(tk);
+  }
+
+  // --- Legend ---
+  legendDiv.innerHTML = "";
+  var items = [
+    {label: "FR region", color: "#E3F2FD", border: "#90CAF9"},
+    {label: "CDR region", color: "#FFCDD2", border: "#EF9A9A"},
+    {label: "Cys (disulfide)", color: "#FFD600", border: "#FFD600"},
+    {label: "Trp (VHH hallmark)", color: "#AB47BC", border: "#AB47BC"},
+    {label: "Off-limit", cls: "off-limit-swatch"},
+    {label: "Partial restriction", cls: "forbidden-swatch"},
+  ];
+  for (var li = 0; li < items.length; li++) {
+    var it = items[li];
+    var div = document.createElement("span");
+    div.className = "legend-item";
+    var sw = document.createElement("span");
+    sw.className = "legend-swatch" + (it.cls ? " " + it.cls : "");
+    if (it.color) {
+      sw.style.background = it.color;
+      sw.style.borderColor = it.border || it.color;
+    }
+    div.appendChild(sw);
+    var txt = document.createElement("span");
+    txt.textContent = it.label;
+    div.appendChild(txt);
+    legendDiv.appendChild(div);
+  }
+
+  // Resize frame
+  var container = document.getElementById("container");
+  Streamlit.setFrameHeight(container.scrollHeight + 8);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Mouse interaction: click / drag to select off-limit residues      */
+/* ------------------------------------------------------------------ */
+function onCellMouseDown(e) {
+  e.preventDefault();
+  var pos = parseInt(e.currentTarget.dataset.pos);
+  isDragging = true;
+  dragStart = pos;
+  // Toggle mode: if position is currently off-limit, drag removes; otherwise adds
+  dragMode = offLimitSet.has(pos) ? "remove" : "add";
+  applyDragToPos(pos);
+  render();
+}
+
+function onCellMouseEnter(e) {
+  if (!isDragging) return;
+  var pos = parseInt(e.currentTarget.dataset.pos);
+  applyDragToPos(pos);
+  render();
+}
+
+function applyDragToPos(pos) {
+  if (dragMode === "add") {
+    offLimitSet.add(pos);
+  } else {
+    offLimitSet.delete(pos);
+  }
+}
+
+document.addEventListener("mouseup", function() {
+  if (isDragging) {
+    isDragging = false;
+    dragStart = -1;
+    // Send updated off-limits to Streamlit
+    Streamlit.setComponentValue(Array.from(offLimitSet).sort(function(a, b) { return a - b; }));
+  }
+});
+
+/* ------------------------------------------------------------------ */
+/*  Tooltip on hover                                                   */
+/* ------------------------------------------------------------------ */
+function onCellHover(e) {
+  var pos = parseInt(e.currentTarget.dataset.pos);
+  var aa = imgtNumbered[String(pos)] || "?";
+  var regionName = "";
+  for (var r = 0; r < regions.length; r++) {
+    if (pos >= regions[r].start && pos <= regions[r].end) {
+      regionName = regions[r].name;
+      break;
+    }
+  }
+  var tip = "Pos " + pos + " (" + regionName + ") — " + aa;
+  if (offLimitSet.has(pos)) tip += " [OFF-LIMIT]";
+  if (notablePositions[String(pos)]) tip += " • " + notablePositions[String(pos)].label;
+
+  var tooltip = document.getElementById("tooltip");
+  tooltip.textContent = tip;
+  tooltip.style.display = "block";
+  tooltip.style.left = (e.clientX + 10) + "px";
+  tooltip.style.top = (e.clientY - 28) + "px";
+}
+
+function onCellOut() {
+  document.getElementById("tooltip").style.display = "none";
+}
+
+/* ------------------------------------------------------------------ */
+/*  Streamlit render event                                             */
+/* ------------------------------------------------------------------ */
+function onStreamlitRender(event) {
+  var args = event.detail ? event.detail.args : event.data.args;
+  if (!args) return;
+
+  sequence = args.sequence || "";
+  imgtNumbered = args.imgtNumbered || {};
+  regions = args.regions || [];
+  notablePositions = args.notablePositions || {};
+  // Max residues shown — matches the IMGT numbering scheme for VHH domains (positions 1–128)
+  seqLen = Math.min(sequence.length, 128);
+
+  // Off-limit positions from Python
+  offLimitSet = new Set(args.offLimitPositions || []);
+
+  // Forbidden substitution positions
+  forbiddenPositions = new Set(args.forbiddenPositions || []);
+
+  render();
+}
+
+// Listen for render events from Streamlit
+window.addEventListener("message", function(event) {
+  if (event.data.type === "streamlit:render") {
+    onStreamlitRender({detail: {args: event.data.args}});
+  }
+});
+
+Streamlit.setComponentReady();
+</script>
+</body>
+</html>
