@@ -1,0 +1,13 @@
+sessions/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.streamlit/
+*.egg-info/
+dist/
+build/
+.env
+*.log
+sessions_test/
+test_export.fasta
