@@ -665,14 +665,15 @@ def tab_library(viz):
         # --- Orthogonal Correlation Plots ---
         _has_orth_h = "orthogonal_humanness_score" in lib.columns
         _has_orth_s = "orthogonal_stability_score" in lib.columns
-        if _has_orth_h or _has_orth_s:
+        n_corr = sum([_has_orth_h, _has_orth_s])
+        if n_corr > 0:
             st.subheader("Orthogonal Score Correlation")
             st.caption(
                 "Scatter plots comparing primary scores against orthogonal scores "
                 "across all library variants.  Strong correlation validates that "
                 "both independent scoring methods agree."
             )
-            n_corr = sum([_has_orth_h, _has_orth_s])
+            n_corr = sum([_has_orth_h, _has_orth_s])  # guaranteed >= 1 by outer guard
             fig_corr, ax_corr = plt.subplots(1, n_corr, figsize=(6 * n_corr, 5), squeeze=False)
             corr_idx = 0
             if _has_orth_h:

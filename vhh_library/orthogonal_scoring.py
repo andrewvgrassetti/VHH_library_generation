@@ -189,7 +189,6 @@ class ConsensusStabilityScorer:
         pos_counts: dict[int, dict[str, int]] = {}
         for germ in germlines:
             # Rebuild position-level mapping from germline FR strings
-            offset = 0
             for key in ("fr1", "fr2", "fr3", "fr4"):
                 region_seq = germ.get(key, "")
                 region_name = key.upper()
