@@ -13,10 +13,15 @@ class MutationEngine:
         self.w_humanness = w_humanness
         self.w_stability = w_stability
 
-    def rank_single_mutations(self, vhh_sequence: VHHSequence, off_limits: set = None) -> pd.DataFrame:
+    def rank_single_mutations(self, vhh_sequence: VHHSequence, off_limits: set = None,
+                              forbidden_substitutions: dict | None = None) -> pd.DataFrame:
         if off_limits is None:
             off_limits = set()
-        suggestions = self.humanness_scorer.get_mutation_suggestions(vhh_sequence, off_limits)
+        if forbidden_substitutions is None:
+            forbidden_substitutions = {}
+        suggestions = self.humanness_scorer.get_mutation_suggestions(
+            vhh_sequence, off_limits, forbidden_substitutions=forbidden_substitutions
+        )
         rows = []
         for s in suggestions:
             imgt_pos = s["position"]

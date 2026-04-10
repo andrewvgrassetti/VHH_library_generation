@@ -1,8 +1,9 @@
 import streamlit as st
 import pandas as pd
+import io
 from pathlib import Path
 
-from vhh_library.sequence import VHHSequence
+from vhh_library.sequence import VHHSequence, IMGT_REGIONS
 from vhh_library.humanness import HumAnnotator
 from vhh_library.stability import StabilityScorer
 from vhh_library.mutation_engine import MutationEngine
@@ -142,6 +143,53 @@ def tab_input(humanness_scorer, stability_scorer, viz):
                 st.warning(w)
 
 
+def _parse_off_limit_csv(uploaded_file) -> dict:
+    """Parse a CSV of per-position forbidden substitutions.
+
+    Expected CSV format (with or without header):
+        Column 1: IMGT position number (integer)
+        Column 2: One-letter amino acid codes that are forbidden at that position
+                   (e.g. "ACDE" or "A,C,D,E")
+
+    Returns:
+        dict mapping IMGT position (int) -> set of forbidden one-letter AA codes.
+    """
+    content = uploaded_file.read().decode("utf-8")
+    uploaded_file.seek(0)
+    try:
+        df = pd.read_csv(io.StringIO(content))
+    except Exception:
+        return {}
+
+    if len(df.columns) < 2:
+        return {}
+
+    forbidden = {}
+    for _, row in df.iterrows():
+        pos_val = row.iloc[0]
+        forbidden_str = str(row.iloc[1]).strip()
+
+        # Parse position: integer, or residue+position like "Q1"
+        try:
+            pos = int(pos_val)
+        except (ValueError, TypeError):
+            # Try extracting trailing digits from e.g. "Q1" -> 1
+            pos_str = str(pos_val).strip()
+            if len(pos_str) >= 2 and pos_str[0].isalpha() and pos_str[1:].isdigit():
+                pos = int(pos_str[1:])
+            else:
+                continue
+
+        # Parse forbidden AAs: could be "ACDE" or "A,C,D,E" or "A C D E"
+        forbidden_str = forbidden_str.replace(",", "").replace(" ", "").upper()
+        valid_aas = set("ACDEFGHIKLMNPQRSTVWY")
+        forbidden_aas = set(c for c in forbidden_str if c in valid_aas)
+        if forbidden_aas:
+            forbidden[pos] = forbidden_aas
+
+    return forbidden
+
+
 def tab_mutations(humanness_scorer, stability_scorer, viz):
     st.header("🎯 Mutation Selection")
     if st.session_state.vhh_seq is None:
@@ -149,25 +197,136 @@ def tab_mutations(humanness_scorer, stability_scorer, viz):
         return
 
     vhh = st.session_state.vhh_seq
-    cdr_positions = vhh.cdr_positions
 
-    st.write("CDR positions are off-limits by default. Adjust below:")
-    off_limits_input = st.text_input(
-        "Off-limits IMGT positions (comma-separated):",
-        value=",".join(str(p) for p in sorted(cdr_positions)),
+    # --- Off-limit position selection via interactive linear depiction ---
+    st.subheader("Off-Limit Mutation Positions")
+    st.caption(
+        "Select which regions/positions should be protected from mutations. "
+        "CDR regions are off-limits by default. Toggle regions below or add "
+        "individual positions."
     )
-    try:
-        off_limits = set(int(x.strip()) for x in off_limits_input.split(",") if x.strip())
-    except ValueError:
-        off_limits = cdr_positions
 
+    # Initialize off-limit region toggles in session state
+    if "off_limit_regions" not in st.session_state:
+        st.session_state.off_limit_regions = {"CDR1": True, "CDR2": True, "CDR3": True,
+                                               "FR1": False, "FR2": False, "FR3": False, "FR4": False}
+
+    # Region toggle row
+    st.markdown("**Toggle regions off-limits:**")
+    region_cols = st.columns(7)
+    region_names = ["FR1", "CDR1", "FR2", "CDR2", "FR3", "CDR3", "FR4"]
+    for i, region_name in enumerate(region_names):
+        is_cdr = region_name.startswith("CDR")
+        with region_cols[i]:
+            st.session_state.off_limit_regions[region_name] = st.checkbox(
+                region_name,
+                value=st.session_state.off_limit_regions.get(region_name, is_cdr),
+                key=f"region_toggle_{region_name}",
+            )
+
+    # Build off-limit positions from toggled regions
+    off_limit_positions = set()
+    for region_name, is_off in st.session_state.off_limit_regions.items():
+        if is_off:
+            start, end = IMGT_REGIONS[region_name]
+            for p in range(start, end + 1):
+                if p in vhh.imgt_numbered:
+                    off_limit_positions.add(p)
+
+    # Additional individual positions (text input for ranges)
+    extra_positions_input = st.text_input(
+        "Additional off-limit positions (e.g. `1-5, 23, 50-58`):",
+        value="",
+        key="extra_off_limit_positions",
+        help="Enter individual positions or ranges separated by commas.",
+    )
+    if extra_positions_input.strip():
+        for part in extra_positions_input.split(","):
+            part = part.strip()
+            if "-" in part:
+                try:
+                    a, b = part.split("-", 1)
+                    for p in range(int(a.strip()), int(b.strip()) + 1):
+                        off_limit_positions.add(p)
+                except ValueError:
+                    pass
+            elif part.isdigit():
+                off_limit_positions.add(int(part))
+
+    # --- CSV upload for per-position forbidden substitutions ---
+    st.markdown("---")
+    st.subheader("Upload Forbidden Substitutions (CSV)")
+    st.caption(
+        "Upload a CSV where **column 1** is the IMGT position number and "
+        "**column 2** lists the one-letter amino acid codes that are forbidden "
+        "as mutation targets at that position (e.g. `ACDE` or `A,C,D,E`)."
+    )
+
+    col_upload, col_template = st.columns([3, 1])
+    with col_template:
+        # Provide a downloadable template
+        template_csv = "position,forbidden_residues\n1,AC\n23,FGHI\n"
+        st.download_button(
+            "📄 Template CSV",
+            template_csv.encode(),
+            "forbidden_substitutions_template.csv",
+            "text/csv",
+            help="Download a template CSV to fill in your forbidden substitutions.",
+        )
+
+    forbidden_substitutions: dict = {}
+    with col_upload:
+        uploaded_csv = st.file_uploader(
+            "Upload forbidden substitutions CSV",
+            type=["csv"],
+            key="forbidden_csv_upload",
+        )
+        if uploaded_csv is not None:
+            forbidden_substitutions = _parse_off_limit_csv(uploaded_csv)
+            if forbidden_substitutions:
+                st.success(
+                    f"Loaded forbidden substitutions for **{len(forbidden_substitutions)}** positions."
+                )
+                with st.expander("View loaded forbidden substitutions"):
+                    rows = []
+                    for pos in sorted(forbidden_substitutions.keys()):
+                        aa_at_pos = vhh.imgt_numbered.get(pos, "?")
+                        rows.append({
+                            "IMGT Position": pos,
+                            "Current AA": aa_at_pos,
+                            "Forbidden Targets": ", ".join(sorted(forbidden_substitutions[pos])),
+                        })
+                    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+            else:
+                st.warning("Could not parse any forbidden substitutions from the uploaded CSV.")
+
+    # --- Render the interactive linear depiction ---
+    st.markdown("---")
+    st.markdown("**Sequence Map** — off-limit positions are darkened with hatching:")
+    svg_html = viz.render_off_limits_track(vhh, off_limit_positions, forbidden_substitutions)
+    st.components.v1.html(svg_html, height=100, scrolling=True)
+
+    # Summary
+    n_off = len(off_limit_positions)
+    n_mutable = vhh.length - n_off
+    n_forbidden = len(forbidden_substitutions)
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Off-limit positions", n_off)
+    col2.metric("Mutable positions", n_mutable)
+    col3.metric("Positions with restricted AAs", n_forbidden)
+
+    # --- Rank mutations ---
     hw = st.session_state.get("humanness_weight", 0.6)
     engine = MutationEngine(humanness_scorer, stability_scorer, w_humanness=hw, w_stability=1 - hw)
 
     if st.button("Rank Mutations", type="primary"):
         with st.spinner("Ranking mutations..."):
             try:
-                df = engine.rank_single_mutations(vhh, off_limits=off_limits)
+                df = engine.rank_single_mutations(
+                    vhh,
+                    off_limits=off_limit_positions,
+                    forbidden_substitutions=forbidden_substitutions,
+                )
                 st.session_state.ranked_mutations = df
             except Exception as e:
                 st.error(f"Error ranking mutations: {e}")
