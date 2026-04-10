@@ -1,19 +1,19 @@
 # VHH Biosimilar Library Generator
 
-A computational tool for designing humanized and stability-optimized VHH (nanobody) variant libraries.
+A tool for generating humanized VHH (nanobody) variant libraries with sequence scoring and codon optimization.
 
 ## Features
 
-- **IMGT Numbering**: Automatic mapping of VHH sequences to IMGT positions with FR/CDR region identification
-- **Humanness Scoring**: Framework comparison against human VH germline position-frequency matrices
-- **Stability Analysis**: VHH hallmark detection, disulfide scoring, pI/charge calculation, aggregation prediction
-- **Orthogonal Scoring**: Independent cross-validation via Human String Content (k-mer) humanness and VHH consensus stability scoring
-- **NanoMelt Integration**: Continuous thermostability prediction (predicted Tm in °C) using ESM-based nanobody embeddings — install `nanomelt` to enable
-- **Mutation Engine**: Ranked single mutations + combinatorial library generation (up to 10,000 variants)
-- **Codon Optimization**: E. coli, S. cerevisiae, P. pastoris with most-frequent, harmonized, and GC-balanced strategies
-- **Construct Builder**: N/C-terminal tag attachment (6xHis, HA, Myc, FLAG, Aga2p, pIII_pelB) with linker support
-- **Session Management**: JSON/CSV/FASTA export, session persistence and reloading
-- **Streamlit UI**: Interactive 6-tab web application
+- **IMGT Numbering**: Maps VHH sequences to IMGT positions and FR/CDR regions
+- **Humanness Scoring**: Position-frequency comparison against human VH germlines
+- **Stability Scoring**: VHH hallmark detection, disulfide scoring, pI calculation, hydrophobicity
+- **Additional Scoring**: Human String Content (k-mer) humanness and VHH consensus stability scores
+- **NanoMelt Integration**: Predicted Tm via ESM-based embeddings — install `nanomelt` to enable
+- **Mutation Engine**: Single-mutation ranking and combinatorial library generation (up to 10K variants)
+- **Codon Optimization**: Host-specific strategies for E. coli, S. cerevisiae, and P. pastoris
+- **Construct Builder**: N/C-terminal tag attachment with linker support
+- **Session Management**: JSON/CSV/FASTA export and session reloading
+- **Streamlit UI**: 6-tab web interface
 
 ## Installation
 
@@ -24,14 +24,14 @@ pip install -e .
 
 ### Optional: NanoMelt thermostability prediction
 
-NanoMelt provides continuous predicted melting temperature (Tm in °C) as an orthogonal stability score.
-It requires PyTorch and downloads ESM model weights on first use (~several hundred MB).
+NanoMelt predicts melting temperature (Tm) using ESM-based embeddings.
+It requires PyTorch and downloads model weights on first use (~several hundred MB).
 
 ```bash
 pip install nanomelt
 ```
 
-Once installed, NanoMelt scores are automatically computed during sequence analysis and library generation.
+Once installed, NanoMelt scores are included in sequence analysis and library generation.
 
 ## Usage
 
