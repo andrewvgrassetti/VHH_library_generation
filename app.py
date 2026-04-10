@@ -1,7 +1,9 @@
 import streamlit as st
 import pandas as pd
 import io
+import numpy as np
 from pathlib import Path
+from scipy.stats import spearmanr
 
 import matplotlib
 matplotlib.use("Agg")
@@ -673,40 +675,95 @@ def tab_library(viz):
                 "across all library variants.  Strong correlation validates that "
                 "both independent scoring methods agree."
             )
-            n_corr = sum([_has_orth_h, _has_orth_s])  # guaranteed >= 1 by outer guard
-            fig_corr, ax_corr = plt.subplots(1, n_corr, figsize=(6 * n_corr, 5), squeeze=False)
-            corr_idx = 0
+            # Stability uses 2 subplots (jittered scatter + hexbin); humanness uses 1
+            n_cols = (_has_orth_h * 1) + (_has_orth_s * 2)
+            fig_corr, ax_corr_flat = plt.subplots(1, n_cols, figsize=(6 * n_cols, 5), squeeze=False)
+            col_idx = 0
             if _has_orth_h:
-                ax = ax_corr[0][corr_idx]
+                ax = ax_corr_flat[0][col_idx]
                 ax.scatter(lib["humanness_score"], lib["orthogonal_humanness_score"],
                            alpha=0.4, s=12, color="#7B1FA2")
                 ax.set_xlabel("Primary Humanness Score")
                 ax.set_ylabel("Orthogonal Humanness (HSC)")
                 ax.set_title("Humanness Correlation")
-                # Add correlation coefficient
+                # Add Spearman rank correlation coefficient
                 if len(lib) > 1:
-                    corr_val = lib["humanness_score"].corr(lib["orthogonal_humanness_score"])
-                    ax.annotate(f"r = {corr_val:.3f}", xy=(0.05, 0.95),
+                    rho, pval = spearmanr(lib["humanness_score"], lib["orthogonal_humanness_score"])
+                    ax.annotate(f"ρ = {rho:.3f} (p={pval:.2e})", xy=(0.05, 0.95),
                                 xycoords="axes fraction", fontsize=11,
                                 verticalalignment="top",
                                 bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
-                corr_idx += 1
+                col_idx += 1
             if _has_orth_s:
-                ax = ax_corr[0][corr_idx]
-                ax.scatter(lib["stability_score"], lib["orthogonal_stability_score"],
-                           alpha=0.4, s=12, color="#00695C")
-                ax.set_xlabel("Primary Stability Score")
-                ax.set_ylabel("Orthogonal Stability (Consensus)")
-                ax.set_title("Stability Correlation")
+                # Left: jittered scatter to reveal density within discrete bands
+                ax_scatter = ax_corr_flat[0][col_idx]
+                jitter_x = lib["stability_score"] + np.random.default_rng(seed=42).normal(0, 0.003, len(lib))
+                ax_scatter.scatter(jitter_x, lib["orthogonal_stability_score"],
+                                   alpha=0.3, s=10, color="#00695C")
+                ax_scatter.set_xlabel("Primary Stability Score (jittered)")
+                ax_scatter.set_ylabel("Orthogonal Stability (Consensus)")
+                ax_scatter.set_title("Stability Correlation (Jittered)")
                 if len(lib) > 1:
-                    corr_val = lib["stability_score"].corr(lib["orthogonal_stability_score"])
-                    ax.annotate(f"r = {corr_val:.3f}", xy=(0.05, 0.95),
-                                xycoords="axes fraction", fontsize=11,
-                                verticalalignment="top",
-                                bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+                    rho, pval = spearmanr(lib["stability_score"], lib["orthogonal_stability_score"])
+                    ax_scatter.annotate(f"ρ = {rho:.3f} (p={pval:.2e})", xy=(0.05, 0.95),
+                                        xycoords="axes fraction", fontsize=11,
+                                        verticalalignment="top",
+                                        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+                col_idx += 1
+
+                # Right: hexbin density plot for a cleaner view of banded distributions
+                ax_hex = ax_corr_flat[0][col_idx]
+                hb = ax_hex.hexbin(lib["stability_score"], lib["orthogonal_stability_score"],
+                                   gridsize=25, cmap="YlGnBu", mincnt=1)
+                ax_hex.set_xlabel("Primary Stability Score")
+                ax_hex.set_ylabel("Orthogonal Stability (Consensus)")
+                ax_hex.set_title("Stability Correlation (Density)")
+                fig_corr.colorbar(hb, ax=ax_hex, label="Count")
+                col_idx += 1
+
             fig_corr.tight_layout()
             st.pyplot(fig_corr)
             plt.close(fig_corr)
+
+            # --- Sub-score Breakdown Correlation Plots ---
+            _sub_score_cols = [c for c in ("aggregation_score", "charge_balance_score",
+                                           "hydrophobic_core_score") if c in lib.columns]
+            if _has_orth_s and _sub_score_cols:
+                with st.expander("Stability Sub-score Correlations", expanded=False):
+                    st.caption(
+                        "Scatter plots of individual continuous stability sub-scores vs. "
+                        "the orthogonal consensus stability score.  These produce smoother "
+                        "correlations than the composite and reveal which biophysical "
+                        "properties drive germline consensus alignment."
+                    )
+                    n_sub = len(_sub_score_cols)
+                    fig_sub, ax_sub = plt.subplots(1, n_sub, figsize=(5 * n_sub, 4), squeeze=False)
+                    _sub_labels = {
+                        "aggregation_score": "Aggregation Score",
+                        "charge_balance_score": "Charge Balance Score",
+                        "hydrophobic_core_score": "Hydrophobic Core Score",
+                    }
+                    _sub_colors = {
+                        "aggregation_score": "#EF6C00",
+                        "charge_balance_score": "#1565C0",
+                        "hydrophobic_core_score": "#558B2F",
+                    }
+                    for i, col_name in enumerate(_sub_score_cols):
+                        ax = ax_sub[0][i]
+                        ax.scatter(lib[col_name], lib["orthogonal_stability_score"],
+                                   alpha=0.35, s=10, color=_sub_colors.get(col_name, "#555"))
+                        ax.set_xlabel(_sub_labels.get(col_name, col_name))
+                        ax.set_ylabel("Orthogonal Stability (Consensus)")
+                        ax.set_title(f"{_sub_labels.get(col_name, col_name)} vs. Orthogonal")
+                        if len(lib) > 1:
+                            rho, pval = spearmanr(lib[col_name], lib["orthogonal_stability_score"])
+                            ax.annotate(f"ρ = {rho:.3f} (p={pval:.2e})", xy=(0.05, 0.95),
+                                        xycoords="axes fraction", fontsize=10,
+                                        verticalalignment="top",
+                                        bbox=dict(boxstyle="round,pad=0.3", facecolor="white", alpha=0.8))
+                    fig_sub.tight_layout()
+                    st.pyplot(fig_sub)
+                    plt.close(fig_sub)
 
     col1, col2 = st.columns(2)
     with col1:
