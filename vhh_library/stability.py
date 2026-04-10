@@ -11,6 +11,49 @@ VHH_HALLMARKS = {
 
 CANONICAL_DISULFIDE = (23, 104)
 
+# Minimal BLOSUM62 rows for the amino acids expected at VHH hallmark positions.
+# Used to compute continuous hallmark sub-scores via similarity-based interpolation.
+# Values are the standard BLOSUM62 log-odds scores.
+_BLOSUM62_ROWS = {
+    "F": {"A": -2, "R": -3, "N": -3, "D": -3, "C": -2, "Q": -3, "E": -3, "G": -3,
+          "H": -1, "I":  0, "L":  0, "K": -3, "M":  0, "F":  6, "P": -4, "S": -2,
+          "T": -2, "W":  1, "Y":  3, "V": -1},
+    "Y": {"A": -2, "R": -2, "N": -2, "D": -3, "C": -2, "Q": -1, "E": -2, "G": -3,
+          "H":  2, "I": -1, "L": -1, "K": -2, "M": -1, "F":  3, "P": -3, "S": -2,
+          "T": -2, "W":  2, "Y":  7, "V": -1},
+    "E": {"A": -1, "R":  0, "N":  0, "D":  2, "C": -3, "Q":  2, "E":  5, "G": -2,
+          "H":  0, "I": -3, "L": -3, "K":  1, "M": -2, "F": -3, "P": -1, "S": -1,
+          "T": -1, "W": -3, "Y": -2, "V": -2},
+    "R": {"A": -1, "R":  5, "N":  0, "D": -2, "C": -3, "Q":  1, "E":  0, "G": -2,
+          "H":  0, "I": -3, "L": -2, "K":  2, "M": -1, "F": -3, "P": -2, "S": -1,
+          "T": -1, "W": -3, "Y": -2, "V": -3},
+    "G": {"A":  0, "R": -2, "N":  0, "D": -1, "C": -3, "Q": -2, "E": -2, "G":  6,
+          "H": -2, "I": -4, "L": -4, "K": -2, "M": -3, "F": -3, "P": -2, "S":  0,
+          "T": -2, "W": -2, "Y": -3, "V": -3},
+}
+
+
+def _blosum62_similarity(observed: str, expected_aas) -> float:
+    """Return a BLOSUM62-based similarity score in [0, 1].
+
+    For each expected amino acid the log-odds score for *observed* is looked up
+    and divided by the self-similarity (diagonal) of that expected amino acid.
+    The maximum over all expected amino acids is returned, clamped to [0, 1].
+    """
+    best = 0.0
+    for exp in expected_aas:
+        row = _BLOSUM62_ROWS.get(exp)
+        if row is None:
+            continue
+        self_sim = row.get(exp, 1)
+        if self_sim <= 0:
+            self_sim = 1
+        raw = row.get(observed, -4)
+        sim = max(0.0, raw / self_sim)
+        if sim > best:
+            best = sim
+    return min(1.0, best)
+
 
 class StabilityScorer:
     def __init__(self):
@@ -40,23 +83,46 @@ class StabilityScorer:
         has_c23 = numbered.get(CANONICAL_DISULFIDE[0], "") == "C"
         has_c104 = numbered.get(CANONICAL_DISULFIDE[1], "") == "C"
         if has_c23 and has_c104:
-            disulfide_score = 1.0
+            disulfide_base = 1.0
         elif has_c23 or has_c104:
-            disulfide_score = 0.5
+            disulfide_base = 0.5
             warnings.append("Only one canonical Cys found; disulfide bond may be incomplete.")
         else:
-            disulfide_score = 0.0
+            disulfide_base = 0.0
             warnings.append("Neither canonical Cys23 nor Cys104 found; canonical disulfide absent.")
 
-        hallmark_hits = 0
+        # Continuous adjustment: average KD hydrophobicity of ±2 flanking residues
+        # around each present canonical Cys (affects disulfide bond accessibility).
+        # Scaled to a small ±0.04 adjustment to maintain granularity.
+        flank_kd_sum = 0.0
+        flank_count = 0
+        for cys_imgt, has_cys in ((CANONICAL_DISULFIDE[0], has_c23), (CANONICAL_DISULFIDE[1], has_c104)):
+            if has_cys:
+                for offset in (-2, -1, 1, 2):
+                    aa = numbered.get(cys_imgt + offset, "")
+                    if aa:
+                        flank_kd_sum += self.kd_scale.get(aa, 0.0)
+                        flank_count += 1
+        if flank_count > 0:
+            avg_flank_kd = flank_kd_sum / flank_count
+            # KD values roughly in [-4.5, 4.5]; map to [-0.04, 0.04]
+            flank_adj = avg_flank_kd * (0.04 / 4.5)
+        else:
+            flank_adj = 0.0
+        disulfide_score = min(1.0, max(0.0, disulfide_base + flank_adj))
+
+        # Fractional hallmark scoring using BLOSUM62-based similarity.
+        # Each position contributes a continuous value in [0, 1] rather than 0 or 1.
+        hallmark_score_sum = 0.0
         for imgt_pos, expected_aas in VHH_HALLMARKS.items():
             aa = numbered.get(imgt_pos, "")
-            if aa in expected_aas:
-                hallmark_hits += 1
-            else:
-                if aa:
+            if aa:
+                sim = _blosum62_similarity(aa, expected_aas)
+                hallmark_score_sum += sim
+                if aa not in expected_aas:
                     warnings.append(f"IMGT position {imgt_pos}: expected {expected_aas}, found '{aa}' (VHH hallmark).")
-        vhh_hallmark_score = hallmark_hits / len(VHH_HALLMARKS)
+            # Missing position contributes 0 to the sum
+        vhh_hallmark_score = hallmark_score_sum / len(VHH_HALLMARKS)
 
         composite_score = (
             0.2 * hydrophobic_core_score +

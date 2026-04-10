@@ -198,7 +198,13 @@ class MutationEngine:
         """
         scores: dict[str, float] = {}
         scores["humanness"] = self.humanness_scorer.score(vhh)["composite_score"]
-        scores["stability"] = self.stability_scorer.score(vhh)["composite_score"]
+        stability_result = self.stability_scorer.score(vhh)
+        scores["stability"] = stability_result["composite_score"]
+        scores["aggregation_score"] = stability_result["aggregation_score"]
+        scores["charge_balance_score"] = stability_result["charge_balance_score"]
+        scores["hydrophobic_core_score"] = stability_result["hydrophobic_core_score"]
+        scores["disulfide_score"] = stability_result["disulfide_score"]
+        scores["vhh_hallmark_score"] = stability_result["vhh_hallmark_score"]
         scores["ptm_liability"] = self.ptm_scorer.score(vhh)["composite_score"]
         scores["clearance_risk"] = self.clearance_scorer.score(vhh)["composite_score"]
         scores["surface_hydrophobicity"] = self.hydrophobicity_scorer.score(vhh)["composite_score"]
@@ -408,6 +414,11 @@ class MutationEngine:
             "n_mutations": len(selected),
             "humanness_score": round(raw_scores["humanness"], 4),
             "stability_score": round(raw_scores["stability"], 4),
+            "aggregation_score": round(raw_scores["aggregation_score"], 4),
+            "charge_balance_score": round(raw_scores["charge_balance_score"], 4),
+            "hydrophobic_core_score": round(raw_scores["hydrophobic_core_score"], 4),
+            "disulfide_score": round(raw_scores["disulfide_score"], 4),
+            "vhh_hallmark_score": round(raw_scores["vhh_hallmark_score"], 4),
             "ptm_liability_score": round(raw_scores["ptm_liability"], 4),
             "clearance_risk_score": round(raw_scores["clearance_risk"], 4),
             "surface_hydrophobicity_score": round(raw_scores["surface_hydrophobicity"], 4),
