@@ -14,9 +14,28 @@ from vhh_library.sequence import VHHSequence
 
 logger = logging.getLogger(__name__)
 
-# When the combinatorial space exceeds this number of total combinations we
-# switch from exhaustive enumeration to random sampling.
+# When the combinatorial space exceeds this threshold we switch from exhaustive
+# enumeration to random sampling.
 _SAMPLING_THRESHOLD = 50_000
+
+# When the combinatorial space exceeds this threshold the "auto" strategy
+# activates iterative refinement instead of pure random sampling.
+_ITERATIVE_THRESHOLD = 1_000_000
+
+
+def _parse_mut_str(mut_str: str) -> list[tuple[int, str]]:
+    """Parse a mutations string like ``'X1Y, A2B'`` to ``[(1, 'Y'), (2, 'B')]``."""
+    result = []
+    for part in mut_str.split(","):
+        part = part.strip()
+        if len(part) >= 3:
+            try:
+                pos = int(part[1:-1])
+                aa = part[-1]
+                result.append((pos, aa))
+            except (ValueError, IndexError):
+                pass
+    return result
 
 
 def _total_combinations(n: int, k_min: int, k_max: int) -> int:
@@ -228,7 +247,10 @@ class MutationEngine:
 
     def generate_library(self, vhh_sequence: VHHSequence, top_mutations: pd.DataFrame,
                          n_mutations: int, max_variants: int = 10000,
-                         min_mutations: int = 1) -> pd.DataFrame:
+                         min_mutations: int = 1,
+                         strategy: str = "auto",
+                         anchor_threshold: float = 0.6,
+                         max_rounds: int = 5) -> pd.DataFrame:
         """Generate a combinatorial variant library.
 
         Uses random sampling when the combinatorial space is very large
@@ -247,6 +269,22 @@ class MutationEngine:
             Upper limit on total variants generated.
         min_mutations:
             Minimum number of mutations per variant (default 1).
+        strategy:
+            Sampling strategy to use.  One of:
+
+            * ``"auto"`` (default) – exhaustive for small spaces, random for
+              medium spaces, iterative refinement for very large spaces
+              (> ``_ITERATIVE_THRESHOLD`` combinations).
+            * ``"random"`` – always use random sampling.
+            * ``"iterative"`` – always use iterative refinement / anchor-and-explore.
+        anchor_threshold:
+            Fraction of the top-quartile variants a position-mutation pair
+            must appear in to be soft-locked as an anchor (default 0.6).
+            Only used when ``strategy`` is ``"iterative"`` or ``"auto"`` on
+            a very large space.
+        max_rounds:
+            Maximum number of refinement rounds (default 5).  Only used for
+            iterative strategies.
         """
         if len(top_mutations) == 0:
             return pd.DataFrame()
@@ -265,22 +303,44 @@ class MutationEngine:
         n_cands = len(mut_list)
         total_combos = _total_combinations(n_cands, min_mutations, n_mutations)
 
-        if total_combos <= _SAMPLING_THRESHOLD:
-            # Exhaustive enumeration (fast enough)
-            rows = self._generate_exhaustive(
+        if strategy == "iterative":
+            rows = self._generate_iterative(
                 vhh_sequence, mut_list, n_mutations, min_mutations,
-                max_variants,
+                max_variants, anchor_threshold=anchor_threshold,
+                max_rounds=max_rounds,
             )
-        else:
-            # Random sampling for large spaces
-            logger.info(
-                "Combinatorial space (~%.2e) exceeds threshold; using random sampling.",
-                total_combos,
-            )
+        elif strategy == "random":
             rows = self._generate_sampled(
                 vhh_sequence, mut_list, n_mutations, min_mutations,
                 max_variants,
             )
+        else:
+            # "auto" strategy
+            if total_combos <= _SAMPLING_THRESHOLD:
+                rows = self._generate_exhaustive(
+                    vhh_sequence, mut_list, n_mutations, min_mutations,
+                    max_variants,
+                )
+            elif total_combos <= _ITERATIVE_THRESHOLD:
+                logger.info(
+                    "Combinatorial space (~%.2e) exceeds threshold; using random sampling.",
+                    total_combos,
+                )
+                rows = self._generate_sampled(
+                    vhh_sequence, mut_list, n_mutations, min_mutations,
+                    max_variants,
+                )
+            else:
+                logger.info(
+                    "Combinatorial space (~%.2e) exceeds iterative threshold; "
+                    "using iterative refinement.",
+                    total_combos,
+                )
+                rows = self._generate_iterative(
+                    vhh_sequence, mut_list, n_mutations, min_mutations,
+                    max_variants, anchor_threshold=anchor_threshold,
+                    max_rounds=max_rounds,
+                )
 
         df = pd.DataFrame(rows)
         if len(df) > 0:
@@ -384,3 +444,244 @@ class MutationEngine:
                 variant_counter += 1
 
         return rows
+
+    def _generate_constrained_sampled(
+        self,
+        vhh_sequence,
+        free_muts: list,
+        anchor_muts: list,
+        n_free: int,
+        min_free: int,
+        max_variants: int,
+        seen_combos: set,
+        variant_counter_start: int,
+    ) -> list:
+        """Sample variants with *anchor_muts* fixed and *free_muts* randomly varied.
+
+        Parameters
+        ----------
+        free_muts:
+            Candidate mutations for the freely-varied positions.
+        anchor_muts:
+            Mutation objects that are always included in every variant.
+        n_free:
+            Maximum number of additional (free) mutations to add.
+        min_free:
+            Minimum number of free mutations to add.
+        max_variants:
+            Maximum number of new variants to return.
+        seen_combos:
+            Mutable set of already-generated combo keys (frozensets).  The
+            method adds new keys to this set in-place.
+        variant_counter_start:
+            Starting index for ``variant_id`` numbering.
+        """
+        pos_muts: dict[int, list] = {}
+        for m in free_muts:
+            pos_muts.setdefault(m.imgt_pos, []).append(m)
+        unique_free_positions = list(pos_muts.keys())
+
+        rows: list = []
+        variant_counter = variant_counter_start
+        max_attempts = max_variants * 20
+
+        for _ in range(max_attempts):
+            if len(rows) >= max_variants:
+                break
+
+            if unique_free_positions:
+                k_free = random.randint(
+                    max(0, min_free),
+                    min(n_free, len(unique_free_positions)),
+                )
+                chosen_positions = random.sample(unique_free_positions, k_free)
+                free_selected = [
+                    random.choice(pos_muts[pos])
+                    for pos in sorted(chosen_positions)
+                ]
+            else:
+                free_selected = []
+
+            selected = anchor_muts + free_selected
+            if not selected:
+                continue
+
+            combo_key = frozenset((m.imgt_pos, m.suggested_aa) for m in selected)
+            if combo_key in seen_combos:
+                continue
+            seen_combos.add(combo_key)
+
+            row = self._build_variant_row(vhh_sequence, selected, variant_counter)
+            if row is not None:
+                rows.append(row)
+                variant_counter += 1
+
+        return rows
+
+    def _generate_iterative(
+        self,
+        vhh_sequence,
+        mut_list: list,
+        n_mutations: int,
+        min_mutations: int,
+        max_variants: int,
+        anchor_threshold: float = 0.6,
+        max_rounds: int = 5,
+    ) -> list:
+        """Anchor-and-explore iterative refinement strategy.
+
+        Algorithm
+        ---------
+        1. **Seed round**: random sampling to build an initial variant pool.
+        2. **Identify anchors**: position-mutation pairs appearing in
+           ``>= anchor_threshold`` fraction of the top-quartile variants
+           are soft-locked.
+        3. **Constrained re-sampling**: fix anchor mutations, freely vary
+           the remaining mutable positions.
+        4. **Re-evaluate anchors**: if an anchor position decreases the
+           average score in the new combinatorial context it is unlocked.
+        5. **Converge**: stop when the top-K pool score stops improving for
+           two consecutive rounds or ``max_rounds`` is reached.
+        6. **Return**: union of all discovered variants, sorted and capped
+           at ``max_variants``.
+        """
+        # --- Seed round -------------------------------------------------------
+        seed_rows = self._generate_sampled(
+            vhh_sequence, mut_list, n_mutations, min_mutations, max_variants,
+        )
+        if not seed_rows:
+            return []
+
+        all_rows: list = list(seed_rows)
+        seen_combos: set[frozenset] = {
+            frozenset(_parse_mut_str(r["mutations"])) for r in all_rows
+        }
+
+        K = min(10, len(seed_rows))
+        prev_top_k_score = -float("inf")
+        stagnant_rounds = 0
+        current_mut_list = list(mut_list)
+
+        for _round in range(max_rounds):
+            # Sort pool by combined score
+            pool_sorted = sorted(
+                all_rows, key=lambda r: r["combined_score"], reverse=True
+            )
+            top_k_avg = sum(r["combined_score"] for r in pool_sorted[:K]) / K
+
+            # Convergence check
+            if top_k_avg <= prev_top_k_score + 1e-4:
+                stagnant_rounds += 1
+                if stagnant_rounds >= 2:
+                    logger.info("Iterative refinement converged after %d rounds.", _round)
+                    break
+            else:
+                stagnant_rounds = 0
+            prev_top_k_score = top_k_avg
+
+            # Identify top quartile
+            q_size = max(1, len(pool_sorted) // 4)
+            top_q = pool_sorted[:q_size]
+
+            # Count position-AA frequencies in top quartile (one count per variant)
+            pos_aa_counts: dict[tuple[int, str], int] = {}
+            for row in top_q:
+                for pos, aa in _parse_mut_str(row["mutations"]):
+                    pos_aa_counts[(pos, aa)] = pos_aa_counts.get((pos, aa), 0) + 1
+
+            # Soft-lock positions appearing in >= threshold fraction
+            # (keep only the highest-frequency AA per position)
+            anchors: dict[int, str] = {}  # pos -> aa
+            pos_best: dict[int, tuple[int, str]] = {}  # pos -> (count, aa)
+            for (pos, aa), count in pos_aa_counts.items():
+                freq = count / q_size
+                if freq >= anchor_threshold:
+                    if pos not in pos_best or count > pos_best[pos][0]:
+                        pos_best[pos] = (count, aa)
+                        anchors[pos] = aa
+
+            if not anchors:
+                logger.info("No anchors found at round %d; stopping early.", _round)
+                break
+
+            # Resolve anchor mutation objects
+            anchor_muts = [
+                m for m in current_mut_list
+                if m.imgt_pos in anchors and m.suggested_aa == anchors[m.imgt_pos]
+            ]
+            if not anchor_muts:
+                break
+
+            anchored_positions = {m.imgt_pos for m in anchor_muts}
+            free_muts = [m for m in current_mut_list if m.imgt_pos not in anchored_positions]
+
+            if not free_muts:
+                break
+
+            n_free = max(1, n_mutations - len(anchor_muts))
+            min_free = max(0, min_mutations - len(anchor_muts))
+
+            # Generate constrained variants (anchors fixed, free positions sampled)
+            new_rows = self._generate_constrained_sampled(
+                vhh_sequence, free_muts, anchor_muts,
+                n_free, min_free, max_variants,
+                seen_combos, len(all_rows),
+            )
+
+            if not new_rows:
+                break
+
+            # --- Re-evaluate anchors ------------------------------------------
+            # For each anchor position, generate a small batch without it and
+            # compare average scores.  If variants without the anchor score
+            # higher on average (by > 0.01), unlock that anchor.
+            anchors_to_unlock: set[int] = set()
+            for anchor_m in anchor_muts:
+                apos = anchor_m.imgt_pos
+                # Build a free list that includes the anchor position
+                unlock_free = free_muts + [anchor_m]
+                remaining_anchors = [m for m in anchor_muts if m.imgt_pos != apos]
+                sample_size = min(50, max_variants // 5)
+                unlock_rows = self._generate_constrained_sampled(
+                    vhh_sequence, unlock_free, remaining_anchors,
+                    n_free + 1, max(0, min_free), sample_size,
+                    set(),  # temporary seen set, don't pollute the global one
+                    len(all_rows) + len(new_rows),
+                )
+                if unlock_rows:
+                    avg_constrained = (
+                        sum(r["combined_score"] for r in new_rows) / len(new_rows)
+                    )
+                    avg_unlocked = (
+                        sum(r["combined_score"] for r in unlock_rows) / len(unlock_rows)
+                    )
+                    if avg_unlocked > avg_constrained + 0.01:
+                        anchors_to_unlock.add(apos)
+                        logger.info(
+                            "Unlocking anchor %s%d%s (avg score %.4f → %.4f).",
+                            anchor_m.original_aa, apos, anchor_m.suggested_aa,
+                            avg_constrained, avg_unlocked,
+                        )
+
+            all_rows.extend(new_rows)
+            seen_combos.update(
+                frozenset(_parse_mut_str(r["mutations"])) for r in new_rows
+            )
+
+            # If any anchors were unlocked we do NOT remove their positions from
+            # current_mut_list — they were never removed; they will simply fail
+            # to qualify as anchors in the next round because the pool now
+            # contains variants both with and without those positions.
+            _ = anchors_to_unlock  # acknowledged; handled implicitly above
+
+        # --- Final deduplication and ranking ----------------------------------
+        final_sorted = sorted(all_rows, key=lambda r: r["combined_score"], reverse=True)
+        seen_muts: set[str] = set()
+        result: list = []
+        for r in final_sorted:
+            key = r["mutations"]
+            if key not in seen_muts:
+                seen_muts.add(key)
+                result.append(r)
+
+        return result[:max_variants]

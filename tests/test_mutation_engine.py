@@ -107,3 +107,69 @@ def test_engine_enabled_metrics():
     assert len(aw_two) == 2
     assert abs(sum(aw_all.values()) - 1.0) < 1e-6
     assert abs(sum(aw_two.values()) - 1.0) < 1e-6
+
+
+def test_generate_library_strategy_random(engine, vhh):
+    """Explicitly selecting 'random' strategy should work the same as the default for large spaces."""
+    ranked = engine.rank_single_mutations(vhh, off_limits=set())
+    if len(ranked) >= 2:
+        library = engine.generate_library(
+            vhh, ranked.head(8), n_mutations=3, max_variants=50, strategy="random",
+        )
+        assert isinstance(library, pd.DataFrame)
+        assert len(library) > 0
+        assert "combined_score" in library.columns
+
+
+def test_generate_library_strategy_iterative(engine, vhh):
+    """Iterative refinement strategy should produce a valid library."""
+    ranked = engine.rank_single_mutations(vhh, off_limits=set())
+    if len(ranked) >= 4:
+        library = engine.generate_library(
+            vhh, ranked.head(10), n_mutations=4, max_variants=80,
+            strategy="iterative", anchor_threshold=0.5, max_rounds=3,
+        )
+        assert isinstance(library, pd.DataFrame)
+        assert len(library) > 0
+        assert "combined_score" in library.columns
+        assert len(library) <= 80
+        # Library should be sorted descending by combined_score
+        scores = list(library["combined_score"])
+        assert scores == sorted(scores, reverse=True)
+
+
+def test_generate_library_strategy_auto_routes(engine, vhh):
+    """'auto' strategy should route to iterative for very large spaces without crashing."""
+    ranked = engine.rank_single_mutations(vhh, off_limits=set())
+    if len(ranked) >= 5:
+        library = engine.generate_library(
+            vhh, ranked.head(10), n_mutations=5, max_variants=50, strategy="auto",
+        )
+        assert isinstance(library, pd.DataFrame)
+        assert len(library) > 0
+
+
+def test_iterative_anchoring(engine, vhh):
+    """Iterative strategy should identify anchors and produce diverse variants."""
+    ranked = engine.rank_single_mutations(vhh, off_limits=set())
+    if len(ranked) < 6:
+        pytest.skip("Not enough mutation candidates for anchor test")
+
+    import time
+    start = time.time()
+    library = engine.generate_library(
+        vhh, ranked.head(12), n_mutations=5, max_variants=100,
+        strategy="iterative", anchor_threshold=0.6, max_rounds=3,
+    )
+    elapsed = time.time() - start
+
+    assert isinstance(library, pd.DataFrame)
+    assert len(library) > 0
+    assert elapsed < 180, f"Iterative refinement took {elapsed:.1f}s (expected <180s)"
+
+    # Variants should be sorted by combined_score descending
+    scores = list(library["combined_score"])
+    assert scores == sorted(scores, reverse=True)
+
+    # No duplicate mutation combinations
+    assert library["mutations"].is_unique
