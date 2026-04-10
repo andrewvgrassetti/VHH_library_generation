@@ -341,7 +341,7 @@ class NanoMeltStabilityScorer:
     def __init__(self) -> None:
         # Lazy-loaded on first use
         self._nanomelt_pipe = None
-        self._available: Optional[bool] = None
+        self._available: bool | None = None
 
     # -- internal helpers ----------------------------------------------------
 

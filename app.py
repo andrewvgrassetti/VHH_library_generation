@@ -28,6 +28,8 @@ from vhh_library.orthogonal_scoring import (
     HumanStringContentScorer,
     ConsensusStabilityScorer,
     NanoMeltStabilityScorer,
+    _NANOMELT_TM_MIN,
+    _NANOMELT_TM_MAX,
 )
 
 st.set_page_config(
@@ -782,8 +784,11 @@ def tab_library(viz):
                     ax_nm2.set_ylabel("Predicted Tm (°C)", color="#F57C00")
                     ax_nm2.tick_params(axis="y", labelcolor="#F57C00")
                     y_lim = ax_nm.get_ylim()
-                    # Tm range: 45°C (score=0) to 85°C (score=1) → scale back
-                    ax_nm2.set_ylim(y_lim[0] * 40.0 + 45.0, y_lim[1] * 40.0 + 45.0)
+                    # Scale back to Tm °C using the same normalisation formula
+                    ax_nm2.set_ylim(
+                        y_lim[0] * (_NANOMELT_TM_MAX - _NANOMELT_TM_MIN) + _NANOMELT_TM_MIN,
+                        y_lim[1] * (_NANOMELT_TM_MAX - _NANOMELT_TM_MIN) + _NANOMELT_TM_MIN,
+                    )
                 col_idx += 1
 
             fig_corr.tight_layout()

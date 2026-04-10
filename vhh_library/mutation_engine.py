@@ -451,7 +451,6 @@ class MutationEngine:
         }
         # NanoMelt columns are only included when the scorer is active
         if "nanomelt_tm_score" in raw_scores:
-            import math
             nm_score = raw_scores["nanomelt_tm_score"]
             nm_tm = raw_scores["nanomelt_predicted_tm"]
             row["nanomelt_tm_score"] = round(nm_score, 4) if not math.isnan(nm_score) else None
