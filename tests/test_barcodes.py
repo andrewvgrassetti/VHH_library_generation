@@ -356,6 +356,10 @@ class TestPlotBarcodeDistributions:
         fig = generator.plot_barcode_distributions(empty)
         assert fig is not None
 
+    def test_plot_with_none_ref_table(self, generator):
+        fig = generator.plot_barcode_distributions(None)
+        assert fig is not None
+
     def test_plot_without_source_column(self, generator, small_library):
         """Plot should work even if source column is absent."""
         barcoded = generator.assign_barcodes(small_library, top_n=5)

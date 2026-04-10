@@ -307,17 +307,17 @@ class BarcodeGenerator:
             tryptic = row.get("barcode_tryptic_peptide", "")
             if not bc:
                 continue
-            target = tryptic or bc
+            target_peptide = tryptic or bc
             rows.append({
                 "variant_id": row.get("variant_id", ""),
                 "barcode_id": row.get("barcode_id", ""),
                 "barcode_peptide": bc,
                 "barcode_tryptic_peptide": tryptic,
-                "neutral_mass_da": round(_peptide_neutral_mass(target), 4),
-                "mz_1plus": _mz(target, z=1),
-                "mz_2plus": _mz(target, z=2),
-                "mz_3plus": _mz(target, z=3),
-                "hydrophobicity": round(_hydrophobicity(target), 4),
+                "neutral_mass_da": round(_peptide_neutral_mass(target_peptide), 4),
+                "mz_1plus": _mz(target_peptide, z=1),
+                "mz_2plus": _mz(target_peptide, z=2),
+                "mz_3plus": _mz(target_peptide, z=3),
+                "hydrophobicity": round(_hydrophobicity(target_peptide), 4),
                 "source": row.get("barcode_source", ""),
             })
         return pd.DataFrame(rows)
