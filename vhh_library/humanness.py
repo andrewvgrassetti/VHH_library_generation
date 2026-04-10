@@ -65,7 +65,19 @@ class HumAnnotator:
             "position_annotations": position_annotations,
         }
 
-    def get_mutation_suggestions(self, vhh_sequence: VHHSequence, off_limits: set) -> list:
+    def get_mutation_suggestions(self, vhh_sequence: VHHSequence, off_limits: set,
+                                forbidden_substitutions: dict | None = None) -> list:
+        """Get mutation suggestions for a VHH sequence.
+
+        Args:
+            vhh_sequence: The VHH sequence to analyze.
+            off_limits: Set of IMGT positions where no mutations are allowed.
+            forbidden_substitutions: Optional dict mapping IMGT position (int) to
+                a set of one-letter amino acid codes that are forbidden as targets
+                at that position. Mutations to these amino acids will be excluded.
+        """
+        if forbidden_substitutions is None:
+            forbidden_substitutions = {}
         fw_residues = self._framework_sequence(vhh_sequence)
         suggestions = []
         for pos, aa in fw_residues.items():
@@ -75,8 +87,11 @@ class HumAnnotator:
                 continue
             freq_dict = self.pfm[pos]
             current_score = freq_dict.get(aa, freq_dict.get("other", 0.0))
+            pos_forbidden = forbidden_substitutions.get(pos, set())
             for candidate_aa in AMINO_ACIDS:
                 if candidate_aa == aa:
+                    continue
+                if candidate_aa in pos_forbidden:
                     continue
                 cand_score = freq_dict.get(candidate_aa, freq_dict.get("other", 0.0))
                 delta = cand_score - current_score
