@@ -115,10 +115,10 @@ class StabilityScorer:
         if old_aa is None or old_aa == new_aa:
             return 0.0
         seq_list = list(vhh_sequence.sequence)
-        idx = position - 1
-        if idx < 0 or idx >= len(seq_list):
+        sequence_index = position - 1
+        if sequence_index < 0 or sequence_index >= len(seq_list):
             return 0.0
-        seq_list[idx] = new_aa
+        seq_list[sequence_index] = new_aa
         new_seq_str = "".join(seq_list)
         from vhh_library.sequence import VHHSequence as _VHH
         mutant = _VHH(new_seq_str)

@@ -59,7 +59,6 @@ class CodonOptimizer:
                     dna_codons.append(chosen)
 
             elif strategy == "gc_balanced":
-                current_gc = calculate_gc_content("".join(dna_codons)) if dna_codons else 0.5
                 filtered = {c: f for c, f in codons.items() if f >= 0.05}
                 if not filtered:
                     filtered = codons

@@ -220,7 +220,7 @@ def tab_library(viz):
     if st.session_state.vhh_seq is not None and len(lib) > 0:
         st.subheader("Top 10 Variant Alignments")
         for i, row in lib.head(10).iterrows():
-            with st.expander(f"{row.get('variant_id','VAR')} | combined={row['combined_score']:.3f} | {row['mutations']}"):
+            with st.expander(f"{row.get('variant_id', 'VAR')} | combined={row['combined_score']:.3f} | {row['mutations']}"):
                 orig = st.session_state.vhh_seq
                 mut_seq = row["aa_sequence"]
                 mut_info = {}

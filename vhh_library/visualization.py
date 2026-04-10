@@ -31,10 +31,8 @@ class SequenceVisualizer:
             if i in mutation_info:
                 mut_type = mutation_info[i]
                 color = MUT_COLORS.get(mut_type, "#9E9E9E")
-                style_mut = f"background-color:{color};color:white;font-weight:bold"
             else:
                 color = "#9E9E9E"
-                style_mut = f"background-color:#F5F5F5;color:#333"
 
             html_orig.append(
                 f'<span style="background-color:{bg_orig};padding:1px 2px;font-family:monospace">{orig_aa}</span>'

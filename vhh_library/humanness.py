@@ -37,7 +37,7 @@ class HumAnnotator:
         best_germline = None
         best_identity = 0.0
         for germ in self.germlines:
-            germ_seq = germ.get("fr1", "") + germ.get("fr2", "") + germ.get("fr3", "") + germ.get("fr4", "")
+            germ_seq = "".join([germ.get("fr1", ""), germ.get("fr2", ""), germ.get("fr3", ""), germ.get("fr4", "")])
             vhh_fw_seq = "".join(fw_residues.get(p, "-") for p in sorted(fw_residues.keys()))
             min_len = min(len(germ_seq), len(vhh_fw_seq))
             if min_len == 0:
