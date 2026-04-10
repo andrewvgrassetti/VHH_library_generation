@@ -1,2702 +1,2402 @@
 [
   {
-    "sequence": "KANLLGFEVDA",
+    "sequence": "KNLLGFEVDAK",
     "length": 11,
-    "mass_da": 1175.6186,
-    "mz_2plus": 588.8166,
-    "mz_1plus": 1176.6259,
-    "hydrophobicity": 0.309,
-    "source": "validated_proteomics"
+    "mass_da": 1104.5815,
+    "mz_2plus": 553.298,
+    "mz_1plus": 1105.5888,
+    "hydrophobicity": 0.16
   },
   {
-    "sequence": "KLAIVL",
+    "sequence": "KAIVLK",
     "length": 6,
-    "mass_da": 655.4632,
-    "mz_2plus": 328.7389,
-    "mz_1plus": 656.4705,
-    "hydrophobicity": 2.367,
-    "source": "validated_proteomics"
+    "mass_da": 542.3792,
+    "mz_2plus": 272.1969,
+    "mz_1plus": 543.3864,
+    "hydrophobicity": 2.08
   },
   {
-    "sequence": "KTFSSN",
+    "sequence": "KFSSNR",
     "length": 6,
-    "mass_da": 682.3286,
-    "mz_2plus": 342.1716,
-    "mz_1plus": 683.3359,
-    "hydrophobicity": -1.15,
-    "source": "validated_proteomics"
+    "mass_da": 609.2871,
+    "mz_2plus": 305.6508,
+    "mz_1plus": 610.2944,
+    "hydrophobicity": -1.36
   },
   {
-    "sequence": "KWFTEPSIEDLP",
+    "sequence": "KFTEPSIEDLPR",
     "length": 12,
-    "mass_da": 1460.7187,
-    "mz_2plus": 731.3666,
-    "mz_1plus": 1461.726,
-    "hydrophobicity": -0.742,
-    "source": "validated_proteomics"
+    "mass_da": 1302.6455,
+    "mz_2plus": 652.3301,
+    "mz_1plus": 1303.6528,
+    "hydrophobicity": -0.7818
   },
   {
-    "sequence": "RSINEHL",
+    "sequence": "RINEHLR",
     "length": 7,
-    "mass_da": 867.4563,
-    "mz_2plus": 434.7354,
-    "mz_1plus": 868.4635,
-    "hydrophobicity": -1.029,
-    "source": "validated_proteomics"
+    "mass_da": 780.4242,
+    "mz_2plus": 391.2194,
+    "mz_1plus": 781.4315,
+    "hydrophobicity": -1.0667
   },
   {
-    "sequence": "RTNLQDL",
+    "sequence": "RNLQDLR",
     "length": 7,
-    "mass_da": 858.4559,
-    "mz_2plus": 430.2352,
-    "mz_1plus": 859.4632,
-    "hydrophobicity": -1.157,
-    "source": "validated_proteomics"
+    "mass_da": 757.4082,
+    "mz_2plus": 379.7114,
+    "mz_1plus": 758.4155,
+    "hydrophobicity": -1.2333
   },
   {
-    "sequence": "KQTNEIQIYTWG",
+    "sequence": "KTNEIQIYTWGR",
     "length": 12,
-    "mass_da": 1479.7358,
-    "mz_2plus": 740.8752,
-    "mz_1plus": 1480.7431,
-    "hydrophobicity": -1.075,
-    "source": "validated_proteomics"
+    "mass_da": 1379.6834,
+    "mz_2plus": 690.849,
+    "mz_1plus": 1380.6906,
+    "hydrophobicity": -0.9091
   },
   {
-    "sequence": "REDFGHVETT",
+    "sequence": "RDFGHVETTK",
     "length": 10,
-    "mass_da": 1189.5363,
-    "mz_2plus": 595.7754,
-    "mz_1plus": 1190.5436,
-    "hydrophobicity": -1.3,
-    "source": "validated_proteomics"
+    "mass_da": 1032.4876,
+    "mz_2plus": 517.2511,
+    "mz_1plus": 1033.4949,
+    "hydrophobicity": -0.9889
   },
   {
-    "sequence": "RNAFNQFPVH",
+    "sequence": "RAFNQFPVHR",
     "length": 10,
-    "mass_da": 1228.6101,
-    "mz_2plus": 615.3123,
-    "mz_1plus": 1229.6174,
-    "hydrophobicity": -0.82,
-    "source": "validated_proteomics"
+    "mass_da": 1114.5672,
+    "mz_2plus": 558.2909,
+    "mz_1plus": 1115.5745,
+    "hydrophobicity": -0.5222
   },
   {
-    "sequence": "KNHFPIGSH",
+    "sequence": "KHFPIGSHR",
     "length": 9,
-    "mass_da": 1035.525,
-    "mz_2plus": 518.7698,
-    "mz_1plus": 1036.5323,
-    "hydrophobicity": -1.033,
-    "source": "validated_proteomics"
+    "mass_da": 949.4882,
+    "mz_2plus": 475.7514,
+    "mz_1plus": 950.4955,
+    "hydrophobicity": -0.8
   },
   {
-    "sequence": "KQYAFSPLDL",
+    "sequence": "KYAFSPLDLR",
     "length": 10,
-    "mass_da": 1180.6128,
-    "mz_2plus": 591.3137,
-    "mz_1plus": 1181.6201,
-    "hydrophobicity": -0.24,
-    "source": "validated_proteomics"
+    "mass_da": 1080.5604,
+    "mz_2plus": 541.2875,
+    "mz_1plus": 1081.5676,
+    "hydrophobicity": 0.0556
   },
   {
-    "sequence": "KEYEGGYHNV",
+    "sequence": "KYEGGYHNVK",
     "length": 10,
-    "mass_da": 1194.5305,
-    "mz_2plus": 598.2725,
-    "mz_1plus": 1195.5378,
-    "hydrophobicity": -1.68,
-    "source": "validated_proteomics"
+    "mass_da": 1065.4879,
+    "mz_2plus": 533.7513,
+    "mz_1plus": 1066.4952,
+    "hydrophobicity": -1.4778
   },
   {
-    "sequence": "KPTSWWF",
+    "sequence": "KTSWWFR",
     "length": 7,
-    "mass_da": 950.465,
-    "mz_2plus": 476.2398,
-    "mz_1plus": 951.4723,
-    "hydrophobicity": -0.857,
-    "source": "validated_proteomics"
+    "mass_da": 881.4184,
+    "mz_2plus": 441.7165,
+    "mz_1plus": 882.4257,
+    "hydrophobicity": -0.8333
   },
   {
-    "sequence": "KEQALLA",
+    "sequence": "KQALLAK",
     "length": 7,
-    "mass_da": 771.449,
-    "mz_2plus": 386.7318,
-    "mz_1plus": 772.4563,
-    "hydrophobicity": 0.043,
-    "source": "validated_proteomics"
+    "mass_da": 642.4064,
+    "mz_2plus": 322.2105,
+    "mz_1plus": 643.4137,
+    "hydrophobicity": 0.6333
   },
   {
-    "sequence": "KLEDQE",
+    "sequence": "KEDQEK",
     "length": 6,
-    "mass_da": 760.3603,
-    "mz_2plus": 381.1874,
-    "mz_1plus": 761.3676,
-    "hydrophobicity": -2.35,
-    "source": "validated_proteomics"
+    "mass_da": 647.2762,
+    "mz_2plus": 324.6454,
+    "mz_1plus": 648.2835,
+    "hydrophobicity": -3.58
   },
   {
-    "sequence": "KNYIGYLYVI",
+    "sequence": "KYIGYLYVIR",
     "length": 10,
-    "mass_da": 1244.6805,
-    "mz_2plus": 623.3475,
-    "mz_1plus": 1245.6878,
-    "hydrophobicity": 0.53,
-    "source": "validated_proteomics"
+    "mass_da": 1158.6437,
+    "mz_2plus": 580.3291,
+    "mz_1plus": 1159.651,
+    "hydrophobicity": 0.9111
   },
   {
-    "sequence": "KVSVVW",
+    "sequence": "KSVVWR",
     "length": 6,
-    "mass_da": 716.4221,
-    "mz_2plus": 359.2183,
-    "mz_1plus": 717.4294,
-    "hydrophobicity": 1.167,
-    "source": "validated_proteomics"
+    "mass_da": 645.3598,
+    "mz_2plus": 323.6872,
+    "mz_1plus": 646.3671,
+    "hydrophobicity": 0.44
   },
   {
-    "sequence": "KFDTQFLIIWGV",
+    "sequence": "KDTQFLIIWGVK",
     "length": 12,
-    "mass_da": 1465.7969,
-    "mz_2plus": 733.9057,
-    "mz_1plus": 1466.8042,
-    "hydrophobicity": 0.808,
-    "source": "validated_proteomics"
+    "mass_da": 1318.7285,
+    "mz_2plus": 660.3715,
+    "mz_1plus": 1319.7358,
+    "hydrophobicity": 0.6273
   },
   {
-    "sequence": "RWLEWFD",
+    "sequence": "RLEWFDR",
     "length": 7,
-    "mass_da": 1050.4923,
-    "mz_2plus": 526.2534,
-    "mz_1plus": 1051.4996,
-    "hydrophobicity": -0.957,
-    "source": "validated_proteomics"
+    "mass_da": 864.413,
+    "mz_2plus": 433.2138,
+    "mz_1plus": 865.4203,
+    "hydrophobicity": -0.9667
   },
   {
-    "sequence": "KELHVYYITDH",
+    "sequence": "KLHVYYITDHK",
     "length": 11,
-    "mass_da": 1416.7037,
-    "mz_2plus": 709.3591,
-    "mz_1plus": 1417.711,
-    "hydrophobicity": -0.736,
-    "source": "validated_proteomics"
+    "mass_da": 1287.6611,
+    "mz_2plus": 644.8379,
+    "mz_1plus": 1288.6684,
+    "hydrophobicity": -0.46
   },
   {
-    "sequence": "KTNWPVYGI",
+    "sequence": "KNWPVYGIR",
     "length": 9,
-    "mass_da": 1076.5655,
-    "mz_2plus": 539.29,
-    "mz_1plus": 1077.5727,
-    "hydrophobicity": -0.4,
-    "source": "validated_proteomics"
+    "mass_da": 1003.5239,
+    "mz_2plus": 502.7692,
+    "mz_1plus": 1004.5312,
+    "hydrophobicity": -0.4375
   },
   {
-    "sequence": "KDDQDDYH",
+    "sequence": "KDQDDYHK",
     "length": 8,
-    "mass_da": 1034.3941,
-    "mz_2plus": 518.2043,
-    "mz_1plus": 1035.4014,
-    "hydrophobicity": -3.237,
-    "source": "validated_proteomics"
+    "mass_da": 919.3672,
+    "mz_2plus": 460.6909,
+    "mz_1plus": 920.3744,
+    "hydrophobicity": -3.2
   },
   {
-    "sequence": "KHEELT",
+    "sequence": "KEELTK",
     "length": 6,
-    "mass_da": 755.3813,
-    "mz_2plus": 378.698,
-    "mz_1plus": 756.3886,
-    "hydrophobicity": -1.833,
-    "source": "validated_proteomics"
+    "mass_da": 618.3224,
+    "mz_2plus": 310.1685,
+    "mz_1plus": 619.3297,
+    "hydrophobicity": -1.56
   },
   {
-    "sequence": "KDEVQN",
+    "sequence": "KEVQNK",
     "length": 6,
-    "mass_da": 731.345,
-    "mz_2plus": 366.6798,
-    "mz_1plus": 732.3523,
-    "hydrophobicity": -2.283,
-    "source": "validated_proteomics"
+    "mass_da": 616.318,
+    "mz_2plus": 309.1663,
+    "mz_1plus": 617.3253,
+    "hydrophobicity": -2.04
   },
   {
-    "sequence": "RLNTGPW",
+    "sequence": "RNTGPWK",
     "length": 7,
-    "mass_da": 842.4399,
-    "mz_2plus": 422.2272,
-    "mz_1plus": 843.4472,
-    "hydrophobicity": -1.114,
-    "source": "validated_proteomics"
+    "mass_da": 701.3497,
+    "mz_2plus": 351.6821,
+    "mz_1plus": 702.3569,
+    "hydrophobicity": -1.8333
   },
   {
-    "sequence": "KLSPHWPA",
+    "sequence": "KSPHWPAK",
     "length": 8,
-    "mass_da": 934.5025,
-    "mz_2plus": 468.2585,
-    "mz_1plus": 935.5097,
-    "hydrophobicity": -0.8,
-    "source": "validated_proteomics"
+    "mass_da": 821.4184,
+    "mz_2plus": 411.7165,
+    "mz_1plus": 822.4257,
+    "hydrophobicity": -1.4571
   },
   {
-    "sequence": "RFGNFFGNPIQ",
+    "sequence": "RGNFFGNPIQK",
     "length": 11,
-    "mass_da": 1295.6411,
-    "mz_2plus": 648.8278,
-    "mz_1plus": 1296.6484,
-    "hydrophobicity": -0.409,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RYNDEVN",
-    "length": 7,
-    "mass_da": 908.3988,
-    "mz_2plus": 455.2067,
-    "mz_1plus": 909.4061,
-    "hydrophobicity": -2.229,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQGNHW",
-    "length": 6,
-    "mass_da": 768.3667,
-    "mz_2plus": 385.1906,
-    "mz_1plus": 769.374,
-    "hydrophobicity": -2.567,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RAFEGDSGVG",
-    "length": 10,
-    "mass_da": 993.4515,
-    "mz_2plus": 497.733,
-    "mz_1plus": 994.4588,
-    "hydrophobicity": -0.47,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RSDSIL",
-    "length": 6,
-    "mass_da": 689.3708,
-    "mz_2plus": 345.6927,
-    "mz_1plus": 690.3781,
-    "hydrophobicity": -0.217,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KSVGLHHVAHQ",
-    "length": 11,
-    "mass_da": 1211.6523,
-    "mz_2plus": 606.8334,
-    "mz_1plus": 1212.6596,
-    "hydrophobicity": -0.382,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLNHFTDYLIWS",
-    "length": 12,
-    "mass_da": 1563.7834,
-    "mz_2plus": 782.899,
-    "mz_1plus": 1564.7907,
-    "hydrophobicity": -0.292,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLAITQNE",
-    "length": 8,
-    "mass_da": 915.5025,
-    "mz_2plus": 458.7585,
-    "mz_1plus": 916.5098,
-    "hydrophobicity": -0.625,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RSTQAFNHNDFV",
-    "length": 12,
-    "mass_da": 1434.664,
-    "mz_2plus": 718.3393,
-    "mz_1plus": 1435.6713,
-    "hydrophobicity": -0.967,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RVFTINDV",
-    "length": 8,
-    "mass_da": 962.5185,
-    "mz_2plus": 482.2665,
-    "mz_1plus": 963.5258,
-    "hydrophobicity": 0.438,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KSVEQQ",
-    "length": 6,
-    "mass_da": 717.3657,
-    "mz_2plus": 359.6901,
-    "mz_1plus": 718.373,
-    "hydrophobicity": -1.833,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPPVQTPGIVT",
-    "length": 11,
-    "mass_da": 1135.6601,
-    "mz_2plus": 568.8373,
-    "mz_1plus": 1136.6674,
-    "hydrophobicity": -0.1,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPTAPPIVQWW",
-    "length": 11,
-    "mass_da": 1321.7183,
-    "mz_2plus": 661.8664,
-    "mz_1plus": 1322.7255,
-    "hydrophobicity": -0.382,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYHEPQELP",
-    "length": 9,
-    "mass_da": 1139.5611,
-    "mz_2plus": 570.7878,
-    "mz_1plus": 1140.5684,
-    "hydrophobicity": -2.033,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KGADLYE",
-    "length": 7,
-    "mass_da": 794.381,
-    "mz_2plus": 398.1978,
-    "mz_1plus": 795.3883,
-    "hydrophobicity": -1.0,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RITYTLGAF",
-    "length": 9,
-    "mass_da": 1040.5655,
-    "mz_2plus": 521.29,
-    "mz_1plus": 1041.5727,
-    "hydrophobicity": 0.589,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLHWDLFWGWQW",
-    "length": 12,
-    "mass_da": 1728.8313,
-    "mz_2plus": 865.4229,
-    "mz_1plus": 1729.8386,
-    "hydrophobicity": -0.692,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWHYWNLNYL",
-    "length": 10,
-    "mass_da": 1463.7098,
-    "mz_2plus": 732.8622,
-    "mz_1plus": 1464.7171,
-    "hydrophobicity": -1.15,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REPLNQQE",
-    "length": 8,
-    "mass_da": 1012.4938,
-    "mz_2plus": 507.2542,
-    "mz_1plus": 1013.501,
-    "hydrophobicity": -2.475,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLTGIEV",
-    "length": 7,
-    "mass_da": 758.4538,
-    "mz_2plus": 380.2342,
-    "mz_1plus": 759.4611,
-    "hydrophobicity": 0.571,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWVDIVTAT",
-    "length": 9,
-    "mass_da": 1059.5713,
-    "mz_2plus": 530.7929,
-    "mz_1plus": 1060.5785,
-    "hydrophobicity": 0.489,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KSPTVLYLN",
-    "length": 9,
-    "mass_da": 1033.5808,
-    "mz_2plus": 517.7977,
-    "mz_1plus": 1034.5881,
-    "hydrophobicity": -0.0,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RATQTHWGA",
-    "length": 9,
-    "mass_da": 1026.4995,
-    "mz_2plus": 514.257,
-    "mz_1plus": 1027.5068,
-    "hydrophobicity": -1.144,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KEVGWHDNT",
-    "length": 9,
-    "mass_da": 1084.4937,
-    "mz_2plus": 543.2542,
-    "mz_1plus": 1085.501,
-    "hydrophobicity": -1.711,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KWQQTNVN",
-    "length": 8,
-    "mass_da": 1016.5039,
-    "mz_2plus": 509.2593,
-    "mz_1plus": 1017.5112,
-    "hydrophobicity": -1.912,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYADSLEDALIA",
-    "length": 12,
-    "mass_da": 1307.6609,
-    "mz_2plus": 654.8377,
-    "mz_1plus": 1308.6681,
-    "hydrophobicity": 0.083,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHPFAPTTIE",
-    "length": 10,
-    "mass_da": 1139.5975,
-    "mz_2plus": 570.806,
-    "mz_1plus": 1140.6048,
-    "hydrophobicity": -0.61,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KFPFDSVSEQ",
-    "length": 10,
-    "mass_da": 1182.5557,
-    "mz_2plus": 592.2851,
-    "mz_1plus": 1183.563,
-    "hydrophobicity": -0.78,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RYFVSW",
-    "length": 6,
-    "mass_da": 856.4232,
-    "mz_2plus": 429.2189,
-    "mz_1plus": 857.4304,
-    "hydrophobicity": -0.083,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVHNYWVNQLE",
-    "length": 11,
-    "mass_da": 1428.715,
-    "mz_2plus": 715.3648,
-    "mz_1plus": 1429.7223,
-    "hydrophobicity": -1.009,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLWTQAYQ",
-    "length": 8,
-    "mass_da": 1064.5403,
-    "mz_2plus": 533.2774,
-    "mz_1plus": 1065.5476,
-    "hydrophobicity": -1.1,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RISNQNN",
-    "length": 7,
-    "mass_da": 844.4151,
-    "mz_2plus": 423.2148,
-    "mz_1plus": 845.4224,
-    "hydrophobicity": -2.114,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIELVYLYYW",
-    "length": 10,
-    "mass_da": 1388.738,
-    "mz_2plus": 695.3763,
-    "mz_1plus": 1389.7453,
-    "hydrophobicity": 0.41,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KEPLTLPSYSVQ",
-    "length": 12,
-    "mass_da": 1360.7238,
-    "mz_2plus": 681.3692,
-    "mz_1plus": 1361.7311,
-    "hydrophobicity": -0.492,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RNPNLFIQ",
-    "length": 8,
-    "mass_da": 1000.5454,
-    "mz_2plus": 501.28,
-    "mz_1plus": 1001.5527,
-    "hydrophobicity": -0.688,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIIYNP",
-    "length": 6,
-    "mass_da": 746.4327,
-    "mz_2plus": 374.2236,
-    "mz_1plus": 747.4399,
-    "hydrophobicity": -0.217,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPLSHP",
-    "length": 6,
-    "mass_da": 677.386,
-    "mz_2plus": 339.7003,
-    "mz_1plus": 678.3933,
-    "hydrophobicity": -1.217,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KNDDPG",
-    "length": 6,
-    "mass_da": 644.2766,
-    "mz_2plus": 323.1456,
-    "mz_1plus": 645.2838,
-    "hydrophobicity": -2.733,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RFAPYYWQHDN",
-    "length": 11,
-    "mass_da": 1495.6633,
-    "mz_2plus": 748.8389,
-    "mz_1plus": 1496.6706,
-    "hydrophobicity": -1.7,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RFETYEDGGPEL",
-    "length": 12,
-    "mass_da": 1411.6255,
-    "mz_2plus": 706.8201,
-    "mz_1plus": 1412.6328,
-    "hydrophobicity": -1.358,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLTWWP",
-    "length": 6,
-    "mass_da": 857.4548,
-    "mz_2plus": 429.7347,
-    "mz_1plus": 858.4621,
-    "hydrophobicity": -0.8,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPDFIINEHLHE",
-    "length": 12,
-    "mass_da": 1518.7579,
-    "mz_2plus": 760.3862,
-    "mz_1plus": 1519.7652,
-    "hydrophobicity": -0.908,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVWYPDL",
-    "length": 7,
-    "mass_da": 919.4803,
-    "mz_2plus": 460.7474,
-    "mz_1plus": 920.4876,
-    "hydrophobicity": -0.457,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWELNIVF",
-    "length": 8,
-    "mass_da": 1075.5814,
-    "mz_2plus": 538.798,
-    "mz_1plus": 1076.5887,
-    "hydrophobicity": 0.362,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPTNYW",
-    "length": 6,
-    "mass_da": 835.3977,
-    "mz_2plus": 418.7061,
-    "mz_1plus": 836.405,
-    "hydrophobicity": -2.083,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVQNAE",
-    "length": 6,
-    "mass_da": 687.3551,
-    "mz_2plus": 344.6848,
-    "mz_1plus": 688.3624,
-    "hydrophobicity": -1.4,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KNDHYWN",
-    "length": 7,
-    "mass_da": 975.4199,
-    "mz_2plus": 488.7172,
-    "mz_1plus": 976.4272,
-    "hydrophobicity": -2.829,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RYEYSVQ",
-    "length": 7,
-    "mass_da": 943.4399,
-    "mz_2plus": 472.7273,
-    "mz_1plus": 944.4472,
-    "hydrophobicity": -1.529,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHQVYPTD",
-    "length": 8,
-    "mass_da": 986.4821,
-    "mz_2plus": 494.2483,
-    "mz_1plus": 987.4894,
-    "hydrophobicity": -1.688,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQNQFTAWV",
-    "length": 9,
     "mass_da": 1120.5665,
     "mz_2plus": 561.2905,
     "mz_1plus": 1121.5738,
-    "hydrophobicity": -0.8,
-    "source": "validated_proteomics"
+    "hydrophobicity": -0.67
   },
   {
-    "sequence": "KSYWDI",
+    "sequence": "RNDEVNR",
+    "length": 7,
+    "mass_da": 745.3355,
+    "mz_2plus": 373.675,
+    "mz_1plus": 746.3428,
+    "hydrophobicity": -2.3833
+  },
+  {
+    "sequence": "KGNHWR",
     "length": 6,
-    "mass_da": 810.3912,
-    "mz_2plus": 406.2029,
-    "mz_1plus": 811.3985,
-    "hydrophobicity": -0.983,
-    "source": "validated_proteomics"
+    "mass_da": 668.3143,
+    "mz_2plus": 335.1644,
+    "mz_1plus": 669.3216,
+    "hydrophobicity": -2.5
   },
   {
-    "sequence": "KPWYFALH",
-    "length": 8,
-    "mass_da": 1060.5494,
-    "mz_2plus": 531.282,
-    "mz_1plus": 1061.5567,
-    "hydrophobicity": -0.313,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVELFWFG",
-    "length": 8,
-    "mass_da": 1024.5382,
-    "mz_2plus": 513.2764,
-    "mz_1plus": 1025.5455,
-    "hydrophobicity": 0.612,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RNVYYLWGT",
-    "length": 9,
-    "mass_da": 1170.5822,
-    "mz_2plus": 586.2984,
-    "mz_1plus": 1171.5895,
-    "hydrophobicity": -0.511,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KENVQNA",
-    "length": 7,
-    "mass_da": 801.3981,
-    "mz_2plus": 401.7063,
-    "mz_1plus": 802.4054,
-    "hydrophobicity": -1.7,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RYGWYSQT",
-    "length": 8,
-    "mass_da": 1059.4774,
-    "mz_2plus": 530.746,
-    "mz_1plus": 1060.4847,
-    "hydrophobicity": -1.675,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RILTLVDQY",
-    "length": 9,
-    "mass_da": 1119.6288,
-    "mz_2plus": 560.8217,
-    "mz_1plus": 1120.6361,
-    "hydrophobicity": 0.311,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RTGYDGQFWFW",
-    "length": 11,
-    "mass_da": 1461.6466,
-    "mz_2plus": 731.8306,
-    "mz_1plus": 1462.6538,
-    "hydrophobicity": -0.955,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVGEYN",
-    "length": 6,
-    "mass_da": 708.3442,
-    "mz_2plus": 355.1794,
-    "mz_1plus": 709.3515,
-    "hydrophobicity": -1.4,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REQTQYDE",
-    "length": 8,
-    "mass_da": 1067.452,
-    "mz_2plus": 534.7333,
-    "mz_1plus": 1068.4592,
-    "hydrophobicity": -3.0,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLEVFFW",
-    "length": 7,
-    "mass_da": 995.5229,
-    "mz_2plus": 498.7687,
-    "mz_1plus": 996.5301,
-    "hydrophobicity": 0.671,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RADQDPS",
-    "length": 7,
-    "mass_da": 787.346,
-    "mz_2plus": 394.6803,
-    "mz_1plus": 788.3533,
-    "hydrophobicity": -2.229,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RGLVHHHE",
-    "length": 8,
-    "mass_da": 983.5049,
-    "mz_2plus": 492.7597,
-    "mz_1plus": 984.5122,
-    "hydrophobicity": -1.25,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLYGLWNWNA",
+    "sequence": "RFEGDSGVGK",
     "length": 10,
-    "mass_da": 1291.6462,
-    "mz_2plus": 646.8304,
-    "mz_1plus": 1292.6535,
-    "hydrophobicity": -0.56,
-    "source": "validated_proteomics"
+    "mass_da": 894.4083,
+    "mz_2plus": 448.2114,
+    "mz_1plus": 895.4156,
+    "hydrophobicity": -0.6556
   },
   {
-    "sequence": "RPHEWSPVNWPI",
+    "sequence": "RDSILR",
+    "length": 6,
+    "mass_da": 602.3388,
+    "mz_2plus": 302.1767,
+    "mz_1plus": 603.346,
+    "hydrophobicity": -0.1
+  },
+  {
+    "sequence": "KVGLHHVAHQR",
+    "length": 11,
+    "mass_da": 1152.6264,
+    "mz_2plus": 577.3205,
+    "mz_1plus": 1153.6337,
+    "hydrophobicity": -0.4
+  },
+  {
+    "sequence": "RNHFTDYLIWSK",
     "length": 12,
-    "mass_da": 1516.7575,
-    "mz_2plus": 759.386,
-    "mz_1plus": 1517.7648,
-    "hydrophobicity": -1.117,
-    "source": "validated_proteomics"
+    "mass_da": 1422.6932,
+    "mz_2plus": 712.3539,
+    "mz_1plus": 1423.7005,
+    "hydrophobicity": -0.6091
   },
   {
-    "sequence": "RFLTSPPAT",
-    "length": 9,
-    "mass_da": 988.5342,
-    "mz_2plus": 495.2744,
-    "mz_1plus": 989.5414,
-    "hydrophobicity": -0.167,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KDYPLSLI",
+    "sequence": "KAITQNEK",
     "length": 8,
-    "mass_da": 947.5328,
-    "mz_2plus": 474.7737,
-    "mz_1plus": 948.54,
-    "hydrophobicity": 0.125,
-    "source": "validated_proteomics"
+    "mass_da": 802.4185,
+    "mz_2plus": 402.2165,
+    "mz_1plus": 803.4258,
+    "hydrophobicity": -1.2571
   },
   {
-    "sequence": "RGFDPWDSGE",
+    "sequence": "RTQAFNHNDFVR",
+    "length": 12,
+    "mass_da": 1347.632,
+    "mz_2plus": 674.8233,
+    "mz_1plus": 1348.6393,
+    "hydrophobicity": -0.9818
+  },
+  {
+    "sequence": "RFTINDVR",
+    "length": 8,
+    "mass_da": 863.4501,
+    "mz_2plus": 432.7323,
+    "mz_1plus": 864.4574,
+    "hydrophobicity": -0.1
+  },
+  {
+    "sequence": "KVEQQR",
+    "length": 6,
+    "mass_da": 658.3398,
+    "mz_2plus": 330.1772,
+    "mz_1plus": 659.3471,
+    "hydrophobicity": -2.16
+  },
+  {
+    "sequence": "KPVQTPGIVTR",
+    "length": 11,
+    "mass_da": 1066.6135,
+    "mz_2plus": 534.314,
+    "mz_1plus": 1067.6208,
+    "hydrophobicity": -0.01
+  },
+  {
+    "sequence": "KTAPPIVQWWR",
+    "length": 11,
+    "mass_da": 1252.6716,
+    "mz_2plus": 627.3431,
+    "mz_1plus": 1253.6789,
+    "hydrophobicity": -0.32
+  },
+  {
+    "sequence": "KHEPQELPR",
+    "length": 9,
+    "mass_da": 1004.5039,
+    "mz_2plus": 503.2592,
+    "mz_1plus": 1005.5112,
+    "hydrophobicity": -2.2
+  },
+  {
+    "sequence": "KADLYEK",
+    "length": 7,
+    "mass_da": 737.3596,
+    "mz_2plus": 369.6871,
+    "mz_1plus": 738.3668,
+    "hydrophobicity": -1.1
+  },
+  {
+    "sequence": "RTYTLGAFK",
+    "length": 9,
+    "mass_da": 899.4753,
+    "mz_2plus": 450.7449,
+    "mz_1plus": 900.4825,
+    "hydrophobicity": 0.175
+  },
+  {
+    "sequence": "RHWDLFWGWQWK",
+    "length": 12,
+    "mass_da": 1587.7411,
+    "mz_2plus": 794.8778,
+    "mz_1plus": 1588.7484,
+    "hydrophobicity": -1.0455
+  },
+  {
+    "sequence": "RHYWNLNYLR",
     "length": 10,
-    "mass_da": 1164.4836,
-    "mz_2plus": 583.2491,
-    "mz_1plus": 1165.4908,
-    "hydrophobicity": -1.63,
-    "source": "validated_proteomics"
+    "mass_da": 1277.6305,
+    "mz_2plus": 639.8225,
+    "mz_1plus": 1278.6378,
+    "hydrophobicity": -1.1778
   },
   {
-    "sequence": "RVHIGSNH",
+    "sequence": "RPLNQQEK",
     "length": 8,
-    "mass_da": 918.4784,
-    "mz_2plus": 460.2465,
-    "mz_1plus": 919.4857,
-    "hydrophobicity": -0.863,
-    "source": "validated_proteomics"
+    "mass_da": 855.445,
+    "mz_2plus": 428.7298,
+    "mz_1plus": 856.4523,
+    "hydrophobicity": -2.2429
   },
   {
-    "sequence": "RPQFWEGL",
-    "length": 8,
-    "mass_da": 1031.5188,
-    "mz_2plus": 516.7667,
-    "mz_1plus": 1032.5261,
-    "hydrophobicity": -0.975,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYAQLE",
-    "length": 6,
-    "mass_da": 750.3912,
-    "mz_2plus": 376.2029,
-    "mz_1plus": 751.3985,
-    "hydrophobicity": -1.1,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPVFGDDPYFF",
-    "length": 11,
-    "mass_da": 1358.6295,
-    "mz_2plus": 680.322,
-    "mz_1plus": 1359.6368,
-    "hydrophobicity": -0.345,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KTWSVGV",
+    "sequence": "KTGIEVK",
     "length": 7,
-    "mass_da": 775.4228,
-    "mz_2plus": 388.7187,
-    "mz_1plus": 776.4301,
-    "hydrophobicity": 0.243,
-    "source": "validated_proteomics"
+    "mass_da": 645.3697,
+    "mz_2plus": 323.6921,
+    "mz_1plus": 646.377,
+    "hydrophobicity": 0.0333
   },
   {
-    "sequence": "RSDTNI",
-    "length": 6,
-    "mass_da": 704.3453,
-    "mz_2plus": 353.1799,
-    "mz_1plus": 705.3526,
-    "hydrophobicity": -1.417,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REIADQ",
-    "length": 6,
-    "mass_da": 730.361,
-    "mz_2plus": 366.1878,
-    "mz_1plus": 731.3682,
-    "hydrophobicity": -1.45,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIEIILQ",
-    "length": 7,
-    "mass_da": 855.5429,
-    "mz_2plus": 428.7787,
-    "mz_1plus": 856.5502,
-    "hydrophobicity": 0.914,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQAHNDGVFEYW",
-    "length": 12,
-    "mass_da": 1492.6735,
-    "mz_2plus": 747.344,
-    "mz_1plus": 1493.6808,
-    "hydrophobicity": -1.242,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RFWLDPWADYTV",
-    "length": 12,
-    "mass_da": 1567.7459,
-    "mz_2plus": 784.8802,
-    "mz_1plus": 1568.7532,
-    "hydrophobicity": -0.358,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYWEEQGEGNQ",
-    "length": 11,
-    "mass_da": 1366.5789,
-    "mz_2plus": 684.2967,
-    "mz_1plus": 1367.5862,
-    "hydrophobicity": -2.536,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWVFFIVWL",
+    "sequence": "RVDIVTATR",
     "length": 9,
-    "mass_da": 1264.712,
-    "mz_2plus": 633.3633,
-    "mz_1plus": 1265.7193,
-    "hydrophobicity": 1.778,
-    "source": "validated_proteomics"
+    "mass_da": 873.492,
+    "mz_2plus": 437.7533,
+    "mz_1plus": 874.4992,
+    "hydrophobicity": 0.6625
   },
   {
-    "sequence": "RWTVFQVQN",
+    "sequence": "KPTVLYLNR",
     "length": 9,
-    "mass_da": 1176.604,
-    "mz_2plus": 589.3093,
-    "mz_1plus": 1177.6113,
-    "hydrophobicity": -0.6,
-    "source": "validated_proteomics"
+    "mass_da": 974.5549,
+    "mz_2plus": 488.2847,
+    "mz_1plus": 975.5622,
+    "hydrophobicity": 0.025
   },
   {
-    "sequence": "KYEEEEVF",
+    "sequence": "RTQTHWGAK",
+    "length": 9,
+    "mass_da": 927.4563,
+    "mz_2plus": 464.7354,
+    "mz_1plus": 928.4635,
+    "hydrophobicity": -1.4375
+  },
+  {
+    "sequence": "KVGWHDNTK",
+    "length": 9,
+    "mass_da": 955.4512,
+    "mz_2plus": 478.7329,
+    "mz_1plus": 956.4584,
+    "hydrophobicity": -1.4875
+  },
+  {
+    "sequence": "KQQTNVNR",
     "length": 8,
-    "mass_da": 1071.476,
-    "mz_2plus": 536.7453,
-    "mz_1plus": 1072.4833,
-    "hydrophobicity": -1.525,
-    "source": "validated_proteomics"
+    "mass_da": 858.4308,
+    "mz_2plus": 430.2227,
+    "mz_1plus": 859.4381,
+    "hydrophobicity": -2.1429
   },
   {
-    "sequence": "RGDQFVSVDPP",
-    "length": 11,
-    "mass_da": 1215.5884,
-    "mz_2plus": 608.8015,
-    "mz_1plus": 1216.5956,
-    "hydrophobicity": -0.745,
-    "source": "validated_proteomics"
+    "sequence": "KADSLEDALIAR",
+    "length": 12,
+    "mass_da": 1172.6037,
+    "mz_2plus": 587.3091,
+    "mz_1plus": 1173.611,
+    "hydrophobicity": 0.1545
   },
   {
-    "sequence": "KIGYLFSS",
-    "length": 8,
-    "mass_da": 913.4909,
-    "mz_2plus": 457.7527,
-    "mz_1plus": 914.4982,
-    "hydrophobicity": 0.487,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLVANA",
-    "length": 6,
-    "mass_da": 642.3813,
-    "mz_2plus": 322.1979,
-    "mz_1plus": 643.3886,
-    "hydrophobicity": 0.6,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPQSAHG",
-    "length": 7,
-    "mass_da": 751.3725,
-    "mz_2plus": 376.6935,
-    "mz_1plus": 752.3798,
-    "hydrophobicity": -1.743,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REGAEITVWQ",
+    "sequence": "KPFAPTTIEK",
     "length": 10,
-    "mass_da": 1187.5935,
-    "mz_2plus": 594.804,
-    "mz_1plus": 1188.6007,
-    "hydrophobicity": -0.65,
-    "source": "validated_proteomics"
+    "mass_da": 1002.5386,
+    "mz_2plus": 502.2766,
+    "mz_1plus": 1003.5459,
+    "hydrophobicity": -0.3222
   },
   {
-    "sequence": "RPQEDGH",
+    "sequence": "KPFDSVSEQK",
+    "length": 10,
+    "mass_da": 1035.4873,
+    "mz_2plus": 518.7509,
+    "mz_1plus": 1036.4946,
+    "hydrophobicity": -1.1778
+  },
+  {
+    "sequence": "RFVSWR",
+    "length": 6,
+    "mass_da": 693.3598,
+    "mz_2plus": 347.6872,
+    "mz_1plus": 694.3671,
+    "hydrophobicity": 0.16
+  },
+  {
+    "sequence": "KHNYWVNQLER",
+    "length": 11,
+    "mass_da": 1357.6527,
+    "mz_2plus": 679.8336,
+    "mz_1plus": 1358.66,
+    "hydrophobicity": -1.59
+  },
+  {
+    "sequence": "RWTQAYQK",
+    "length": 8,
+    "mass_da": 923.4501,
+    "mz_2plus": 462.7323,
+    "mz_1plus": 924.4574,
+    "hydrophobicity": -1.7143
+  },
+  {
+    "sequence": "RSNQNNK",
     "length": 7,
-    "mass_da": 837.3729,
-    "mz_2plus": 419.6937,
-    "mz_1plus": 838.3802,
-    "hydrophobicity": -2.886,
-    "source": "validated_proteomics"
+    "mass_da": 703.3249,
+    "mz_2plus": 352.6697,
+    "mz_1plus": 704.3322,
+    "hydrophobicity": -3.1167
   },
   {
-    "sequence": "KENWVYWVNIFS",
+    "sequence": "KELVYLYYWK",
+    "length": 10,
+    "mass_da": 1275.6539,
+    "mz_2plus": 638.8342,
+    "mz_1plus": 1276.6612,
+    "hydrophobicity": -0.0444
+  },
+  {
+    "sequence": "KPLTLPSYSVQK",
     "length": 12,
-    "mass_da": 1583.7772,
-    "mz_2plus": 792.8959,
-    "mz_1plus": 1584.7845,
-    "hydrophobicity": -0.217,
-    "source": "validated_proteomics"
+    "mass_da": 1231.6812,
+    "mz_2plus": 616.8479,
+    "mz_1plus": 1232.6885,
+    "hydrophobicity": -0.2182
   },
   {
-    "sequence": "KPYPDLTDA",
-    "length": 9,
-    "mass_da": 1018.4971,
-    "mz_2plus": 510.2558,
-    "mz_1plus": 1019.5044,
-    "hydrophobicity": -1.167,
-    "source": "validated_proteomics"
+    "sequence": "RPNLFIQR",
+    "length": 8,
+    "mass_da": 886.5025,
+    "mz_2plus": 444.2585,
+    "mz_1plus": 887.5098,
+    "hydrophobicity": -0.2857
   },
   {
-    "sequence": "RIGNPQF",
+    "sequence": "KIYNPK",
+    "length": 6,
+    "mass_da": 633.3486,
+    "mz_2plus": 317.6816,
+    "mz_1plus": 634.3559,
+    "hydrophobicity": -1.16
+  },
+  {
+    "sequence": "KLSHPR",
+    "length": 6,
+    "mass_da": 608.3394,
+    "mz_2plus": 305.177,
+    "mz_1plus": 609.3467,
+    "hydrophobicity": -1.26
+  },
+  {
+    "sequence": "KDDPGR",
+    "length": 6,
+    "mass_da": 558.2398,
+    "mz_2plus": 280.1272,
+    "mz_1plus": 559.2471,
+    "hydrophobicity": -2.7
+  },
+  {
+    "sequence": "RAPYYWQHDNK",
+    "length": 11,
+    "mass_da": 1320.5887,
+    "mz_2plus": 661.3016,
+    "mz_1plus": 1321.596,
+    "hydrophobicity": -2.09
+  },
+  {
+    "sequence": "RETYEDGGPELK",
+    "length": 12,
+    "mass_da": 1236.551,
+    "mz_2plus": 619.2828,
+    "mz_1plus": 1237.5583,
+    "hydrophobicity": -1.6818
+  },
+  {
+    "sequence": "RTWWPK",
+    "length": 6,
+    "mass_da": 716.3646,
+    "mz_2plus": 359.1896,
+    "mz_1plus": 717.3719,
+    "hydrophobicity": -1.6
+  },
+  {
+    "sequence": "RDFIINEHLHER",
+    "length": 12,
+    "mass_da": 1421.7051,
+    "mz_2plus": 711.8598,
+    "mz_1plus": 1422.7124,
+    "hydrophobicity": -0.8455
+  },
+  {
+    "sequence": "KWYPDLR",
     "length": 7,
+    "mass_da": 848.4181,
+    "mz_2plus": 425.2163,
+    "mz_1plus": 849.4254,
+    "hydrophobicity": -1.3333
+  },
+  {
+    "sequence": "RELNIVFR",
+    "length": 8,
+    "mass_da": 889.5021,
+    "mz_2plus": 445.7583,
+    "mz_1plus": 890.5094,
+    "hydrophobicity": 0.5429
+  },
+  {
+    "sequence": "RTNYWR",
+    "length": 6,
+    "mass_da": 738.3449,
+    "mz_2plus": 370.1797,
+    "mz_1plus": 739.3522,
+    "hydrophobicity": -2.18
+  },
+  {
+    "sequence": "KQNAER",
+    "length": 6,
+    "mass_da": 616.2929,
+    "mz_2plus": 309.1537,
+    "mz_1plus": 617.3002,
+    "hydrophobicity": -2.64
+  },
+  {
+    "sequence": "KDHYWNR",
+    "length": 7,
+    "mass_da": 889.3831,
+    "mz_2plus": 445.6988,
+    "mz_1plus": 890.3904,
+    "hydrophobicity": -2.8167
+  },
+  {
+    "sequence": "REYSVQR",
+    "length": 7,
+    "mass_da": 780.3766,
+    "mz_2plus": 391.1956,
+    "mz_1plus": 781.3839,
+    "hydrophobicity": -1.5667
+  },
+  {
+    "sequence": "KQVYPTDK",
+    "length": 8,
+    "mass_da": 849.4232,
+    "mz_2plus": 425.7189,
+    "mz_1plus": 850.4305,
+    "hydrophobicity": -1.4714
+  },
+  {
+    "sequence": "KNQFTAWVR",
+    "length": 9,
+    "mass_da": 1020.5141,
+    "mz_2plus": 511.2643,
+    "mz_1plus": 1021.5214,
+    "hydrophobicity": -0.5375
+  },
+  {
+    "sequence": "KYWDIR",
+    "length": 6,
+    "mass_da": 751.3653,
+    "mz_2plus": 376.6899,
+    "mz_1plus": 752.3726,
+    "hydrophobicity": -1.14
+  },
+  {
+    "sequence": "KWYFALHR",
+    "length": 8,
+    "mass_da": 991.5028,
+    "mz_2plus": 496.7587,
+    "mz_1plus": 992.5101,
+    "hydrophobicity": -0.2143
+  },
+  {
+    "sequence": "KELFWFGR",
+    "length": 8,
+    "mass_da": 953.4759,
+    "mz_2plus": 477.7452,
+    "mz_1plus": 954.4832,
+    "hydrophobicity": 0.0143
+  },
+  {
+    "sequence": "RVYYLWGTR",
+    "length": 9,
+    "mass_da": 1056.5393,
+    "mz_2plus": 529.2769,
+    "mz_1plus": 1057.5465,
+    "hydrophobicity": -0.1375
+  },
+  {
+    "sequence": "KNVQNAK",
+    "length": 7,
+    "mass_da": 672.3555,
+    "mz_2plus": 337.185,
+    "mz_1plus": 673.3628,
+    "hydrophobicity": -1.4
+  },
+  {
+    "sequence": "RGWYSQTR",
+    "length": 8,
+    "mass_da": 896.4141,
+    "mz_2plus": 449.2143,
+    "mz_1plus": 897.4213,
+    "hydrophobicity": -1.7286
+  },
+  {
+    "sequence": "RLTLVDQYK",
+    "length": 9,
+    "mass_da": 978.5386,
+    "mz_2plus": 490.2766,
+    "mz_1plus": 979.5459,
+    "hydrophobicity": -0.1375
+  },
+  {
+    "sequence": "RGYDGQFWFWR",
+    "length": 11,
+    "mass_da": 1360.5989,
+    "mz_2plus": 681.3067,
+    "mz_1plus": 1361.6062,
+    "hydrophobicity": -0.98
+  },
+  {
+    "sequence": "KGEYNR",
+    "length": 6,
+    "mass_da": 637.282,
+    "mz_2plus": 319.6483,
+    "mz_1plus": 638.2893,
+    "hydrophobicity": -2.64
+  },
+  {
+    "sequence": "RQTQYDEK",
+    "length": 8,
+    "mass_da": 910.4032,
+    "mz_2plus": 456.2089,
+    "mz_1plus": 911.4105,
+    "hydrophobicity": -2.8429
+  },
+  {
+    "sequence": "REVFFWK",
+    "length": 7,
+    "mass_da": 854.4327,
+    "mz_2plus": 428.2236,
+    "mz_1plus": 855.4399,
+    "hydrophobicity": 0.25
+  },
+  {
+    "sequence": "RDQDPSK",
+    "length": 7,
+    "mass_da": 688.3028,
+    "mz_2plus": 345.1587,
+    "mz_1plus": 689.3101,
+    "hydrophobicity": -2.8
+  },
+  {
+    "sequence": "RLVHHHEK",
+    "length": 8,
+    "mass_da": 898.4773,
+    "mz_2plus": 450.2459,
+    "mz_1plus": 899.4846,
+    "hydrophobicity": -1.2857
+  },
+  {
+    "sequence": "RYGLWNWNAK",
+    "length": 10,
+    "mass_da": 1150.556,
+    "mz_2plus": 576.2853,
+    "mz_1plus": 1151.5632,
+    "hydrophobicity": -0.9778
+  },
+  {
+    "sequence": "RHEWSPVNWPIR",
+    "length": 12,
+    "mass_da": 1419.7047,
+    "mz_2plus": 710.8596,
+    "mz_1plus": 1420.712,
+    "hydrophobicity": -1.0727
+  },
+  {
+    "sequence": "RLTSPPATK",
+    "length": 9,
+    "mass_da": 813.4596,
+    "mz_2plus": 407.7371,
+    "mz_1plus": 814.4669,
+    "hydrophobicity": -0.4625
+  },
+  {
+    "sequence": "KYPLSLIK",
+    "length": 8,
+    "mass_da": 832.5058,
+    "mz_2plus": 417.2602,
+    "mz_1plus": 833.5131,
+    "hydrophobicity": 0.6429
+  },
+  {
+    "sequence": "RFDPWDSGEK",
+    "length": 10,
+    "mass_da": 1079.456,
+    "mz_2plus": 540.7353,
+    "mz_1plus": 1080.4632,
+    "hydrophobicity": -1.7
+  },
+  {
+    "sequence": "RHIGSNHR",
+    "length": 8,
+    "mass_da": 819.41,
+    "mz_2plus": 410.7123,
+    "mz_1plus": 820.4173,
+    "hydrophobicity": -1.5857
+  },
+  {
+    "sequence": "RQFWEGLR",
+    "length": 8,
+    "mass_da": 934.4661,
+    "mz_2plus": 468.2403,
+    "mz_1plus": 935.4734,
+    "hydrophobicity": -0.8857
+  },
+  {
+    "sequence": "KAQLER",
+    "length": 6,
+    "mass_da": 615.334,
+    "mz_2plus": 308.6743,
+    "mz_1plus": 616.3413,
+    "hydrophobicity": -1.18
+  },
+  {
+    "sequence": "RVFGDDPYFFR",
+    "length": 11,
+    "mass_da": 1261.5767,
+    "mz_2plus": 631.7957,
+    "mz_1plus": 1262.584,
+    "hydrophobicity": -0.22
+  },
+  {
+    "sequence": "KWSVGVR",
+    "length": 7,
+    "mass_da": 702.3813,
+    "mz_2plus": 352.1979,
+    "mz_1plus": 703.3886,
+    "hydrophobicity": 0.3
+  },
+  {
+    "sequence": "RDTNIR",
+    "length": 6,
+    "mass_da": 617.3133,
+    "mz_2plus": 309.6639,
+    "mz_1plus": 618.3206,
+    "hydrophobicity": -1.54
+  },
+  {
+    "sequence": "RIADQK",
+    "length": 6,
+    "mass_da": 573.3122,
+    "mz_2plus": 287.6634,
+    "mz_1plus": 574.3195,
+    "hydrophobicity": -0.92
+  },
+  {
+    "sequence": "KEIILQK",
+    "length": 7,
+    "mass_da": 742.4589,
+    "mz_2plus": 372.2367,
+    "mz_1plus": 743.4662,
+    "hydrophobicity": 0.3167
+  },
+  {
+    "sequence": "KAHNDGVFEYWR",
+    "length": 12,
+    "mass_da": 1392.6211,
+    "mz_2plus": 697.3178,
+    "mz_1plus": 1393.6283,
+    "hydrophobicity": -1.0909
+  },
+  {
+    "sequence": "RWLDPWADYTVK",
+    "length": 12,
+    "mass_da": 1392.6714,
+    "mz_2plus": 697.343,
+    "mz_1plus": 1393.6786,
+    "hydrophobicity": -0.5909
+  },
+  {
+    "sequence": "KWEEQGEGNQR",
+    "length": 11,
+    "mass_da": 1231.5218,
+    "mz_2plus": 616.7682,
+    "mz_1plus": 1232.529,
+    "hydrophobicity": -2.72
+  },
+  {
+    "sequence": "RVFFIVWLR",
+    "length": 9,
+    "mass_da": 1078.6327,
+    "mz_2plus": 540.3237,
+    "mz_1plus": 1079.64,
+    "hydrophobicity": 2.1125
+  },
+  {
+    "sequence": "RTVFQVQNR",
+    "length": 9,
+    "mass_da": 990.5247,
+    "mz_2plus": 496.2696,
+    "mz_1plus": 991.532,
+    "hydrophobicity": -0.5625
+  },
+  {
+    "sequence": "KEEEEVFR",
+    "length": 8,
+    "mass_da": 936.4189,
+    "mz_2plus": 469.2167,
+    "mz_1plus": 937.4261,
+    "hydrophobicity": -1.6429
+  },
+  {
+    "sequence": "RDQFVSVDPPK",
+    "length": 11,
+    "mass_da": 1130.5608,
+    "mz_2plus": 566.2877,
+    "mz_1plus": 1131.568,
+    "hydrophobicity": -0.72
+  },
+  {
+    "sequence": "KGYLFSSK",
+    "length": 8,
+    "mass_da": 800.4068,
+    "mz_2plus": 401.2107,
+    "mz_1plus": 801.4141,
+    "hydrophobicity": -0.0857
+  },
+  {
+    "sequence": "RVANAK",
+    "length": 6,
+    "mass_da": 501.2911,
+    "mz_2plus": 251.6528,
+    "mz_1plus": 502.2984,
+    "hydrophobicity": 0.08
+  },
+  {
+    "sequence": "RQSAHGR",
+    "length": 7,
+    "mass_da": 654.3198,
+    "mz_2plus": 328.1672,
+    "mz_1plus": 655.327,
+    "hydrophobicity": -1.7667
+  },
+  {
+    "sequence": "RGAEITVWQK",
+    "length": 10,
+    "mass_da": 1030.5447,
+    "mz_2plus": 516.2796,
+    "mz_1plus": 1031.552,
+    "hydrophobicity": -0.2667
+  },
+  {
+    "sequence": "RQEDGHR",
+    "length": 7,
+    "mass_da": 740.3202,
+    "mz_2plus": 371.1674,
+    "mz_1plus": 741.3274,
+    "hydrophobicity": -3.1
+  },
+  {
+    "sequence": "KNWVYWVNIFSK",
+    "length": 12,
+    "mass_da": 1454.7346,
+    "mz_2plus": 728.3746,
+    "mz_1plus": 1455.7419,
+    "hydrophobicity": 0.0818
+  },
+  {
+    "sequence": "KYPDLTDAR",
+    "length": 9,
+    "mass_da": 949.4505,
+    "mz_2plus": 475.7325,
+    "mz_1plus": 950.4578,
+    "hydrophobicity": -1.1875
+  },
+  {
+    "sequence": "RGNPQFK",
+    "length": 7,
+    "mass_da": 689.3497,
+    "mz_2plus": 345.6821,
+    "mz_1plus": 690.3569,
+    "hydrophobicity": -1.6833
+  },
+  {
+    "sequence": "RHGTLR",
+    "length": 6,
+    "mass_da": 582.3238,
+    "mz_2plus": 292.1692,
+    "mz_1plus": 583.3311,
+    "hydrophobicity": -1.0
+  },
+  {
+    "sequence": "RTDVAWEQVK",
+    "length": 10,
+    "mass_da": 1074.5345,
+    "mz_2plus": 538.2746,
+    "mz_1plus": 1075.5418,
+    "hydrophobicity": -0.6444
+  },
+  {
+    "sequence": "RPFTAQHWSR",
+    "length": 10,
+    "mass_da": 1128.5465,
+    "mz_2plus": 565.2805,
+    "mz_1plus": 1129.5537,
+    "hydrophobicity": -1.1778
+  },
+  {
+    "sequence": "RLVTEK",
+    "length": 6,
+    "mass_da": 588.3483,
+    "mz_2plus": 295.1814,
+    "mz_1plus": 589.3555,
+    "hydrophobicity": -0.02
+  },
+  {
+    "sequence": "RLQHEFISR",
+    "length": 9,
+    "mass_da": 1028.5403,
+    "mz_2plus": 515.2774,
+    "mz_1plus": 1029.5476,
+    "hydrophobicity": -0.55
+  },
+  {
+    "sequence": "KFGNIHGK",
+    "length": 8,
+    "mass_da": 771.4028,
+    "mz_2plus": 386.7087,
+    "mz_1plus": 772.41,
+    "hydrophobicity": -0.5857
+  },
+  {
+    "sequence": "KYWWQQGWEYWK",
+    "length": 12,
+    "mass_da": 1658.7306,
+    "mz_2plus": 830.3726,
+    "mz_1plus": 1659.7379,
+    "hydrophobicity": -1.9091
+  },
+  {
+    "sequence": "RDSEPWWDDSR",
+    "length": 11,
+    "mass_da": 1291.5105,
+    "mz_2plus": 646.7625,
+    "mz_1plus": 1292.5178,
+    "hydrophobicity": -2.35
+  },
+  {
+    "sequence": "RETWDWIQYGDK",
+    "length": 12,
+    "mass_da": 1439.6357,
+    "mz_2plus": 720.8251,
+    "mz_1plus": 1440.643,
+    "hydrophobicity": -1.6
+  },
+  {
+    "sequence": "KEHDLWWHR",
+    "length": 9,
+    "mass_da": 1177.5417,
+    "mz_2plus": 589.7781,
+    "mz_1plus": 1178.549,
+    "hydrophobicity": -1.9875
+  },
+  {
+    "sequence": "RTVQDQER",
+    "length": 8,
+    "mass_da": 874.4145,
+    "mz_2plus": 438.2145,
+    "mz_1plus": 875.4217,
+    "hydrophobicity": -2.1429
+  },
+  {
+    "sequence": "RGEPTQGR",
+    "length": 8,
+    "mass_da": 743.3562,
+    "mz_2plus": 372.6854,
+    "mz_1plus": 744.3635,
+    "hydrophobicity": -2.0857
+  },
+  {
+    "sequence": "KSASPHIQYIR",
+    "length": 11,
+    "mass_da": 1170.6145,
+    "mz_2plus": 586.3146,
+    "mz_1plus": 1171.6218,
+    "hydrophobicity": -0.49
+  },
+  {
+    "sequence": "KEPFDQK",
+    "length": 7,
+    "mass_da": 762.3548,
+    "mz_2plus": 382.1847,
+    "mz_1plus": 763.3621,
+    "hydrophobicity": -2.2
+  },
+  {
+    "sequence": "KGHHHWDVSLWR",
+    "length": 12,
+    "mass_da": 1428.6799,
+    "mz_2plus": 715.3472,
+    "mz_1plus": 1429.6872,
+    "hydrophobicity": -1.1455
+  },
+  {
+    "sequence": "RLLPYISWWR",
+    "length": 10,
+    "mass_da": 1232.6706,
+    "mz_2plus": 617.3426,
+    "mz_1plus": 1233.6779,
+    "hydrophobicity": 0.2333
+  },
+  {
+    "sequence": "RVHIGNDYSFFR",
+    "length": 12,
+    "mass_da": 1353.6466,
+    "mz_2plus": 677.8306,
+    "mz_1plus": 1354.6538,
+    "hydrophobicity": -0.2636
+  },
+  {
+    "sequence": "KNWGVELK",
+    "length": 8,
+    "mass_da": 844.4443,
+    "mz_2plus": 423.2294,
+    "mz_1plus": 845.4516,
+    "hydrophobicity": -0.6
+  },
+  {
+    "sequence": "RAVDTSLTESLR",
+    "length": 12,
+    "mass_da": 1190.6143,
+    "mz_2plus": 596.3144,
+    "mz_1plus": 1191.6215,
+    "hydrophobicity": -0.0818
+  },
+  {
+    "sequence": "RQGGDK",
+    "length": 6,
+    "mass_da": 503.234,
+    "mz_2plus": 252.6243,
+    "mz_1plus": 504.2412,
+    "hydrophobicity": -2.34
+  },
+  {
+    "sequence": "RYWAEANK",
+    "length": 8,
+    "mass_da": 880.4079,
+    "mz_2plus": 441.2112,
+    "mz_1plus": 881.4152,
+    "hydrophobicity": -1.3571
+  },
+  {
+    "sequence": "KFPLPFR",
+    "length": 7,
+    "mass_da": 775.4381,
+    "mz_2plus": 388.7263,
+    "mz_1plus": 776.4454,
+    "hydrophobicity": 0.2833
+  },
+  {
+    "sequence": "KWEFYR",
+    "length": 6,
+    "mass_da": 799.3653,
+    "mz_2plus": 400.6899,
+    "mz_1plus": 800.3726,
+    "hydrophobicity": -1.48
+  },
+  {
+    "sequence": "KGPVASLVHK",
+    "length": 10,
+    "mass_da": 906.5287,
+    "mz_2plus": 454.2716,
+    "mz_1plus": 907.536,
+    "hydrophobicity": 0.4556
+  },
+  {
+    "sequence": "KEATYDTSNAR",
+    "length": 11,
+    "mass_da": 1126.4891,
+    "mz_2plus": 564.2518,
+    "mz_1plus": 1127.4963,
+    "hydrophobicity": -1.49
+  },
+  {
+    "sequence": "KLFQGDSR",
+    "length": 8,
+    "mass_da": 821.4032,
+    "mz_2plus": 411.7089,
+    "mz_1plus": 822.4104,
+    "hydrophobicity": -0.8714
+  },
+  {
+    "sequence": "RWYHGEWDPK",
+    "length": 10,
+    "mass_da": 1216.5301,
+    "mz_2plus": 609.2723,
+    "mz_1plus": 1217.5374,
+    "hydrophobicity": -2.1333
+  },
+  {
+    "sequence": "KDQPTYK",
+    "length": 7,
+    "mass_da": 750.3548,
+    "mz_2plus": 376.1847,
+    "mz_1plus": 751.3621,
+    "hydrophobicity": -2.4167
+  },
+  {
+    "sequence": "KPSDQNFK",
+    "length": 8,
+    "mass_da": 834.3872,
+    "mz_2plus": 418.2009,
+    "mz_1plus": 835.3945,
+    "hydrophobicity": -2.0
+  },
+  {
+    "sequence": "RTWTQHYYSNER",
+    "length": 12,
+    "mass_da": 1483.648,
+    "mz_2plus": 742.8313,
+    "mz_1plus": 1484.6553,
+    "hydrophobicity": -2.1727
+  },
+  {
+    "sequence": "RVHPQFEQPPK",
+    "length": 11,
+    "mass_da": 1205.6193,
+    "mz_2plus": 603.8169,
+    "mz_1plus": 1206.6266,
+    "hydrophobicity": -1.54
+  },
+  {
+    "sequence": "RWSWDSVNK",
+    "length": 9,
+    "mass_da": 1020.4665,
+    "mz_2plus": 511.2405,
+    "mz_1plus": 1021.4738,
+    "hydrophobicity": -1.2625
+  },
+  {
+    "sequence": "KTSHAGWDGEK",
+    "length": 11,
+    "mass_da": 1086.473,
+    "mz_2plus": 544.2438,
+    "mz_1plus": 1087.4803,
+    "hydrophobicity": -1.55
+  },
+  {
+    "sequence": "RTDGWSR",
+    "length": 7,
+    "mass_da": 720.3191,
+    "mz_2plus": 361.1668,
+    "mz_1plus": 721.3264,
+    "hydrophobicity": -1.8
+  },
+  {
+    "sequence": "RGSTQNLK",
+    "length": 8,
+    "mass_da": 746.3923,
+    "mz_2plus": 374.2034,
+    "mz_1plus": 747.3995,
+    "hydrophobicity": -1.2857
+  },
+  {
+    "sequence": "KYTFNK",
+    "length": 6,
+    "mass_da": 671.3279,
+    "mz_2plus": 336.6712,
+    "mz_1plus": 672.3352,
+    "hydrophobicity": -1.32
+  },
+  {
+    "sequence": "RIPYIFGEWHWR",
+    "length": 12,
+    "mass_da": 1502.7459,
+    "mz_2plus": 752.3802,
+    "mz_1plus": 1503.7532,
+    "hydrophobicity": -0.4091
+  },
+  {
+    "sequence": "REPPHR",
+    "length": 6,
+    "mass_da": 634.3187,
+    "mz_2plus": 318.1666,
+    "mz_1plus": 635.326,
+    "hydrophobicity": -2.88
+  },
+  {
+    "sequence": "KLFIGLYASSR",
+    "length": 11,
+    "mass_da": 1125.6182,
+    "mz_2plus": 563.8164,
+    "mz_1plus": 1126.6255,
+    "hydrophobicity": 0.89
+  },
+  {
+    "sequence": "KEPTYVVEK",
+    "length": 9,
+    "mass_da": 963.4913,
+    "mz_2plus": 482.7529,
+    "mz_1plus": 964.4986,
+    "hydrophobicity": -0.7625
+  },
+  {
+    "sequence": "RWWSGHK",
+    "length": 7,
+    "mass_da": 799.3765,
+    "mz_2plus": 400.6955,
+    "mz_1plus": 800.3838,
+    "hydrophobicity": -1.6833
+  },
+  {
+    "sequence": "KDFGPHHQLSPR",
+    "length": 12,
+    "mass_da": 1289.6265,
+    "mz_2plus": 645.8205,
+    "mz_1plus": 1290.6338,
+    "hydrophobicity": -1.4273
+  },
+  {
+    "sequence": "KDNIVAYPPYLK",
+    "length": 12,
+    "mass_da": 1291.6812,
+    "mz_2plus": 646.8479,
+    "mz_1plus": 1292.6885,
+    "hydrophobicity": -0.2182
+  },
+  {
+    "sequence": "RWEDHWVYWIQR",
+    "length": 12,
+    "mass_da": 1616.7524,
+    "mz_2plus": 809.3835,
+    "mz_1plus": 1617.7597,
+    "hydrophobicity": -1.2273
+  },
+  {
+    "sequence": "KQSTGSFQLR",
+    "length": 10,
+    "mass_da": 1022.5145,
+    "mz_2plus": 512.2645,
+    "mz_1plus": 1023.5218,
+    "hydrophobicity": -0.8444
+  },
+  {
+    "sequence": "KWLGFDPTR",
+    "length": 9,
+    "mass_da": 990.4923,
+    "mz_2plus": 496.2534,
+    "mz_1plus": 991.4996,
+    "hydrophobicity": -0.625
+  },
+  {
+    "sequence": "RHQQIHYWYPYK",
+    "length": 12,
+    "mass_da": 1561.7466,
+    "mz_2plus": 781.8806,
+    "mz_1plus": 1562.7539,
+    "hydrophobicity": -1.7455
+  },
+  {
+    "sequence": "KWLISR",
+    "length": 6,
+    "mass_da": 673.3911,
+    "mz_2plus": 337.7028,
+    "mz_1plus": 674.3984,
+    "hydrophobicity": 0.42
+  },
+  {
+    "sequence": "KYYPAR",
+    "length": 6,
+    "mass_da": 668.3282,
+    "mz_2plus": 335.1714,
+    "mz_1plus": 669.3355,
+    "hydrophobicity": -1.38
+  },
+  {
+    "sequence": "RTWNFGFTSK",
+    "length": 10,
+    "mass_da": 1086.5134,
+    "mz_2plus": 544.264,
+    "mz_1plus": 1087.5207,
+    "hydrophobicity": -0.5889
+  },
+  {
+    "sequence": "RGITDDDGQYWR",
+    "length": 12,
+    "mass_da": 1324.5684,
+    "mz_2plus": 663.2915,
+    "mz_1plus": 1325.5756,
+    "hydrophobicity": -1.6091
+  },
+  {
+    "sequence": "KQHTPQR",
+    "length": 7,
+    "mass_da": 765.3882,
+    "mz_2plus": 383.7014,
+    "mz_1plus": 766.3955,
+    "hydrophobicity": -2.8333
+  },
+  {
+    "sequence": "RYASQFVPAR",
+    "length": 10,
+    "mass_da": 1037.5294,
+    "mz_2plus": 519.772,
+    "mz_1plus": 1038.5367,
+    "hydrophobicity": -0.1222
+  },
+  {
+    "sequence": "RLDYHTGLDR",
+    "length": 10,
+    "mass_da": 1088.525,
+    "mz_2plus": 545.2698,
+    "mz_1plus": 1089.5323,
+    "hydrophobicity": -1.0556
+  },
+  {
+    "sequence": "KAWQVGVIVK",
+    "length": 10,
+    "mass_da": 998.5913,
+    "mz_2plus": 500.3029,
+    "mz_1plus": 999.5986,
+    "hydrophobicity": 1.1333
+  },
+  {
+    "sequence": "RGIQYTQHWK",
+    "length": 10,
+    "mass_da": 1159.5774,
+    "mz_2plus": 580.796,
+    "mz_1plus": 1160.5847,
+    "hydrophobicity": -1.4333
+  },
+  {
+    "sequence": "RNYILNPLPR",
+    "length": 10,
+    "mass_da": 1098.6186,
+    "mz_2plus": 550.3166,
+    "mz_1plus": 1099.6258,
+    "hydrophobicity": -0.4333
+  },
+  {
+    "sequence": "RYQYSNPFTTSK",
+    "length": 12,
+    "mass_da": 1334.6143,
+    "mz_2plus": 668.3144,
+    "mz_1plus": 1335.6216,
+    "hydrophobicity": -1.3909
+  },
+  {
+    "sequence": "KDPESWNYIINR",
+    "length": 12,
+    "mass_da": 1405.6626,
+    "mz_2plus": 703.8386,
+    "mz_1plus": 1406.6699,
+    "hydrophobicity": -1.2818
+  },
+  {
+    "sequence": "RFLLDLLDFK",
+    "length": 10,
+    "mass_da": 1122.6325,
+    "mz_2plus": 562.3235,
+    "mz_1plus": 1123.6397,
+    "hydrophobicity": 1.1
+  },
+  {
+    "sequence": "RFGAHVYYR",
+    "length": 9,
+    "mass_da": 1011.4926,
+    "mz_2plus": 506.7536,
+    "mz_1plus": 1012.4999,
+    "hydrophobicity": -0.2375
+  },
+  {
+    "sequence": "KQPDELDHVHR",
+    "length": 11,
+    "mass_da": 1244.5898,
+    "mz_2plus": 623.3022,
+    "mz_1plus": 1245.597,
+    "hydrophobicity": -1.85
+  },
+  {
+    "sequence": "RHPDAR",
+    "length": 6,
+    "mass_da": 594.2874,
+    "mz_2plus": 298.151,
+    "mz_1plus": 595.2947,
+    "hydrophobicity": -2.2
+  },
+  {
+    "sequence": "KPWYGWNR",
+    "length": 8,
+    "mass_da": 977.4508,
+    "mz_2plus": 489.7327,
+    "mz_1plus": 978.4581,
+    "hydrophobicity": -1.8714
+  },
+  {
+    "sequence": "KHWNHAR",
+    "length": 7,
+    "mass_da": 819.3888,
+    "mz_2plus": 410.7017,
+    "mz_1plus": 820.3961,
+    "hydrophobicity": -2.25
+  },
+  {
+    "sequence": "RIHTVQETFHR",
+    "length": 11,
+    "mass_da": 1266.6469,
+    "mz_2plus": 634.3307,
+    "mz_1plus": 1267.6542,
+    "hydrophobicity": -0.78
+  },
+  {
+    "sequence": "RLANTLR",
+    "length": 7,
+    "mass_da": 686.4075,
+    "mz_2plus": 344.211,
+    "mz_1plus": 687.4148,
+    "hydrophobicity": 0.1167
+  },
+  {
+    "sequence": "RTPFPSLLK",
+    "length": 9,
+    "mass_da": 901.5273,
+    "mz_2plus": 451.7709,
+    "mz_1plus": 902.5346,
+    "hydrophobicity": 0.225
+  },
+  {
+    "sequence": "RWSVYIK",
+    "length": 7,
+    "mass_da": 794.4327,
+    "mz_2plus": 398.2236,
+    "mz_1plus": 795.4399,
+    "hydrophobicity": 0.3
+  },
+  {
+    "sequence": "KWSEFDIGHQWK",
+    "length": 12,
+    "mass_da": 1431.6571,
+    "mz_2plus": 716.8358,
+    "mz_1plus": 1432.6644,
+    "hydrophobicity": -1.2091
+  },
+  {
+    "sequence": "KEWDWR",
+    "length": 6,
+    "mass_da": 790.3398,
+    "mz_2plus": 396.1772,
+    "mz_1plus": 791.3471,
+    "hydrophobicity": -2.66
+  },
+  {
+    "sequence": "RDWPATR",
+    "length": 7,
+    "mass_da": 744.3555,
+    "mz_2plus": 373.185,
+    "mz_1plus": 745.3628,
+    "hydrophobicity": -1.5667
+  },
+  {
+    "sequence": "KEDVSEDK",
+    "length": 8,
+    "mass_da": 820.345,
+    "mz_2plus": 411.1798,
+    "mz_1plus": 821.3523,
+    "hydrophobicity": -2.0714
+  },
+  {
+    "sequence": "RPVHGK",
+    "length": 6,
+    "mass_da": 536.3071,
+    "mz_2plus": 269.1608,
+    "mz_1plus": 537.3143,
+    "hydrophobicity": -0.98
+  },
+  {
+    "sequence": "RTWTTEGSFHTR",
+    "length": 12,
+    "mass_da": 1321.6051,
+    "mz_2plus": 661.8098,
+    "mz_1plus": 1322.6124,
+    "hydrophobicity": -1.2091
+  },
+  {
+    "sequence": "KAAPWVTLLK",
+    "length": 10,
+    "mass_da": 997.596,
+    "mz_2plus": 499.8053,
+    "mz_1plus": 998.6033,
+    "hydrophobicity": 0.9222
+  },
+  {
+    "sequence": "RNIFDVALK",
+    "length": 9,
+    "mass_da": 918.5174,
+    "mz_2plus": 460.266,
+    "mz_1plus": 919.5247,
+    "hydrophobicity": 0.775
+  },
+  {
+    "sequence": "KDWDLDK",
+    "length": 7,
+    "mass_da": 790.3497,
+    "mz_2plus": 396.1821,
+    "mz_1plus": 791.357,
+    "hydrophobicity": -1.9167
+  },
+  {
+    "sequence": "RIDGPLQQK",
+    "length": 9,
+    "mass_da": 897.492,
+    "mz_2plus": 449.7533,
+    "mz_1plus": 898.4992,
+    "hydrophobicity": -1.0125
+  },
+  {
+    "sequence": "RLVPNDK",
+    "length": 7,
+    "mass_da": 684.3806,
+    "mz_2plus": 343.1976,
+    "mz_1plus": 685.3879,
+    "hydrophobicity": -0.75
+  },
+  {
+    "sequence": "KYDSTQVVGR",
+    "length": 10,
+    "mass_da": 1023.4985,
+    "mz_2plus": 512.7565,
+    "mz_1plus": 1024.5058,
+    "hydrophobicity": -0.7
+  },
+  {
+    "sequence": "RYLLPGWK",
+    "length": 8,
+    "mass_da": 875.4905,
+    "mz_2plus": 438.7525,
+    "mz_1plus": 876.4978,
+    "hydrophobicity": -0.0714
+  },
+  {
+    "sequence": "RGTLNR",
+    "length": 6,
+    "mass_da": 559.3078,
+    "mz_2plus": 280.6612,
+    "mz_1plus": 560.3151,
+    "hydrophobicity": -1.06
+  },
+  {
+    "sequence": "RWSEIDK",
+    "length": 7,
+    "mass_da": 776.3705,
+    "mz_2plus": 389.1925,
+    "mz_1plus": 777.3777,
+    "hydrophobicity": -1.35
+  },
+  {
+    "sequence": "REIIYIQK",
+    "length": 8,
+    "mass_da": 905.5222,
+    "mz_2plus": 453.7684,
+    "mz_1plus": 906.5295,
+    "hydrophobicity": 0.1857
+  },
+  {
+    "sequence": "KIFYLITK",
+    "length": 8,
+    "mass_da": 896.5371,
+    "mz_2plus": 449.2758,
+    "mz_1plus": 897.5444,
+    "hydrophobicity": 1.3857
+  },
+  {
+    "sequence": "RTWSPNR",
+    "length": 7,
+    "mass_da": 759.3664,
+    "mz_2plus": 380.6905,
+    "mz_1plus": 760.3737,
+    "hydrophobicity": -2.0
+  },
+  {
+    "sequence": "RFYQISQR",
+    "length": 8,
+    "mass_da": 940.4767,
+    "mz_2plus": 471.2456,
+    "mz_1plus": 941.4839,
+    "hydrophobicity": -0.9
+  },
+  {
+    "sequence": "KGANVPGIK",
+    "length": 9,
+    "mass_da": 754.4337,
+    "mz_2plus": 378.2241,
+    "mz_1plus": 755.441,
+    "hydrophobicity": 0.0875
+  },
+  {
+    "sequence": "KLYQNYYR",
+    "length": 8,
+    "mass_da": 1018.4872,
+    "mz_2plus": 510.2509,
+    "mz_1plus": 1019.4945,
+    "hydrophobicity": -1.6571
+  },
+  {
+    "sequence": "KHGYHDDER",
+    "length": 9,
+    "mass_da": 1027.4108,
+    "mz_2plus": 514.7127,
+    "mz_1plus": 1028.418,
+    "hydrophobicity": -2.8875
+  },
+  {
+    "sequence": "KVGLEGAIWSDK",
+    "length": 12,
+    "mass_da": 1173.6029,
+    "mz_2plus": 587.8088,
+    "mz_1plus": 1174.6102,
+    "hydrophobicity": 0.0818
+  },
+  {
+    "sequence": "RAAVAANPAR",
+    "length": 10,
+    "mass_da": 839.4613,
+    "mz_2plus": 420.7379,
+    "mz_1plus": 840.4686,
+    "hydrophobicity": 0.4
+  },
+  {
+    "sequence": "RSTWLLPEDETK",
+    "length": 12,
+    "mass_da": 1317.6452,
+    "mz_2plus": 659.8299,
+    "mz_1plus": 1318.6525,
+    "hydrophobicity": -1.0455
+  },
+  {
+    "sequence": "RDAHEYVQR",
+    "length": 9,
+    "mass_da": 1016.4675,
+    "mz_2plus": 509.2411,
+    "mz_1plus": 1017.4748,
+    "hydrophobicity": -1.6875
+  },
+  {
+    "sequence": "KLIYNDENDK",
+    "length": 10,
+    "mass_da": 1122.5193,
+    "mz_2plus": 562.2669,
+    "mz_1plus": 1123.5266,
+    "hydrophobicity": -1.6
+  },
+  {
+    "sequence": "RIGTEPK",
+    "length": 7,
+    "mass_da": 643.3541,
+    "mz_2plus": 322.6843,
+    "mz_1plus": 644.3614,
+    "hydrophobicity": -0.9333
+  },
+  {
+    "sequence": "KQTGESR",
+    "length": 7,
+    "mass_da": 676.314,
+    "mz_2plus": 339.1643,
+    "mz_1plus": 677.3213,
+    "hydrophobicity": -2.2333
+  },
+  {
+    "sequence": "KLEQTR",
+    "length": 6,
+    "mass_da": 645.3446,
+    "mz_2plus": 323.6796,
+    "mz_1plus": 646.3519,
+    "hydrophobicity": -1.68
+  },
+  {
+    "sequence": "RNWYLSTVHTEK",
+    "length": 12,
+    "mass_da": 1376.6724,
+    "mz_2plus": 689.3435,
+    "mz_1plus": 1377.6797,
+    "hydrophobicity": -0.9545
+  },
+  {
+    "sequence": "KWSNFR",
+    "length": 6,
+    "mass_da": 708.3344,
+    "mz_2plus": 355.1745,
+    "mz_1plus": 709.3416,
+    "hydrophobicity": -1.38
+  },
+  {
+    "sequence": "KVWVFAK",
+    "length": 7,
+    "mass_da": 748.4272,
+    "mz_2plus": 375.2209,
+    "mz_1plus": 749.4345,
+    "hydrophobicity": 1.3667
+  },
+  {
+    "sequence": "RQTAPK",
+    "length": 6,
+    "mass_da": 543.3016,
+    "mz_2plus": 272.6581,
+    "mz_1plus": 544.3089,
+    "hydrophobicity": -1.58
+  },
+  {
+    "sequence": "RLHTHGNPK",
+    "length": 9,
+    "mass_da": 902.4722,
+    "mz_2plus": 452.2434,
+    "mz_1plus": 903.4795,
+    "hydrophobicity": -1.5875
+  },
+  {
+    "sequence": "REHVNVPK",
+    "length": 8,
+    "mass_da": 821.4395,
+    "mz_2plus": 411.727,
+    "mz_1plus": 822.4468,
+    "hydrophobicity": -1.0429
+  },
+  {
+    "sequence": "KNLYIWFGR",
+    "length": 9,
+    "mass_da": 1067.5552,
+    "mz_2plus": 534.7849,
+    "mz_1plus": 1068.5625,
+    "hydrophobicity": 0.0625
+  },
+  {
+    "sequence": "KQTQWQVR",
+    "length": 8,
+    "mass_da": 944.4828,
+    "mz_2plus": 473.2487,
+    "mz_1plus": 945.4901,
+    "hydrophobicity": -1.7714
+  },
+  {
+    "sequence": "KQIYQHTQPYLR",
+    "length": 12,
+    "mass_da": 1445.7415,
+    "mz_2plus": 723.8781,
+    "mz_1plus": 1446.7488,
+    "hydrophobicity": -1.3455
+  },
+  {
+    "sequence": "RTSFIHAR",
+    "length": 8,
     "mass_da": 830.4399,
     "mz_2plus": 416.2272,
     "mz_1plus": 831.4472,
-    "hydrophobicity": -0.886,
-    "source": "validated_proteomics"
+    "hydrophobicity": -0.0143
   },
   {
-    "sequence": "RVHGTL",
-    "length": 6,
-    "mass_da": 681.3922,
-    "mz_2plus": 341.7034,
-    "mz_1plus": 682.3995,
-    "hydrophobicity": -0.133,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RETDVAWEQV",
-    "length": 10,
-    "mass_da": 1231.5833,
-    "mz_2plus": 616.7989,
-    "mz_1plus": 1232.5906,
-    "hydrophobicity": -0.99,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RVPFTAQHWS",
-    "length": 10,
-    "mass_da": 1227.6149,
-    "mz_2plus": 614.8147,
-    "mz_1plus": 1228.6221,
-    "hydrophobicity": -0.64,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RFLVTE",
-    "length": 6,
-    "mass_da": 763.4228,
-    "mz_2plus": 382.7187,
-    "mz_1plus": 764.4301,
-    "hydrophobicity": 0.35,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RQLQHEFIS",
-    "length": 9,
-    "mass_da": 1156.5989,
-    "mz_2plus": 579.3067,
-    "mz_1plus": 1157.6062,
-    "hydrophobicity": -0.878,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLFGNIHG",
-    "length": 8,
-    "mass_da": 884.4868,
-    "mz_2plus": 443.2507,
-    "mz_1plus": 885.4941,
-    "hydrophobicity": -0.038,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHYWWQQGWEYW",
-    "length": 12,
-    "mass_da": 1795.7895,
-    "mz_2plus": 898.9021,
-    "mz_1plus": 1796.7968,
-    "hydrophobicity": -2.017,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REETWDWIQYGD",
-    "length": 12,
-    "mass_da": 1596.6845,
-    "mz_2plus": 799.3495,
-    "mz_1plus": 1597.6917,
-    "hydrophobicity": -1.808,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQEHDLWWH",
-    "length": 9,
-    "mass_da": 1277.5941,
-    "mz_2plus": 639.8043,
-    "mz_1plus": 1278.6014,
-    "hydrophobicity": -2.089,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPTVQDQE",
-    "length": 8,
-    "mass_da": 971.4672,
-    "mz_2plus": 486.7409,
-    "mz_1plus": 972.4745,
-    "hydrophobicity": -2.075,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RTGEPTQG",
-    "length": 8,
-    "mass_da": 844.4039,
-    "mz_2plus": 423.2092,
-    "mz_1plus": 845.4112,
-    "hydrophobicity": -1.913,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVSASPHIQYI",
+    "sequence": "RWPEVYGPLNK",
     "length": 11,
-    "mass_da": 1241.6768,
-    "mz_2plus": 621.8457,
-    "mz_1plus": 1242.6841,
-    "hydrophobicity": -0.009,
-    "source": "validated_proteomics"
+    "mass_da": 1201.6131,
+    "mz_2plus": 601.8138,
+    "mz_1plus": 1202.6204,
+    "hydrophobicity": -0.87
   },
   {
-    "sequence": "KGEPFDQ",
-    "length": 7,
-    "mass_da": 819.3763,
-    "mz_2plus": 410.6954,
-    "mz_1plus": 820.3835,
-    "hydrophobicity": -1.943,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KTGHHHWDVSLW",
-    "length": 12,
-    "mass_da": 1501.7215,
-    "mz_2plus": 751.868,
-    "mz_1plus": 1502.7287,
-    "hydrophobicity": -1.058,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWLLPYISWW",
-    "length": 10,
-    "mass_da": 1418.7499,
-    "mz_2plus": 710.3822,
-    "mz_1plus": 1419.7572,
-    "hydrophobicity": 0.12,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RTVHIGNDYSFF",
-    "length": 12,
-    "mass_da": 1454.6942,
-    "mz_2plus": 728.3544,
-    "mz_1plus": 1455.7015,
-    "hydrophobicity": -0.3,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHNWGVEL",
-    "length": 8,
-    "mass_da": 981.5032,
-    "mz_2plus": 491.7589,
-    "mz_1plus": 982.5105,
-    "hydrophobicity": -0.925,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RSAVDTSLTESL",
-    "length": 12,
-    "mass_da": 1277.6463,
-    "mz_2plus": 639.8304,
-    "mz_1plus": 1278.6536,
-    "hydrophobicity": -0.142,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RFQGGD",
-    "length": 6,
-    "mass_da": 678.3085,
-    "mz_2plus": 340.1615,
-    "mz_1plus": 679.3158,
-    "hydrophobicity": -1.583,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RGYWAEAN",
-    "length": 8,
-    "mass_da": 965.4355,
-    "mz_2plus": 483.725,
-    "mz_1plus": 966.4428,
-    "hydrophobicity": -1.312,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVFPLPF",
-    "length": 7,
-    "mass_da": 846.5003,
-    "mz_2plus": 424.2574,
-    "mz_1plus": 847.5076,
-    "hydrophobicity": 0.929,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVWEFY",
-    "length": 6,
-    "mass_da": 870.4276,
-    "mz_2plus": 436.2211,
-    "mz_1plus": 871.4349,
-    "hydrophobicity": -0.433,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLGPVASLVH",
-    "length": 10,
-    "mass_da": 1019.6127,
-    "mz_2plus": 510.8136,
-    "mz_1plus": 1020.62,
-    "hydrophobicity": 0.79,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KSEATYDTSNA",
+    "sequence": "KTEWYTVDSER",
     "length": 11,
-    "mass_da": 1185.5149,
-    "mz_2plus": 593.7648,
-    "mz_1plus": 1186.5222,
-    "hydrophobicity": -1.373,
-    "source": "validated_proteomics"
+    "mass_da": 1284.5622,
+    "mz_2plus": 643.2884,
+    "mz_1plus": 1285.5695,
+    "hydrophobicity": -1.52
   },
   {
-    "sequence": "KSLFQGDS",
-    "length": 8,
-    "mass_da": 880.429,
-    "mz_2plus": 441.2218,
-    "mz_1plus": 881.4363,
-    "hydrophobicity": -0.788,
-    "source": "validated_proteomics"
+    "sequence": "KHDTQR",
+    "length": 6,
+    "mass_da": 655.3038,
+    "mz_2plus": 328.6592,
+    "mz_1plus": 656.3111,
+    "hydrophobicity": -3.08
   },
   {
-    "sequence": "RHWYHGEWDP",
-    "length": 10,
-    "mass_da": 1381.5952,
-    "mz_2plus": 691.8049,
-    "mz_1plus": 1382.6025,
-    "hydrophobicity": -2.3,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIDQPTY",
-    "length": 7,
-    "mass_da": 863.4389,
-    "mz_2plus": 432.7267,
-    "mz_1plus": 864.4462,
-    "hydrophobicity": -1.429,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIPSDQNF",
-    "length": 8,
-    "mass_da": 947.4712,
-    "mz_2plus": 474.7429,
-    "mz_1plus": 948.4785,
-    "hydrophobicity": -1.188,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RVTWTQHYYSNE",
+    "sequence": "RAFNLLWSTWGK",
     "length": 12,
-    "mass_da": 1582.7164,
-    "mz_2plus": 792.3655,
-    "mz_1plus": 1583.7237,
-    "hydrophobicity": -1.642,
-    "source": "validated_proteomics"
+    "mass_da": 1321.6819,
+    "mz_2plus": 661.8482,
+    "mz_1plus": 1322.6892,
+    "hydrophobicity": 0.1
   },
   {
-    "sequence": "REVHPQFEQPP",
+    "sequence": "KFPVEFGR",
+    "length": 8,
+    "mass_da": 850.4337,
+    "mz_2plus": 426.2241,
+    "mz_1plus": 851.441,
+    "hydrophobicity": -0.0286
+  },
+  {
+    "sequence": "RWIYSYFR",
+    "length": 8,
+    "mass_da": 1033.5021,
+    "mz_2plus": 517.7584,
+    "mz_1plus": 1034.5094,
+    "hydrophobicity": -0.2143
+  },
+  {
+    "sequence": "REPDFAQFR",
+    "length": 9,
+    "mass_da": 1008.4665,
+    "mz_2plus": 505.2405,
+    "mz_1plus": 1009.4738,
+    "hydrophobicity": -1.15
+  },
+  {
+    "sequence": "KHHQVWLTHHK",
     "length": 11,
-    "mass_da": 1362.668,
-    "mz_2plus": 682.3413,
-    "mz_1plus": 1363.6753,
-    "hydrophobicity": -1.773,
-    "source": "validated_proteomics"
+    "mass_da": 1321.6792,
+    "mz_2plus": 661.8469,
+    "mz_1plus": 1322.6865,
+    "hydrophobicity": -1.38
   },
   {
-    "sequence": "RHWSWDSVN",
-    "length": 9,
-    "mass_da": 1185.5315,
-    "mz_2plus": 593.7731,
-    "mz_1plus": 1186.5388,
-    "hydrophobicity": -1.544,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KETSHAGWDGE",
+    "sequence": "RAIWVTAIINR",
     "length": 11,
-    "mass_da": 1215.5156,
-    "mz_2plus": 608.7651,
-    "mz_1plus": 1216.5229,
-    "hydrophobicity": -1.727,
-    "source": "validated_proteomics"
+    "mass_da": 1155.6764,
+    "mz_2plus": 578.8455,
+    "mz_1plus": 1156.6837,
+    "hydrophobicity": 1.17
   },
   {
-    "sequence": "RSTDGWS",
-    "length": 7,
-    "mass_da": 807.3511,
-    "mz_2plus": 404.6828,
-    "mz_1plus": 808.3584,
-    "hydrophobicity": -1.657,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REGSTQNL",
-    "length": 8,
-    "mass_da": 903.441,
-    "mz_2plus": 452.7278,
-    "mz_1plus": 904.4483,
-    "hydrophobicity": -1.637,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHYTFN",
-    "length": 6,
-    "mass_da": 808.3868,
-    "mz_2plus": 405.2007,
-    "mz_1plus": 809.3941,
-    "hydrophobicity": -1.633,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWIPYIFGEWHW",
+    "sequence": "KHSQIWFNYQTK",
     "length": 12,
-    "mass_da": 1688.8252,
-    "mz_2plus": 845.4199,
-    "mz_1plus": 1689.8325,
-    "hydrophobicity": -0.45,
-    "source": "validated_proteomics"
+    "mass_da": 1450.6993,
+    "mz_2plus": 726.3569,
+    "mz_1plus": 1451.7066,
+    "hydrophobicity": -1.2727
   },
   {
-    "sequence": "RSEPPH",
+    "sequence": "RSSWHPEGQK",
+    "length": 10,
+    "mass_da": 1054.4832,
+    "mz_2plus": 528.2489,
+    "mz_1plus": 1055.4905,
+    "hydrophobicity": -2.0667
+  },
+  {
+    "sequence": "KFHSGR",
     "length": 6,
-    "mass_da": 721.3507,
-    "mz_2plus": 361.6826,
-    "mz_1plus": 722.358,
-    "hydrophobicity": -2.533,
-    "source": "validated_proteomics"
+    "mass_da": 602.2925,
+    "mz_2plus": 302.1535,
+    "mz_1plus": 603.2998,
+    "hydrophobicity": -1.22
   },
   {
-    "sequence": "KSLFIGLYASS",
+    "sequence": "RGTVHYHHYR",
+    "length": 10,
+    "mass_da": 1168.5526,
+    "mz_2plus": 585.2836,
+    "mz_1plus": 1169.5599,
+    "hydrophobicity": -1.5111
+  },
+  {
+    "sequence": "KQWDSAYK",
+    "length": 8,
+    "mass_da": 896.4028,
+    "mz_2plus": 449.2087,
+    "mz_1plus": 897.4101,
+    "hydrophobicity": -1.7286
+  },
+  {
+    "sequence": "KYVYVWR",
+    "length": 7,
+    "mass_da": 884.4545,
+    "mz_2plus": 443.2345,
+    "mz_1plus": 885.4617,
+    "hydrophobicity": 0.0667
+  },
+  {
+    "sequence": "KALPDNLPK",
+    "length": 9,
+    "mass_da": 866.4861,
+    "mz_2plus": 434.2504,
+    "mz_1plus": 867.4934,
+    "hydrophobicity": -0.5875
+  },
+  {
+    "sequence": "KISVHGIIDSNK",
+    "length": 12,
+    "mass_da": 1181.6404,
+    "mz_2plus": 591.8275,
+    "mz_1plus": 1182.6477,
+    "hydrophobicity": 0.1455
+  },
+  {
+    "sequence": "KPPNFGVDNR",
+    "length": 10,
+    "mass_da": 1014.4883,
+    "mz_2plus": 508.2514,
+    "mz_1plus": 1015.4956,
+    "hydrophobicity": -1.2889
+  },
+  {
+    "sequence": "KSETIVIYNQPR",
+    "length": 12,
+    "mass_da": 1318.6881,
+    "mz_2plus": 660.3513,
+    "mz_1plus": 1319.6954,
+    "hydrophobicity": -0.5636
+  },
+  {
+    "sequence": "KQDDFWAR",
+    "length": 8,
+    "mass_da": 936.409,
+    "mz_2plus": 469.2118,
+    "mz_1plus": 937.4162,
+    "hydrophobicity": -1.6143
+  },
+  {
+    "sequence": "KWAVIR",
+    "length": 6,
+    "mass_da": 643.3806,
+    "mz_2plus": 322.6976,
+    "mz_1plus": 644.3878,
+    "hydrophobicity": 1.02
+  },
+  {
+    "sequence": "RVEFAIYEK",
+    "length": 9,
+    "mass_da": 997.512,
+    "mz_2plus": 499.7633,
+    "mz_1plus": 998.5193,
+    "hydrophobicity": 0.1375
+  },
+  {
+    "sequence": "KAAQFVR",
+    "length": 7,
+    "mass_da": 690.3813,
+    "mz_2plus": 346.1979,
+    "mz_1plus": 691.3886,
+    "hydrophobicity": 0.4333
+  },
+  {
+    "sequence": "KELTEFFQSPR",
     "length": 11,
-    "mass_da": 1184.6441,
-    "mz_2plus": 593.3293,
-    "mz_1plus": 1185.6514,
-    "hydrophobicity": 0.791,
-    "source": "validated_proteomics"
+    "mass_da": 1252.6088,
+    "mz_2plus": 627.3117,
+    "mz_1plus": 1253.6161,
+    "hydrophobicity": -0.87
   },
   {
-    "sequence": "KEEPTYVVE",
-    "length": 9,
-    "mass_da": 1092.5339,
-    "mz_2plus": 547.2742,
-    "mz_1plus": 1093.5412,
-    "hydrophobicity": -1.067,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REWWSGH",
+    "sequence": "RGEAHWK",
     "length": 7,
-    "mass_da": 956.4253,
-    "mz_2plus": 479.2199,
-    "mz_1plus": 957.4326,
-    "hydrophobicity": -2.029,
-    "source": "validated_proteomics"
+    "mass_da": 726.3449,
+    "mz_2plus": 364.1797,
+    "mz_1plus": 727.3522,
+    "hydrophobicity": -1.6833
   },
   {
-    "sequence": "KVDFGPHHQLSP",
+    "sequence": "KVWIEFGK",
+    "length": 8,
+    "mass_da": 877.4698,
+    "mz_2plus": 439.7422,
+    "mz_1plus": 878.477,
+    "hydrophobicity": 0.4
+  },
+  {
+    "sequence": "KSVQGLNELPAR",
     "length": 12,
-    "mass_da": 1360.6888,
-    "mz_2plus": 681.3517,
-    "mz_1plus": 1361.696,
-    "hydrophobicity": -0.908,
-    "source": "validated_proteomics"
+    "mass_da": 1182.6357,
+    "mz_2plus": 592.3251,
+    "mz_1plus": 1183.6429,
+    "hydrophobicity": -0.3818
   },
   {
-    "sequence": "KEDNIVAYPPYL",
+    "sequence": "RITPDLYTFLYK",
     "length": 12,
-    "mass_da": 1420.7238,
-    "mz_2plus": 711.3692,
-    "mz_1plus": 1421.7311,
-    "hydrophobicity": -0.492,
-    "source": "validated_proteomics"
+    "mass_da": 1372.7278,
+    "mz_2plus": 687.3712,
+    "mz_1plus": 1373.7351,
+    "hydrophobicity": 0.1727
   },
   {
-    "sequence": "RPWEDHWVYWIQ",
-    "length": 12,
-    "mass_da": 1713.8052,
-    "mz_2plus": 857.9099,
-    "mz_1plus": 1714.8125,
-    "hydrophobicity": -1.258,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQQSTGSFQL",
-    "length": 10,
-    "mass_da": 1122.5669,
-    "mz_2plus": 562.2907,
-    "mz_1plus": 1123.5742,
-    "hydrophobicity": -1.05,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KNWLGFDPT",
-    "length": 9,
-    "mass_da": 1076.5291,
-    "mz_2plus": 539.2718,
-    "mz_1plus": 1077.5363,
-    "hydrophobicity": -0.878,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLHQQIHYWYPY",
-    "length": 12,
-    "mass_da": 1702.8368,
-    "mz_2plus": 852.4257,
-    "mz_1plus": 1703.8441,
-    "hydrophobicity": -1.333,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KTWLIS",
-    "length": 6,
-    "mass_da": 746.4327,
-    "mz_2plus": 374.2236,
-    "mz_1plus": 747.4399,
-    "hydrophobicity": 0.333,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPYYPA",
-    "length": 6,
-    "mass_da": 737.3748,
-    "mz_2plus": 369.6947,
-    "mz_1plus": 738.3821,
-    "hydrophobicity": -1.317,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RETWNFGFTS",
-    "length": 10,
-    "mass_da": 1243.5622,
-    "mz_2plus": 622.7884,
-    "mz_1plus": 1244.5694,
-    "hydrophobicity": -0.94,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RSGITDDDGQYW",
-    "length": 12,
-    "mass_da": 1411.6004,
-    "mz_2plus": 706.8075,
-    "mz_1plus": 1412.6077,
-    "hydrophobicity": -1.542,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQQHTPQ",
-    "length": 7,
-    "mass_da": 865.4406,
-    "mz_2plus": 433.7276,
-    "mz_1plus": 866.4479,
-    "hydrophobicity": -2.843,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPYASQFVPA",
-    "length": 10,
-    "mass_da": 1134.5822,
-    "mz_2plus": 568.2984,
-    "mz_1plus": 1135.5894,
-    "hydrophobicity": -0.27,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RNLDYHTGLD",
-    "length": 10,
-    "mass_da": 1202.568,
-    "mz_2plus": 602.2913,
-    "mz_1plus": 1203.5753,
-    "hydrophobicity": -1.3,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIAWQVGVIV",
-    "length": 10,
-    "mass_da": 1111.6753,
-    "mz_2plus": 556.8449,
-    "mz_1plus": 1112.6826,
-    "hydrophobicity": 1.47,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RDGIQYTQHW",
-    "length": 10,
-    "mass_da": 1302.6105,
-    "mz_2plus": 652.3125,
-    "mz_1plus": 1303.6178,
-    "hydrophobicity": -1.7,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RSNYILNPLP",
-    "length": 10,
-    "mass_da": 1185.6506,
-    "mz_2plus": 593.8326,
-    "mz_1plus": 1186.6579,
-    "hydrophobicity": -0.47,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RIYQYSNPFTTS",
-    "length": 12,
-    "mass_da": 1475.7045,
-    "mz_2plus": 738.8595,
-    "mz_1plus": 1476.7118,
-    "hydrophobicity": -0.95,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPDPESWNYIIN",
-    "length": 12,
-    "mass_da": 1474.7092,
-    "mz_2plus": 738.3619,
-    "mz_1plus": 1475.7165,
-    "hydrophobicity": -1.258,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RGFLLDLLDF",
-    "length": 10,
-    "mass_da": 1207.6601,
-    "mz_2plus": 604.8373,
-    "mz_1plus": 1208.6673,
-    "hydrophobicity": 0.89,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RYFGAHVYY",
-    "length": 9,
-    "mass_da": 1174.556,
-    "mz_2plus": 588.2853,
-    "mz_1plus": 1175.5632,
-    "hydrophobicity": -0.356,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPQPDELDHVH",
+    "sequence": "KSQGTVSHYEK",
     "length": 11,
-    "mass_da": 1313.6364,
-    "mz_2plus": 657.8255,
-    "mz_1plus": 1314.6437,
-    "hydrophobicity": -1.773,
-    "source": "validated_proteomics"
+    "mass_da": 1134.5305,
+    "mz_2plus": 568.2726,
+    "mz_1plus": 1135.5378,
+    "hydrophobicity": -1.39
   },
   {
-    "sequence": "RYHPDA",
+    "sequence": "KNIDDK",
     "length": 6,
-    "mass_da": 757.3507,
-    "mz_2plus": 379.6826,
-    "mz_1plus": 758.358,
-    "hydrophobicity": -2.05,
-    "source": "validated_proteomics"
+    "mass_da": 603.2864,
+    "mz_2plus": 302.6505,
+    "mz_1plus": 604.2937,
+    "hydrophobicity": -1.98
   },
   {
-    "sequence": "KQPWYGWN",
+    "sequence": "RVVTEGNEPEIR",
+    "length": 12,
+    "mass_da": 1241.6251,
+    "mz_2plus": 621.8199,
+    "mz_1plus": 1242.6324,
+    "hydrophobicity": -0.7545
+  },
+  {
+    "sequence": "KTEPVLDLEVFR",
+    "length": 12,
+    "mass_da": 1316.6976,
+    "mz_2plus": 659.3561,
+    "mz_1plus": 1317.7049,
+    "hydrophobicity": 0.1364
+  },
+  {
+    "sequence": "KHFAGAHYR",
+    "length": 9,
+    "mass_da": 957.4569,
+    "mz_2plus": 479.7357,
+    "mz_1plus": 958.4642,
+    "hydrophobicity": -0.775
+  },
+  {
+    "sequence": "RSGNFAQK",
     "length": 8,
-    "mass_da": 1077.5032,
-    "mz_2plus": 539.7589,
-    "mz_1plus": 1078.5105,
-    "hydrophobicity": -2.0,
-    "source": "validated_proteomics"
+    "mass_da": 750.366,
+    "mz_2plus": 376.1903,
+    "mz_1plus": 751.3733,
+    "hydrophobicity": -1.0714
   },
   {
-    "sequence": "KQHWNHA",
+    "sequence": "RENEYWSDYHSR",
+    "length": 12,
+    "mass_da": 1484.5957,
+    "mz_2plus": 743.3051,
+    "mz_1plus": 1485.6029,
+    "hydrophobicity": -2.4364
+  },
+  {
+    "sequence": "RFLADAK",
     "length": 7,
-    "mass_da": 919.4413,
-    "mz_2plus": 460.7279,
-    "mz_1plus": 920.4486,
-    "hydrophobicity": -2.343,
-    "source": "validated_proteomics"
+    "mass_da": 663.3591,
+    "mz_2plus": 332.6869,
+    "mz_1plus": 664.3664,
+    "hydrophobicity": 0.4667
   },
   {
-    "sequence": "RPIHTVQETFH",
+    "sequence": "KSTGHDR",
+    "length": 7,
+    "mass_da": 671.2987,
+    "mz_2plus": 336.6566,
+    "mz_1plus": 672.306,
+    "hydrophobicity": -2.1833
+  },
+  {
+    "sequence": "KLDTEWPPQK",
+    "length": 10,
+    "mass_da": 1112.5502,
+    "mz_2plus": 557.2824,
+    "mz_1plus": 1113.5575,
+    "hydrophobicity": -1.7111
+  },
+  {
+    "sequence": "RSIPPK",
+    "length": 6,
+    "mass_da": 540.3271,
+    "mz_2plus": 271.1708,
+    "mz_1plus": 541.3344,
+    "hydrophobicity": -0.68
+  },
+  {
+    "sequence": "KSYILGAVALR",
     "length": 11,
-    "mass_da": 1363.6997,
-    "mz_2plus": 682.8571,
-    "mz_1plus": 1364.7069,
-    "hydrophobicity": -0.855,
-    "source": "validated_proteomics"
+    "mass_da": 1061.6233,
+    "mz_2plus": 531.8189,
+    "mz_1plus": 1062.6306,
+    "hydrophobicity": 1.29
   },
   {
-    "sequence": "RQLANTL",
-    "length": 7,
-    "mass_da": 814.4661,
-    "mz_2plus": 408.2403,
-    "mz_1plus": 815.4734,
-    "hydrophobicity": -0.4,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RHTPFPSLL",
-    "length": 9,
-    "mass_da": 1066.5923,
-    "mz_2plus": 534.3034,
-    "mz_1plus": 1067.5996,
-    "hydrophobicity": -0.222,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RGWSVYI",
-    "length": 7,
-    "mass_da": 879.4603,
-    "mz_2plus": 440.7374,
-    "mz_1plus": 880.4676,
-    "hydrophobicity": 0.114,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KEWSEFDIGHQW",
-    "length": 12,
-    "mass_da": 1560.6997,
-    "mz_2plus": 781.3571,
-    "mz_1plus": 1561.707,
-    "hydrophobicity": -1.4,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYEWDW",
-    "length": 6,
-    "mass_da": 925.397,
-    "mz_2plus": 463.7058,
-    "mz_1plus": 926.4043,
-    "hydrophobicity": -2.333,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWDWPAT",
-    "length": 7,
-    "mass_da": 930.4348,
-    "mz_2plus": 466.2247,
-    "mz_1plus": 931.4421,
-    "hydrophobicity": -1.471,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIEDVSED",
-    "length": 8,
-    "mass_da": 933.4291,
-    "mz_2plus": 467.7218,
-    "mz_1plus": 934.4364,
-    "hydrophobicity": -1.25,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RDPVHG",
-    "length": 6,
-    "mass_da": 679.3402,
-    "mz_2plus": 340.6774,
-    "mz_1plus": 680.3474,
-    "hydrophobicity": -1.5,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RSTWTTEGSFHT",
-    "length": 12,
-    "mass_da": 1408.6371,
-    "mz_2plus": 705.3258,
-    "mz_1plus": 1409.6444,
-    "hydrophobicity": -1.175,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLAAPWVTLL",
+    "sequence": "RQATPFILVK",
     "length": 10,
-    "mass_da": 1110.6801,
-    "mz_2plus": 556.3473,
-    "mz_1plus": 1111.6874,
-    "hydrophobicity": 1.21,
-    "source": "validated_proteomics"
+    "mass_da": 1015.6066,
+    "mz_2plus": 508.8106,
+    "mz_1plus": 1016.6139,
+    "hydrophobicity": 0.8222
   },
   {
-    "sequence": "RGNIFDVAL",
+    "sequence": "KNEDLVSWK",
     "length": 9,
-    "mass_da": 1003.5451,
-    "mz_2plus": 502.7798,
-    "mz_1plus": 1004.5523,
-    "hydrophobicity": 0.578,
-    "source": "validated_proteomics"
+    "mass_da": 989.4818,
+    "mz_2plus": 495.7482,
+    "mz_1plus": 990.4891,
+    "hydrophobicity": -1.0125
   },
   {
-    "sequence": "KFDWDLD",
-    "length": 7,
-    "mass_da": 937.4181,
-    "mz_2plus": 469.7163,
-    "mz_1plus": 938.4254,
-    "hydrophobicity": -1.243,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLIDGPLQQ",
-    "length": 9,
-    "mass_da": 1038.5822,
-    "mz_2plus": 520.2984,
-    "mz_1plus": 1039.5894,
-    "hydrophobicity": -0.544,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RGLVPND",
-    "length": 7,
-    "mass_da": 769.4082,
-    "mz_2plus": 385.7114,
-    "mz_1plus": 770.4155,
-    "hydrophobicity": -0.786,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVYDSTQVVG",
-    "length": 10,
-    "mass_da": 1094.5608,
-    "mz_2plus": 548.2877,
-    "mz_1plus": 1095.5681,
-    "hydrophobicity": -0.15,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RHYLLPGW",
-    "length": 8,
-    "mass_da": 1040.5556,
-    "mz_2plus": 521.2851,
-    "mz_1plus": 1041.5628,
-    "hydrophobicity": -0.538,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RVGTLN",
-    "length": 6,
-    "mass_da": 658.3762,
-    "mz_2plus": 330.1954,
-    "mz_1plus": 659.3835,
-    "hydrophobicity": -0.183,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REWSEID",
-    "length": 7,
-    "mass_da": 933.4192,
-    "mz_2plus": 467.7169,
-    "mz_1plus": 934.4265,
-    "hydrophobicity": -1.743,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RDEIIYIQ",
-    "length": 8,
-    "mass_da": 1048.5553,
-    "mz_2plus": 525.2849,
-    "mz_1plus": 1049.5626,
-    "hydrophobicity": -0.35,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIIFYLIT",
-    "length": 8,
-    "mass_da": 1009.6212,
-    "mz_2plus": 505.8179,
-    "mz_1plus": 1010.6285,
-    "hydrophobicity": 1.775,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPTWSPN",
-    "length": 7,
-    "mass_da": 856.4191,
-    "mz_2plus": 429.2169,
-    "mz_1plus": 857.4264,
-    "hydrophobicity": -1.943,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWFYQISQ",
-    "length": 8,
-    "mass_da": 1126.556,
-    "mz_2plus": 564.2853,
-    "mz_1plus": 1127.5632,
-    "hydrophobicity": -0.9,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLGANVPGI",
-    "length": 9,
-    "mass_da": 867.5178,
-    "mz_2plus": 434.7662,
-    "mz_1plus": 868.5251,
-    "hydrophobicity": 0.5,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KTLYQNYY",
-    "length": 8,
-    "mass_da": 1091.5288,
-    "mz_2plus": 546.7717,
-    "mz_1plus": 1092.536,
-    "hydrophobicity": -1.462,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KSHGYHDDE",
-    "length": 9,
-    "mass_da": 1086.4366,
-    "mz_2plus": 544.2256,
-    "mz_1plus": 1087.4439,
-    "hydrophobicity": -2.589,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KAVGLEGAIWSD",
-    "length": 12,
-    "mass_da": 1244.6401,
-    "mz_2plus": 623.3273,
-    "mz_1plus": 1245.6473,
-    "hydrophobicity": 0.225,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RYAAVAANPA",
-    "length": 10,
-    "mass_da": 1002.5247,
-    "mz_2plus": 502.2696,
-    "mz_1plus": 1003.5319,
-    "hydrophobicity": 0.23,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RESTWLLPEDET",
-    "length": 12,
-    "mass_da": 1474.694,
-    "mz_2plus": 738.3543,
-    "mz_1plus": 1475.7012,
-    "hydrophobicity": -1.3,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RYDAHEYVQ",
-    "length": 9,
-    "mass_da": 1179.5309,
-    "mz_2plus": 590.7727,
-    "mz_1plus": 1180.5382,
-    "hydrophobicity": -1.644,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KDLIYNDEND",
-    "length": 10,
-    "mass_da": 1237.5462,
-    "mz_2plus": 619.7804,
-    "mz_1plus": 1238.5535,
-    "hydrophobicity": -1.79,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RAIGTEP",
-    "length": 7,
-    "mass_da": 742.3973,
-    "mz_2plus": 372.2059,
-    "mz_1plus": 743.4046,
-    "hydrophobicity": -0.629,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KTQTGES",
-    "length": 7,
-    "mass_da": 749.3555,
-    "mz_2plus": 375.685,
-    "mz_1plus": 750.3628,
-    "hydrophobicity": -1.929,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVLEQT",
-    "length": 6,
-    "mass_da": 716.4068,
-    "mz_2plus": 359.2107,
-    "mz_1plus": 717.4141,
-    "hydrophobicity": -0.6,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RANWYLSTVHTE",
-    "length": 12,
-    "mass_da": 1475.7157,
-    "mz_2plus": 738.8651,
-    "mz_1plus": 1476.723,
-    "hydrophobicity": -0.775,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPWSNF",
-    "length": 6,
-    "mass_da": 777.381,
-    "mz_2plus": 389.6978,
-    "mz_1plus": 778.3882,
-    "hydrophobicity": -1.317,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHVWVFA",
-    "length": 7,
-    "mass_da": 885.4861,
-    "mz_2plus": 443.7503,
-    "mz_1plus": 886.4934,
-    "hydrophobicity": 0.714,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REQTAP",
-    "length": 6,
-    "mass_da": 700.3504,
-    "mz_2plus": 351.1825,
-    "mz_1plus": 701.3577,
-    "hydrophobicity": -2.0,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RELHTHGNP",
-    "length": 9,
-    "mass_da": 1059.521,
-    "mz_2plus": 530.7678,
-    "mz_1plus": 1060.5283,
-    "hydrophobicity": -1.867,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RGEHVNVP",
-    "length": 8,
-    "mass_da": 906.4671,
-    "mz_2plus": 454.2409,
-    "mz_1plus": 907.4744,
-    "hydrophobicity": -1.038,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KSNLYIWFG",
-    "length": 9,
-    "mass_da": 1126.5811,
-    "mz_2plus": 564.2978,
-    "mz_1plus": 1127.5884,
-    "hydrophobicity": 0.033,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KTQTQWQV",
-    "length": 8,
-    "mass_da": 1017.5243,
-    "mz_2plus": 509.7695,
-    "mz_1plus": 1018.5316,
-    "hydrophobicity": -1.562,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPQIYQHTQPYL",
-    "length": 12,
-    "mass_da": 1514.7881,
-    "mz_2plus": 758.4014,
-    "mz_1plus": 1515.7954,
-    "hydrophobicity": -1.317,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RIWPEVYGPLN",
+    "sequence": "KGTEDVGLPNK",
     "length": 11,
-    "mass_da": 1342.7033,
-    "mz_2plus": 672.359,
-    "mz_1plus": 1343.7106,
-    "hydrophobicity": -0.436,
-    "source": "validated_proteomics"
+    "mass_da": 1028.5138,
+    "mz_2plus": 515.2642,
+    "mz_1plus": 1029.5211,
+    "hydrophobicity": -0.95
   },
   {
-    "sequence": "KVTEWYTVDSE",
-    "length": 11,
-    "mass_da": 1355.6245,
-    "mz_2plus": 678.8195,
-    "mz_1plus": 1356.6318,
-    "hydrophobicity": -0.945,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KSHDTQ",
-    "length": 6,
-    "mass_da": 714.3297,
-    "mz_2plus": 358.1721,
-    "mz_1plus": 715.3369,
-    "hydrophobicity": -2.6,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RFAFNLLWSTWG",
+    "sequence": "RQQWNLEIGFGR",
     "length": 12,
-    "mass_da": 1496.7564,
-    "mz_2plus": 749.3855,
-    "mz_1plus": 1497.7637,
-    "hydrophobicity": 0.275,
-    "source": "validated_proteomics"
+    "mass_da": 1346.6731,
+    "mz_2plus": 674.3438,
+    "mz_1plus": 1347.6804,
+    "hydrophobicity": -0.8273
   },
   {
-    "sequence": "KYFPVEFG",
-    "length": 8,
-    "mass_da": 985.4909,
-    "mz_2plus": 493.7527,
-    "mz_1plus": 986.4982,
-    "hydrophobicity": -0.113,
-    "source": "validated_proteomics"
+    "sequence": "KWQVFR",
+    "length": 6,
+    "mass_da": 734.3864,
+    "mz_2plus": 368.2005,
+    "mz_1plus": 735.3937,
+    "hydrophobicity": -0.38
   },
   {
-    "sequence": "RQWIYSYF",
-    "length": 8,
-    "mass_da": 1161.5607,
-    "mz_2plus": 581.7876,
-    "mz_1plus": 1162.568,
-    "hydrophobicity": -0.625,
-    "source": "validated_proteomics"
+    "sequence": "RWPWNFEHPK",
+    "length": 10,
+    "mass_da": 1239.5825,
+    "mz_2plus": 620.7985,
+    "mz_1plus": 1240.5898,
+    "hydrophobicity": -1.8111
   },
   {
-    "sequence": "RQEPDFAQF",
+    "sequence": "KQGELSTDPNHK",
+    "length": 12,
+    "mass_da": 1224.5735,
+    "mz_2plus": 613.294,
+    "mz_1plus": 1225.5807,
+    "hydrophobicity": -1.8909
+  },
+  {
+    "sequence": "RLFWFR",
+    "length": 6,
+    "mass_da": 767.4119,
+    "mz_2plus": 384.7132,
+    "mz_1plus": 768.4191,
+    "hydrophobicity": 0.8
+  },
+  {
+    "sequence": "KADLGITSENEK",
+    "length": 12,
+    "mass_da": 1175.567,
+    "mz_2plus": 588.7908,
+    "mz_1plus": 1176.5742,
+    "hydrophobicity": -0.8818
+  },
+  {
+    "sequence": "KWGEQK",
+    "length": 6,
+    "mass_da": 646.3075,
+    "mz_2plus": 324.161,
+    "mz_1plus": 647.3147,
+    "hydrophobicity": -2.44
+  },
+  {
+    "sequence": "KDHVTR",
+    "length": 6,
+    "mass_da": 626.3136,
+    "mz_2plus": 314.1641,
+    "mz_1plus": 627.3209,
+    "hydrophobicity": -1.54
+  },
+  {
+    "sequence": "KVHSIHNNR",
     "length": 9,
-    "mass_da": 1136.525,
-    "mz_2plus": 569.2698,
-    "mz_1plus": 1137.5323,
-    "hydrophobicity": -1.411,
-    "source": "validated_proteomics"
+    "mass_da": 975.4999,
+    "mz_2plus": 488.7572,
+    "mz_1plus": 976.5071,
+    "hydrophobicity": -1.25
   },
   {
-    "sequence": "KLHHQVWLTHH",
-    "length": 11,
-    "mass_da": 1434.7633,
-    "mz_2plus": 718.3889,
-    "mz_1plus": 1435.7705,
-    "hydrophobicity": -0.909,
-    "source": "validated_proteomics"
+    "sequence": "KLPYVYDEK",
+    "length": 9,
+    "mass_da": 1025.5069,
+    "mz_2plus": 513.7608,
+    "mz_1plus": 1026.5142,
+    "hydrophobicity": -0.8875
   },
   {
-    "sequence": "RTAIWVTAIIN",
-    "length": 11,
-    "mass_da": 1256.7241,
-    "mz_2plus": 629.3693,
-    "mz_1plus": 1257.7314,
-    "hydrophobicity": 1.0,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KFHSQIWFNYQT",
-    "length": 12,
-    "mass_da": 1597.7677,
-    "mz_2plus": 799.8912,
-    "mz_1plus": 1598.775,
-    "hydrophobicity": -0.933,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RFSSWHPEGQ",
-    "length": 10,
-    "mass_da": 1229.5577,
-    "mz_2plus": 615.7862,
-    "mz_1plus": 1230.565,
-    "hydrophobicity": -1.64,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPFHSG",
-    "length": 6,
-    "mass_da": 671.3391,
-    "mz_2plus": 336.6768,
-    "mz_1plus": 672.3464,
-    "hydrophobicity": -1.183,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RVGTVHYHHY",
-    "length": 10,
-    "mass_da": 1267.621,
-    "mz_2plus": 634.8178,
-    "mz_1plus": 1268.6283,
-    "hydrophobicity": -0.94,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHQWDSAY",
+    "sequence": "RVILATSK",
     "length": 8,
-    "mass_da": 1033.4617,
-    "mz_2plus": 517.7381,
-    "mz_1plus": 1034.469,
-    "hydrophobicity": -1.913,
-    "source": "validated_proteomics"
+    "mass_da": 730.4589,
+    "mz_2plus": 366.2367,
+    "mz_1plus": 731.4662,
+    "hydrophobicity": 1.2714
   },
   {
-    "sequence": "KTYVYVW",
+    "sequence": "RQTNHAQLR",
+    "length": 9,
+    "mass_da": 966.4995,
+    "mz_2plus": 484.257,
+    "mz_1plus": 967.5068,
+    "hydrophobicity": -1.6625
+  },
+  {
+    "sequence": "RYSLHK",
+    "length": 6,
+    "mass_da": 646.3439,
+    "mz_2plus": 324.1792,
+    "mz_1plus": 647.3511,
+    "hydrophobicity": -1.08
+  },
+  {
+    "sequence": "KNDLTK",
+    "length": 6,
+    "mass_da": 589.3071,
+    "mz_2plus": 295.6608,
+    "mz_1plus": 590.3144,
+    "hydrophobicity": -1.56
+  },
+  {
+    "sequence": "KLQSASGK",
+    "length": 8,
+    "mass_da": 689.3708,
+    "mz_2plus": 345.6927,
+    "mz_1plus": 690.3781,
+    "hydrophobicity": -0.5429
+  },
+  {
+    "sequence": "KPHYDEDLLR",
+    "length": 10,
+    "mass_da": 1156.5513,
+    "mz_2plus": 579.2829,
+    "mz_1plus": 1157.5585,
+    "hydrophobicity": -1.5
+  },
+  {
+    "sequence": "RQIGQK",
+    "length": 6,
+    "mass_da": 572.3282,
+    "mz_2plus": 287.1714,
+    "mz_1plus": 573.3355,
+    "hydrophobicity": -1.36
+  },
+  {
+    "sequence": "KDAGGFSESTR",
+    "length": 11,
+    "mass_da": 1025.4414,
+    "mz_2plus": 513.728,
+    "mz_1plus": 1026.4487,
+    "hydrophobicity": -1.0
+  },
+  {
+    "sequence": "KPQGHVYQHR",
+    "length": 10,
+    "mass_da": 1120.5526,
+    "mz_2plus": 561.2836,
+    "mz_1plus": 1121.5599,
+    "hydrophobicity": -1.8889
+  },
+  {
+    "sequence": "RHTPPGHATDK",
+    "length": 11,
+    "mass_da": 1059.5097,
+    "mz_2plus": 530.7621,
+    "mz_1plus": 1060.517,
+    "hydrophobicity": -1.7
+  },
+  {
+    "sequence": "RFYGQEK",
     "length": 7,
-    "mass_da": 957.496,
-    "mz_2plus": 479.7553,
-    "mz_1plus": 958.5033,
-    "hydrophobicity": 0.043,
-    "source": "validated_proteomics"
+    "mass_da": 770.3599,
+    "mz_2plus": 386.1872,
+    "mz_1plus": 771.3672,
+    "hydrophobicity": -1.6333
   },
   {
-    "sequence": "KEALPDNLP",
-    "length": 9,
-    "mass_da": 995.5287,
-    "mz_2plus": 498.7716,
-    "mz_1plus": 996.536,
-    "hydrophobicity": -0.911,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLISVHGIIDSN",
-    "length": 12,
-    "mass_da": 1294.7245,
-    "mz_2plus": 648.3695,
-    "mz_1plus": 1295.7317,
-    "hydrophobicity": 0.45,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQPPNFGVDN",
-    "length": 10,
-    "mass_da": 1114.5407,
-    "mz_2plus": 558.2776,
-    "mz_1plus": 1115.548,
-    "hydrophobicity": -1.45,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KWSETIVIYNQP",
-    "length": 12,
-    "mass_da": 1476.7613,
-    "mz_2plus": 739.3879,
-    "mz_1plus": 1477.7685,
-    "hydrophobicity": -0.542,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYQDDFWA",
-    "length": 8,
-    "mass_da": 1071.4661,
-    "mz_2plus": 536.7404,
-    "mz_1plus": 1072.4734,
-    "hydrophobicity": -1.5,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KWWAVI",
-    "length": 6,
-    "mass_da": 801.4537,
-    "mz_2plus": 401.7341,
-    "mz_1plus": 802.461,
-    "hydrophobicity": 0.8,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLVEFAIYE",
-    "length": 9,
-    "mass_da": 1138.6022,
-    "mz_2plus": 570.3084,
-    "mz_1plus": 1139.6095,
-    "hydrophobicity": 0.478,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KWAAQFV",
+    "sequence": "RHEQWAR",
     "length": 7,
-    "mass_da": 848.4545,
-    "mz_2plus": 425.2345,
-    "mz_1plus": 849.4617,
-    "hydrophobicity": 0.329,
-    "source": "validated_proteomics"
+    "mass_da": 825.3882,
+    "mz_2plus": 413.7014,
+    "mz_1plus": 826.3955,
+    "hydrophobicity": -2.3
   },
   {
-    "sequence": "KYELTEFFQSP",
-    "length": 11,
-    "mass_da": 1387.666,
-    "mz_2plus": 694.8403,
-    "mz_1plus": 1388.6732,
-    "hydrophobicity": -0.855,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RGGEAHW",
-    "length": 7,
-    "mass_da": 811.3725,
-    "mz_2plus": 406.6935,
-    "mz_1plus": 812.3798,
-    "hydrophobicity": -1.586,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KGVWIEFG",
+    "sequence": "KESNFADK",
     "length": 8,
-    "mass_da": 934.4912,
-    "mz_2plus": 468.2529,
-    "mz_1plus": 935.4985,
-    "hydrophobicity": 0.3,
-    "source": "validated_proteomics"
+    "mass_da": 809.3555,
+    "mz_2plus": 405.685,
+    "mz_1plus": 810.3628,
+    "hydrophobicity": -1.5143
   },
   {
-    "sequence": "KTSVQGLNELPA",
-    "length": 12,
-    "mass_da": 1255.6772,
-    "mz_2plus": 628.8459,
-    "mz_1plus": 1256.6845,
-    "hydrophobicity": -0.358,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RIITPDLYTFLY",
-    "length": 12,
-    "mass_da": 1513.818,
-    "mz_2plus": 757.9163,
-    "mz_1plus": 1514.8253,
-    "hydrophobicity": 0.483,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KASQGTVSHYE",
-    "length": 11,
-    "mass_da": 1205.5676,
-    "mz_2plus": 603.7911,
-    "mz_1plus": 1206.5749,
-    "hydrophobicity": -1.1,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KANIDD",
-    "length": 6,
-    "mass_da": 674.3235,
-    "mz_2plus": 338.169,
-    "mz_1plus": 675.3308,
-    "hydrophobicity": -1.35,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPVVTEGNEPEI",
-    "length": 12,
-    "mass_da": 1338.6779,
-    "mz_2plus": 670.3462,
-    "mz_1plus": 1339.6852,
-    "hydrophobicity": -0.825,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQTEPVLDLEVF",
-    "length": 12,
-    "mass_da": 1416.75,
-    "mz_2plus": 709.3823,
-    "mz_1plus": 1417.7573,
-    "hydrophobicity": -0.117,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KPHFAGAHY",
+    "sequence": "RHVYTSTFR",
     "length": 9,
-    "mass_da": 1026.5035,
-    "mz_2plus": 514.259,
-    "mz_1plus": 1027.5108,
-    "hydrophobicity": -0.8,
-    "source": "validated_proteomics"
+    "mass_da": 1009.4981,
+    "mz_2plus": 505.7563,
+    "mz_1plus": 1010.5054,
+    "hydrophobicity": -0.525
   },
   {
-    "sequence": "RHSGNFAQ",
+    "sequence": "RHWEDPAQNFEK",
+    "length": 12,
+    "mass_da": 1399.6156,
+    "mz_2plus": 700.8151,
+    "mz_1plus": 1400.6229,
+    "hydrophobicity": -2.0455
+  },
+  {
+    "sequence": "KHEEQYAR",
     "length": 8,
-    "mass_da": 915.4311,
-    "mz_2plus": 458.7228,
-    "mz_1plus": 916.4384,
-    "hydrophobicity": -1.413,
-    "source": "validated_proteomics"
+    "mass_da": 931.4148,
+    "mz_2plus": 466.7147,
+    "mz_1plus": 932.4221,
+    "hydrophobicity": -2.5286
   },
   {
-    "sequence": "RNENEYWSDYHS",
-    "length": 12,
-    "mass_da": 1598.6386,
-    "mz_2plus": 800.3266,
-    "mz_1plus": 1599.6459,
-    "hydrophobicity": -2.525,
-    "source": "validated_proteomics"
+    "sequence": "KHDFQIIVR",
+    "length": 9,
+    "mass_da": 1026.561,
+    "mz_2plus": 514.2878,
+    "mz_1plus": 1027.5683,
+    "hydrophobicity": 0.1625
   },
   {
-    "sequence": "RFFLADA",
-    "length": 7,
-    "mass_da": 838.4337,
-    "mz_2plus": 420.2241,
-    "mz_1plus": 839.441,
-    "hydrophobicity": 0.714,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYSTGHD",
-    "length": 7,
-    "mass_da": 806.3559,
-    "mz_2plus": 404.1852,
-    "mz_1plus": 807.3632,
-    "hydrophobicity": -1.971,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHLDTEWPPQ",
-    "length": 10,
-    "mass_da": 1249.6091,
-    "mz_2plus": 625.8118,
-    "mz_1plus": 1250.6164,
-    "hydrophobicity": -1.86,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RASIPP",
-    "length": 6,
-    "mass_da": 639.3704,
-    "mz_2plus": 320.6925,
-    "mz_1plus": 640.3777,
-    "hydrophobicity": -0.367,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KWSYILGAVAL",
+    "sequence": "RPLFDTYGDSR",
     "length": 11,
-    "mass_da": 1219.6965,
-    "mz_2plus": 610.8555,
-    "mz_1plus": 1220.7037,
-    "hydrophobicity": 1.145,
-    "source": "validated_proteomics"
+    "mass_da": 1169.5353,
+    "mz_2plus": 585.7749,
+    "mz_1plus": 1170.5426,
+    "hydrophobicity": -0.97
   },
   {
-    "sequence": "RAQATPFILV",
-    "length": 10,
-    "mass_da": 1114.6499,
-    "mz_2plus": 558.3322,
-    "mz_1plus": 1115.6571,
-    "hydrophobicity": 0.86,
-    "source": "validated_proteomics"
+    "sequence": "RPYIFK",
+    "length": 6,
+    "mass_da": 666.3741,
+    "mz_2plus": 334.1943,
+    "mz_1plus": 667.3814,
+    "hydrophobicity": 0.1
   },
   {
-    "sequence": "KGNEDLVSW",
+    "sequence": "KPEYFK",
+    "length": 6,
+    "mass_da": 682.3326,
+    "mz_2plus": 342.1736,
+    "mz_1plus": 683.3399,
+    "hydrophobicity": -1.5
+  },
+  {
+    "sequence": "RWDNWWNLK",
     "length": 9,
-    "mass_da": 1046.5032,
-    "mz_2plus": 524.2589,
-    "mz_1plus": 1047.5105,
-    "hydrophobicity": -0.944,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KFGTEDVGLPN",
-    "length": 11,
-    "mass_da": 1175.5822,
-    "mz_2plus": 588.7984,
-    "mz_1plus": 1176.5895,
-    "hydrophobicity": -0.609,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RTQQWNLEIGFG",
-    "length": 12,
-    "mass_da": 1447.7208,
-    "mz_2plus": 724.8677,
-    "mz_1plus": 1448.7281,
-    "hydrophobicity": -0.817,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KWWQVF",
-    "length": 6,
-    "mass_da": 892.4595,
-    "mz_2plus": 447.2371,
-    "mz_1plus": 893.4668,
-    "hydrophobicity": -0.367,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RIWPWNFEHP",
-    "length": 10,
-    "mass_da": 1380.6727,
-    "mz_2plus": 691.3436,
-    "mz_1plus": 1381.68,
-    "hydrophobicity": -1.24,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIQGELSTDPNH",
-    "length": 12,
-    "mass_da": 1337.6575,
-    "mz_2plus": 669.836,
-    "mz_1plus": 1338.6648,
-    "hydrophobicity": -1.358,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RWLFWF",
-    "length": 6,
-    "mass_da": 953.4912,
-    "mz_2plus": 477.7529,
-    "mz_1plus": 954.4985,
-    "hydrophobicity": 0.517,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KFADLGITSENE",
-    "length": 12,
-    "mass_da": 1322.6354,
-    "mz_2plus": 662.325,
-    "mz_1plus": 1323.6427,
-    "hydrophobicity": -0.575,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KIWGEQ",
-    "length": 6,
-    "mass_da": 759.3915,
-    "mz_2plus": 380.703,
-    "mz_1plus": 760.3988,
-    "hydrophobicity": -1.283,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KWDHVT",
-    "length": 6,
-    "mass_da": 784.3868,
-    "mz_2plus": 393.2007,
-    "mz_1plus": 785.3941,
-    "hydrophobicity": -1.333,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KTVHSIHNN",
-    "length": 9,
-    "mass_da": 1048.5414,
-    "mz_2plus": 525.278,
-    "mz_1plus": 1049.5487,
-    "hydrophobicity": -1.122,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KDLPYVYDE",
-    "length": 9,
-    "mass_da": 1140.5339,
-    "mz_2plus": 571.2742,
-    "mz_1plus": 1141.5412,
-    "hydrophobicity": -1.178,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RGVILATS",
-    "length": 8,
-    "mass_da": 815.4865,
-    "mz_2plus": 408.7505,
-    "mz_1plus": 816.4938,
-    "hydrophobicity": 0.988,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RSQTNHAQL",
-    "length": 9,
-    "mass_da": 1053.5315,
-    "mz_2plus": 527.7731,
-    "mz_1plus": 1054.5388,
-    "hydrophobicity": -1.567,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RDYSLH",
-    "length": 6,
-    "mass_da": 789.3769,
-    "mz_2plus": 395.6958,
-    "mz_1plus": 790.3842,
-    "hydrophobicity": -1.583,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLNDLT",
-    "length": 6,
-    "mass_da": 702.3912,
-    "mz_2plus": 352.2029,
-    "mz_1plus": 703.3985,
-    "hydrophobicity": -0.667,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHLQSASG",
-    "length": 8,
-    "mass_da": 826.4297,
-    "mz_2plus": 414.2221,
-    "mz_1plus": 827.437,
-    "hydrophobicity": -0.875,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYPHYDEDLL",
-    "length": 10,
-    "mass_da": 1291.6084,
-    "mz_2plus": 646.8115,
-    "mz_1plus": 1292.6157,
-    "hydrophobicity": -1.42,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RAQIGQ",
-    "length": 6,
-    "mass_da": 671.3715,
-    "mz_2plus": 336.693,
-    "mz_1plus": 672.3787,
-    "hydrophobicity": -0.933,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQDAGGFSEST",
-    "length": 11,
-    "mass_da": 1125.4938,
-    "mz_2plus": 563.7542,
-    "mz_1plus": 1126.5011,
-    "hydrophobicity": -1.173,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KQPQGHVYQH",
-    "length": 10,
-    "mass_da": 1220.605,
-    "mz_2plus": 611.3098,
-    "mz_1plus": 1221.6123,
-    "hydrophobicity": -1.99,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLHTPPGHATD",
-    "length": 11,
-    "mass_da": 1200.5999,
-    "mz_2plus": 601.3072,
-    "mz_1plus": 1201.6072,
-    "hydrophobicity": -1.255,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLFYGQE",
-    "length": 7,
-    "mass_da": 911.4501,
-    "mz_2plus": 456.7323,
-    "mz_1plus": 912.4574,
-    "hydrophobicity": -0.943,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RQHEQWA",
-    "length": 7,
-    "mass_da": 953.4468,
-    "mz_2plus": 477.7307,
-    "mz_1plus": 954.454,
-    "hydrophobicity": -2.471,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KLESNFAD",
-    "length": 8,
-    "mass_da": 922.4396,
-    "mz_2plus": 462.2271,
-    "mz_1plus": 923.4469,
-    "hydrophobicity": -0.85,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RVHVYTSTF",
-    "length": 9,
-    "mass_da": 1108.5665,
-    "mz_2plus": 555.2905,
-    "mz_1plus": 1109.5738,
-    "hydrophobicity": 0.0,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RLHWEDPAQNFE",
-    "length": 12,
-    "mass_da": 1540.7059,
-    "mz_2plus": 771.3602,
-    "mz_1plus": 1541.7131,
-    "hydrophobicity": -1.608,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KTHEEQYA",
-    "length": 8,
-    "mass_da": 1004.4563,
-    "mz_2plus": 503.2354,
-    "mz_1plus": 1005.4636,
-    "hydrophobicity": -2.225,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KVHDFQIIV",
-    "length": 9,
-    "mass_da": 1097.6233,
-    "mz_2plus": 549.8189,
-    "mz_1plus": 1098.6306,
-    "hydrophobicity": 0.678,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RPPLFDTYGDS",
-    "length": 11,
-    "mass_da": 1266.588,
-    "mz_2plus": 634.3013,
-    "mz_1plus": 1267.5953,
-    "hydrophobicity": -1.027,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "REPYIF",
-    "length": 6,
-    "mass_da": 823.4228,
-    "mz_2plus": 412.7187,
-    "mz_1plus": 824.4301,
-    "hydrophobicity": -0.6,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KHPEYF",
-    "length": 6,
-    "mass_da": 819.3915,
-    "mz_2plus": 410.703,
-    "mz_1plus": 820.3988,
-    "hydrophobicity": -1.783,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RHWDNWWNL",
-    "length": 9,
-    "mass_da": 1325.6054,
-    "mz_2plus": 663.81,
-    "mz_1plus": 1326.6127,
-    "hydrophobicity": -1.9,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "RDGFESVLDTVY",
-    "length": 12,
-    "mass_da": 1399.6619,
-    "mz_2plus": 700.8382,
-    "mz_1plus": 1400.6692,
-    "hydrophobicity": -0.267,
-    "source": "validated_proteomics"
-  },
-  {
-    "sequence": "KYPETDGFWH",
-    "length": 10,
-    "mass_da": 1278.5669,
-    "mz_2plus": 640.2907,
-    "mz_1plus": 1279.5742,
-    "hydrophobicity": -1.62,
-    "source": "validated_proteomics"
+    "mass_da": 1160.5403,
+    "mz_2plus": 581.2774,
+    "mz_1plus": 1161.5476,
+    "hydrophobicity": -1.6625
   }
 ]
