@@ -976,6 +976,7 @@ def tab_barcoding():
             c for c in [
                 "variant_id", "combined_score", "mutations",
                 "barcode_id", "barcode_peptide", "barcoded_sequence", "barcode_tryptic_peptide",
+                "barcode_source",
             ] if c in barcoded.columns
         ]
         st.dataframe(barcoded[display_cols], use_container_width=True)
@@ -983,6 +984,29 @@ def tab_barcoding():
         if ref_table is not None and len(ref_table) > 0:
             st.subheader("Barcode Reference Table (for MS method setup)")
             st.dataframe(ref_table, use_container_width=True)
+
+            # -- Biophysical distribution plots --
+            st.subheader("Barcode Biophysical Distributions")
+            st.markdown(
+                "These plots characterise the assigned barcode peptides to help "
+                "assess expected separation on a reversed-phase column feeding "
+                "into electrospray ionisation (ESI). Wider, more uniform "
+                "distributions indicate better chromatographic spread."
+            )
+            try:
+                generator = BarcodeGenerator()
+                fig = generator.plot_barcode_distributions(ref_table)
+                st.pyplot(fig)
+            except Exception as plot_err:
+                st.warning(f"Could not render distribution plots: {plot_err}")
+
+            # -- Source summary --
+            if "source" in ref_table.columns:
+                counts = ref_table["source"].value_counts()
+                st.subheader("Barcode Source Summary")
+                for src, cnt in counts.items():
+                    label = src.replace("_", " ").title() if src else "Unknown"
+                    st.metric(label, cnt)
 
         st.subheader("Download")
         col1, col2, col3 = st.columns(3)

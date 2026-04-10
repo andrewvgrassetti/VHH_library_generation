@@ -5,7 +5,8 @@
     "mass_da": 788.4644,
     "mz_2plus": 395.2395,
     "mz_1plus": 789.4716,
-    "hydrophobicity": 0.429
+    "hydrophobicity": 0.429,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AEEAALK",
@@ -13,7 +14,8 @@
     "mass_da": 730.3861,
     "mz_2plus": 366.2003,
     "mz_1plus": 731.3934,
-    "hydrophobicity": -0.243
+    "hydrophobicity": -0.243,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FTISDVAK",
@@ -21,7 +23,8 @@
     "mass_da": 879.4702,
     "mz_2plus": 440.7424,
     "mz_1plus": 880.4774,
-    "hydrophobicity": 0.55
+    "hydrophobicity": 0.55,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IASHLLAQQR",
@@ -29,7 +32,8 @@
     "mass_da": 1135.6462,
     "mz_2plus": 568.8304,
     "mz_1plus": 1136.6535,
-    "hydrophobicity": 0.02
+    "hydrophobicity": 0.02,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AFIQSPLVAK",
@@ -37,7 +41,8 @@
     "mass_da": 1072.6281,
     "mz_2plus": 537.3213,
     "mz_1plus": 1073.6353,
-    "hydrophobicity": 0.91
+    "hydrophobicity": 0.91,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EGILAADESGR",
@@ -45,7 +50,8 @@
     "mass_da": 1116.5411,
     "mz_2plus": 559.2778,
     "mz_1plus": 1117.5484,
-    "hydrophobicity": -0.427
+    "hydrophobicity": -0.427,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EFLTDVLSK",
@@ -53,7 +59,8 @@
     "mass_da": 1050.5597,
     "mz_2plus": 526.2871,
     "mz_1plus": 1051.567,
-    "hydrophobicity": 0.244
+    "hydrophobicity": 0.244,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VDLITVDR",
@@ -61,7 +68,8 @@
     "mass_da": 929.5182,
     "mz_2plus": 465.7664,
     "mz_1plus": 930.5255,
-    "hydrophobicity": 0.562
+    "hydrophobicity": 0.562,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SGLAPQPYR",
@@ -69,7 +77,8 @@
     "mass_da": 987.5138,
     "mz_2plus": 494.7642,
     "mz_1plus": 988.521,
-    "hydrophobicity": -0.9
+    "hydrophobicity": -0.9,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AEFVEVTK",
@@ -77,7 +86,8 @@
     "mass_da": 921.4807,
     "mz_2plus": 461.7476,
     "mz_1plus": 922.488,
-    "hydrophobicity": 0.175
+    "hydrophobicity": 0.175,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TLSDYNIQK",
@@ -85,7 +95,8 @@
     "mass_da": 1080.5451,
     "mz_2plus": 541.2798,
     "mz_1plus": 1081.5524,
-    "hydrophobicity": -0.989
+    "hydrophobicity": -0.989,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EIASHLLAQQR",
@@ -93,7 +104,8 @@
     "mass_da": 1264.6888,
     "mz_2plus": 633.3517,
     "mz_1plus": 1265.696,
-    "hydrophobicity": -0.3
+    "hydrophobicity": -0.3,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IPIQGSVER",
@@ -101,7 +113,8 @@
     "mass_da": 997.5556,
     "mz_2plus": 499.7851,
     "mz_1plus": 998.5629,
-    "hydrophobicity": -0.122
+    "hydrophobicity": -0.122,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VPDFSEELR",
@@ -109,7 +122,8 @@
     "mass_da": 1090.5295,
     "mz_2plus": 546.272,
     "mz_1plus": 1091.5367,
-    "hydrophobicity": -0.733
+    "hydrophobicity": -0.733,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DSNVNWNNLK",
@@ -117,7 +131,8 @@
     "mass_da": 1202.568,
     "mz_2plus": 602.2913,
     "mz_1plus": 1203.5753,
-    "hydrophobicity": -1.51
+    "hydrophobicity": -1.51,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ILTGEER",
@@ -125,7 +140,8 @@
     "mass_da": 816.4341,
     "mz_2plus": 409.2243,
     "mz_1plus": 817.4414,
-    "hydrophobicity": -0.614
+    "hydrophobicity": -0.614,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SIIFGVNK",
@@ -133,7 +149,8 @@
     "mass_da": 876.5069,
     "mz_2plus": 439.2607,
     "mz_1plus": 877.5142,
-    "hydrophobicity": 0.925
+    "hydrophobicity": 0.925,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TLQTLEAFR",
@@ -141,7 +158,8 @@
     "mass_da": 1077.5818,
     "mz_2plus": 539.7982,
     "mz_1plus": 1078.5891,
-    "hydrophobicity": -0.078
+    "hydrophobicity": -0.078,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VTIYDGER",
@@ -149,7 +167,8 @@
     "mass_da": 951.4661,
     "mz_2plus": 476.7403,
     "mz_1plus": 952.4734,
-    "hydrophobicity": -0.65
+    "hydrophobicity": -0.65,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "HQTVLTLR",
@@ -157,7 +176,8 @@
     "mass_da": 966.5611,
     "mz_2plus": 484.2878,
     "mz_1plus": 967.5683,
-    "hydrophobicity": -0.1
+    "hydrophobicity": -0.1,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DTTIVTNLK",
@@ -165,7 +185,8 @@
     "mass_da": 1003.555,
     "mz_2plus": 502.7848,
     "mz_1plus": 1004.5622,
-    "hydrophobicity": -0.056
+    "hydrophobicity": -0.056,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LQTELDQR",
@@ -173,7 +194,8 @@
     "mass_da": 1001.5142,
     "mz_2plus": 501.7644,
     "mz_1plus": 1002.5214,
-    "hydrophobicity": -1.45
+    "hydrophobicity": -1.45,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DVTIADTTK",
@@ -181,7 +203,8 @@
     "mass_da": 962.492,
     "mz_2plus": 482.2533,
     "mz_1plus": 963.4993,
-    "hydrophobicity": -0.278
+    "hydrophobicity": -0.278,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TIAPALVSK",
@@ -189,7 +212,8 @@
     "mass_da": 898.5487,
     "mz_2plus": 450.2817,
     "mz_1plus": 899.556,
-    "hydrophobicity": 1.011
+    "hydrophobicity": 1.011,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FEELIADYR",
@@ -197,7 +221,8 @@
     "mass_da": 1154.5608,
     "mz_2plus": 578.2877,
     "mz_1plus": 1155.568,
-    "hydrophobicity": -0.378
+    "hydrophobicity": -0.378,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ATVVDNLLLPK",
@@ -205,7 +230,8 @@
     "mass_da": 1181.7019,
     "mz_2plus": 591.8582,
     "mz_1plus": 1182.7092,
-    "hydrophobicity": 0.764
+    "hydrophobicity": 0.764,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DIVAALR",
@@ -213,7 +239,8 @@
     "mass_da": 756.4494,
     "mz_2plus": 379.232,
     "mz_1plus": 757.4566,
-    "hydrophobicity": 1.157
+    "hydrophobicity": 1.157,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GSSDPQISR",
@@ -221,7 +248,8 @@
     "mass_da": 945.4516,
     "mz_2plus": 473.7331,
     "mz_1plus": 946.4588,
-    "hydrophobicity": -1.267
+    "hydrophobicity": -1.267,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AHGGFIPYR",
@@ -229,7 +257,8 @@
     "mass_da": 1016.5192,
     "mz_2plus": 509.2669,
     "mz_1plus": 1017.5265,
-    "hydrophobicity": -0.256
+    "hydrophobicity": -0.256,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TTIFSPEGR",
@@ -237,7 +266,8 @@
     "mass_da": 1006.5083,
     "mz_2plus": 504.2615,
     "mz_1plus": 1007.5156,
-    "hydrophobicity": -0.544
+    "hydrophobicity": -0.544,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LSSTEDGR",
@@ -245,7 +275,8 @@
     "mass_da": 863.3985,
     "mz_2plus": 432.7065,
     "mz_1plus": 864.4057,
-    "hydrophobicity": -1.3
+    "hydrophobicity": -1.3,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GTVDEFEHTR",
@@ -253,7 +284,8 @@
     "mass_da": 1189.5363,
     "mz_2plus": 595.7754,
     "mz_1plus": 1190.5436,
-    "hydrophobicity": -1.3
+    "hydrophobicity": -1.3,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TAITTYLNQR",
@@ -261,7 +293,8 @@
     "mass_da": 1179.6248,
     "mz_2plus": 590.8197,
     "mz_1plus": 1180.6321,
-    "hydrophobicity": -0.48
+    "hydrophobicity": -0.48,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TIADIDAVR",
@@ -269,7 +302,8 @@
     "mass_da": 972.524,
     "mz_2plus": 487.2693,
     "mz_1plus": 973.5313,
-    "hydrophobicity": 0.511
+    "hydrophobicity": 0.511,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DVSILTLR",
@@ -277,7 +311,8 @@
     "mass_da": 915.5389,
     "mz_2plus": 458.7767,
     "mz_1plus": 916.5462,
-    "hydrophobicity": 0.85
+    "hydrophobicity": 0.85,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LSEADAAVTK",
@@ -285,7 +320,8 @@
     "mass_da": 1003.5186,
     "mz_2plus": 502.7666,
     "mz_1plus": 1004.5258,
-    "hydrophobicity": 0.1
+    "hydrophobicity": 0.1,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GLSGIESIGR",
@@ -293,7 +329,8 @@
     "mass_da": 987.5349,
     "mz_2plus": 494.7747,
     "mz_1plus": 988.5422,
-    "hydrophobicity": 0.2
+    "hydrophobicity": 0.2,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QAVGDNLR",
@@ -301,7 +338,8 @@
     "mass_da": 871.4512,
     "mz_2plus": 436.7329,
     "mz_1plus": 872.4584,
-    "hydrophobicity": -0.7
+    "hydrophobicity": -0.7,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DYDAAVIAAK",
@@ -309,7 +347,8 @@
     "mass_da": 1035.5236,
     "mz_2plus": 518.7691,
     "mz_1plus": 1036.5309,
-    "hydrophobicity": 0.37
+    "hydrophobicity": 0.37,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SFTELVQR",
@@ -317,7 +356,8 @@
     "mass_da": 978.5134,
     "mz_2plus": 490.264,
     "mz_1plus": 979.5207,
-    "hydrophobicity": -0.275
+    "hydrophobicity": -0.275,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ATDNFEHFR",
@@ -325,7 +365,8 @@
     "mass_da": 1135.5046,
     "mz_2plus": 568.7596,
     "mz_1plus": 1136.5119,
-    "hydrophobicity": -1.278
+    "hydrophobicity": -1.278,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TLDISTIR",
@@ -333,7 +374,8 @@
     "mass_da": 917.5182,
     "mz_2plus": 459.7664,
     "mz_1plus": 918.5255,
-    "hydrophobicity": 0.325
+    "hydrophobicity": 0.325,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AEYYQVAK",
@@ -341,7 +383,8 @@
     "mass_da": 970.476,
     "mz_2plus": 486.2453,
     "mz_1plus": 971.4833,
-    "hydrophobicity": -0.712
+    "hydrophobicity": -0.712,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WAYIYK",
@@ -349,7 +392,8 @@
     "mass_da": 842.4327,
     "mz_2plus": 422.2236,
     "mz_1plus": 843.4399,
-    "hydrophobicity": -0.183
+    "hydrophobicity": -0.183,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LAHSPLGR",
@@ -357,7 +401,8 @@
     "mass_da": 849.4821,
     "mz_2plus": 425.7483,
     "mz_1plus": 850.4893,
-    "hydrophobicity": -0.138
+    "hydrophobicity": -0.138,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WHWFNWIGR",
@@ -365,7 +410,8 @@
     "mass_da": 1300.6254,
     "mz_2plus": 651.32,
     "mz_1plus": 1301.6327,
-    "hydrophobicity": -0.778
+    "hydrophobicity": -0.778,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EVEYGK",
@@ -373,7 +419,8 @@
     "mass_da": 723.3439,
     "mz_2plus": 362.6792,
     "mz_1plus": 724.3512,
-    "hydrophobicity": -1.4
+    "hydrophobicity": -1.4,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YHLWSIYR",
@@ -381,7 +428,8 @@
     "mass_da": 1136.5767,
     "mz_2plus": 569.2956,
     "mz_1plus": 1137.584,
-    "hydrophobicity": -0.463
+    "hydrophobicity": -0.463,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YVGINIDYDR",
@@ -389,7 +437,8 @@
     "mass_da": 1226.5931,
     "mz_2plus": 614.3038,
     "mz_1plus": 1227.6004,
-    "hydrophobicity": -0.48
+    "hydrophobicity": -0.48,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VWWHDWEK",
@@ -397,7 +446,8 @@
     "mass_da": 1184.5403,
     "mz_2plus": 593.2774,
     "mz_1plus": 1185.5476,
-    "hydrophobicity": -1.575
+    "hydrophobicity": -1.575,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PEATFEYIWLGR",
@@ -405,7 +455,8 @@
     "mass_da": 1480.735,
     "mz_2plus": 741.3748,
     "mz_1plus": 1481.7423,
-    "hydrophobicity": -0.292
+    "hydrophobicity": -0.292,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FGLFFYGR",
@@ -413,7 +464,8 @@
     "mass_da": 1005.5072,
     "mz_2plus": 503.7609,
     "mz_1plus": 1006.5145,
-    "hydrophobicity": 0.7
+    "hydrophobicity": 0.7,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PILWVLDK",
@@ -421,7 +473,8 @@
     "mass_da": 982.5851,
     "mz_2plus": 492.2998,
     "mz_1plus": 983.5924,
-    "hydrophobicity": 0.8
+    "hydrophobicity": 0.8,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LDAPGLHR",
@@ -429,7 +482,8 @@
     "mass_da": 877.477,
     "mz_2plus": 439.7458,
     "mz_1plus": 878.4843,
-    "hydrophobicity": -0.475
+    "hydrophobicity": -0.475,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YAFEGYDQYGR",
@@ -437,7 +491,8 @@
     "mass_da": 1367.5782,
     "mz_2plus": 684.7964,
     "mz_1plus": 1368.5855,
-    "hydrophobicity": -1.373
+    "hydrophobicity": -1.373,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YPAFLHLDFR",
@@ -445,7 +500,8 @@
     "mass_da": 1277.6557,
     "mz_2plus": 639.8351,
     "mz_1plus": 1278.6629,
-    "hydrophobicity": 0.09
+    "hydrophobicity": 0.09,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FTGTWYPTK",
@@ -453,7 +509,8 @@
     "mass_da": 1099.5338,
     "mz_2plus": 550.7742,
     "mz_1plus": 1100.5411,
-    "hydrophobicity": -0.822
+    "hydrophobicity": -0.822,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FNFDQYK",
@@ -461,7 +518,8 @@
     "mass_da": 960.4341,
     "mz_2plus": 481.2243,
     "mz_1plus": 961.4414,
-    "hydrophobicity": -1.443
+    "hydrophobicity": -1.443,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EWPASVFSQR",
@@ -469,7 +527,8 @@
     "mass_da": 1205.5829,
     "mz_2plus": 603.7987,
     "mz_1plus": 1206.5902,
-    "hydrophobicity": -0.68
+    "hydrophobicity": -0.68,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IQLPLLYR",
@@ -477,7 +536,8 @@
     "mass_da": 1014.6226,
     "mz_2plus": 508.3186,
     "mz_1plus": 1015.6299,
-    "hydrophobicity": 0.625
+    "hydrophobicity": 0.625,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YHIIVLWK",
@@ -485,7 +545,8 @@
     "mass_da": 1070.6277,
     "mz_2plus": 536.3211,
     "mz_1plus": 1071.6349,
-    "hydrophobicity": 0.963
+    "hydrophobicity": 0.963,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GVFANR",
@@ -493,7 +554,8 @@
     "mass_da": 662.35,
     "mz_2plus": 332.1823,
     "mz_1plus": 663.3573,
-    "hydrophobicity": 0.067
+    "hydrophobicity": 0.067,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VWTLHSVEVK",
@@ -501,7 +563,8 @@
     "mass_da": 1196.6553,
     "mz_2plus": 599.3349,
     "mz_1plus": 1197.6626,
-    "hydrophobicity": 0.34
+    "hydrophobicity": 0.34,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DIWQVTDILYGR",
@@ -509,7 +572,8 @@
     "mass_da": 1477.7565,
     "mz_2plus": 739.8855,
     "mz_1plus": 1478.7638,
-    "hydrophobicity": -0.108
+    "hydrophobicity": -0.108,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PWLANNR",
@@ -517,7 +581,8 @@
     "mass_da": 869.4508,
     "mz_2plus": 435.7327,
     "mz_1plus": 870.4581,
-    "hydrophobicity": -1.2
+    "hydrophobicity": -1.2,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DGWPFTFWTAR",
@@ -525,7 +590,8 @@
     "mass_da": 1382.6407,
     "mz_2plus": 692.3276,
     "mz_1plus": 1383.648,
-    "hydrophobicity": -0.527
+    "hydrophobicity": -0.527,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "THNADPDK",
@@ -533,7 +599,8 @@
     "mass_da": 896.3988,
     "mz_2plus": 449.2067,
     "mz_1plus": 897.4061,
-    "hydrophobicity": -2.263
+    "hydrophobicity": -2.263,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TDQGENPSHIR",
@@ -541,7 +608,8 @@
     "mass_da": 1252.5796,
     "mz_2plus": 627.2971,
     "mz_1plus": 1253.5869,
-    "hydrophobicity": -1.882
+    "hydrophobicity": -1.882,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WWLHLVNR",
@@ -549,7 +617,8 @@
     "mass_da": 1122.6087,
     "mz_2plus": 562.3116,
     "mz_1plus": 1123.6159,
-    "hydrophobicity": -0.15
+    "hydrophobicity": -0.15,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FGDDNVFFR",
@@ -557,7 +626,8 @@
     "mass_da": 1115.5036,
     "mz_2plus": 558.7591,
     "mz_1plus": 1116.5109,
-    "hydrophobicity": -0.311
+    "hydrophobicity": -0.311,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LGGYLHFK",
@@ -565,7 +635,8 @@
     "mass_da": 933.5072,
     "mz_2plus": 467.7609,
     "mz_1plus": 934.5145,
-    "hydrophobicity": 0.15
+    "hydrophobicity": 0.15,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GEGLYR",
@@ -573,7 +644,8 @@
     "mass_da": 693.3446,
     "mz_2plus": 347.6796,
     "mz_1plus": 694.3519,
-    "hydrophobicity": -1.05
+    "hydrophobicity": -1.05,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TWSFFYISR",
@@ -581,7 +653,8 @@
     "mass_da": 1205.5869,
     "mz_2plus": 603.8007,
     "mz_1plus": 1206.5942,
-    "hydrophobicity": 0.122
+    "hydrophobicity": 0.122,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GVEEEESFQGYR",
@@ -589,7 +662,8 @@
     "mass_da": 1428.6157,
     "mz_2plus": 715.3151,
     "mz_1plus": 1429.623,
-    "hydrophobicity": -1.492
+    "hydrophobicity": -1.492,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SQSDNNK",
@@ -597,7 +671,8 @@
     "mass_da": 791.341,
     "mz_2plus": 396.6778,
     "mz_1plus": 792.3482,
-    "hydrophobicity": -2.786
+    "hydrophobicity": -2.786,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SYYALAK",
@@ -605,7 +680,8 @@
     "mass_da": 814.4225,
     "mz_2plus": 408.2185,
     "mz_1plus": 815.4298,
-    "hydrophobicity": 0.014
+    "hydrophobicity": 0.014,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QNPEDGHDEK",
@@ -613,7 +689,8 @@
     "mass_da": 1167.4792,
     "mz_2plus": 584.7469,
     "mz_1plus": 1168.4865,
-    "hydrophobicity": -3.01
+    "hydrophobicity": -3.01,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VTSLIWFR",
@@ -621,7 +698,8 @@
     "mass_da": 1020.5756,
     "mz_2plus": 511.2951,
     "mz_1plus": 1021.5829,
-    "hydrophobicity": 1.05
+    "hydrophobicity": 1.05,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IGLNPR",
@@ -629,7 +707,8 @@
     "mass_da": 668.3969,
     "mz_2plus": 335.2058,
     "mz_1plus": 669.4042,
-    "hydrophobicity": -0.283
+    "hydrophobicity": -0.283,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EWFWWIQK",
@@ -637,7 +716,8 @@
     "mass_da": 1221.5971,
     "mz_2plus": 611.8058,
     "mz_1plus": 1222.6044,
-    "hydrophobicity": -0.787
+    "hydrophobicity": -0.787,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TPPGTEVTNLDR",
@@ -645,7 +725,8 @@
     "mass_da": 1298.6466,
     "mz_2plus": 650.3306,
     "mz_1plus": 1299.6539,
-    "hydrophobicity": -1.058
+    "hydrophobicity": -1.058,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TYDTIPVWGR",
@@ -653,7 +734,8 @@
     "mass_da": 1206.6033,
     "mz_2plus": 604.3089,
     "mz_1plus": 1207.6106,
-    "hydrophobicity": -0.49
+    "hydrophobicity": -0.49,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WQAQNHIR",
@@ -661,7 +743,8 @@
     "mass_da": 1051.5312,
     "mz_2plus": 526.7729,
     "mz_1plus": 1052.5384,
-    "hydrophobicity": -1.6
+    "hydrophobicity": -1.6,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LDVQYFWFK",
@@ -669,7 +752,8 @@
     "mass_da": 1244.623,
     "mz_2plus": 623.3188,
     "mz_1plus": 1245.6302,
-    "hydrophobicity": 0.056
+    "hydrophobicity": 0.056,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LTWGSEK",
@@ -677,7 +761,8 @@
     "mass_da": 819.4126,
     "mz_2plus": 410.7136,
     "mz_1plus": 820.4199,
-    "hydrophobicity": -0.914
+    "hydrophobicity": -0.914,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GVTAEAR",
@@ -685,7 +770,8 @@
     "mass_da": 702.366,
     "mz_2plus": 352.1903,
     "mz_1plus": 703.3733,
-    "hydrophobicity": -0.186
+    "hydrophobicity": -0.186,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "HTVHGETDNR",
@@ -693,7 +779,8 @@
     "mass_da": 1164.5272,
     "mz_2plus": 583.2709,
     "mz_1plus": 1165.5345,
-    "hydrophobicity": -1.9
+    "hydrophobicity": -1.9,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "INQDPLFQSK",
@@ -701,7 +788,8 @@
     "mass_da": 1188.6139,
     "mz_2plus": 595.3142,
     "mz_1plus": 1189.6211,
-    "hydrophobicity": -0.92
+    "hydrophobicity": -0.92,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "HYNPFEPR",
@@ -709,7 +797,8 @@
     "mass_da": 1058.4934,
     "mz_2plus": 530.254,
     "mz_1plus": 1059.5006,
-    "hydrophobicity": -2.05
+    "hydrophobicity": -2.05,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TSHTQTDQSLDR",
@@ -717,7 +806,8 @@
     "mass_da": 1387.6328,
     "mz_2plus": 694.8237,
     "mz_1plus": 1388.6401,
-    "hydrophobicity": -1.8
+    "hydrophobicity": -1.8,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QWHAGTDR",
@@ -725,7 +815,8 @@
     "mass_da": 969.4417,
     "mz_2plus": 485.7281,
     "mz_1plus": 970.4489,
-    "hydrophobicity": -1.863
+    "hydrophobicity": -1.863,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "INVIFGETR",
@@ -733,7 +824,8 @@
     "mass_da": 1047.5713,
     "mz_2plus": 524.7929,
     "mz_1plus": 1048.5785,
-    "hydrophobicity": 0.378
+    "hydrophobicity": 0.378,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EPQEYYNR",
@@ -741,7 +833,8 @@
     "mass_da": 1097.4778,
     "mz_2plus": 549.7462,
     "mz_1plus": 1098.4851,
-    "hydrophobicity": -2.837
+    "hydrophobicity": -2.837,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QYQTYGEK",
@@ -749,7 +842,8 @@
     "mass_da": 1015.4611,
     "mz_2plus": 508.7378,
     "mz_1plus": 1016.4684,
-    "hydrophobicity": -2.263
+    "hydrophobicity": -2.263,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VWSSEGR",
@@ -757,7 +851,8 @@
     "mass_da": 819.3875,
     "mz_2plus": 410.701,
     "mz_1plus": 820.3948,
-    "hydrophobicity": -0.957
+    "hydrophobicity": -0.957,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TTWQGYHGSK",
@@ -765,7 +860,8 @@
     "mass_da": 1163.536,
     "mz_2plus": 582.7753,
     "mz_1plus": 1164.5432,
-    "hydrophobicity": -1.58
+    "hydrophobicity": -1.58,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LIYLGNYEWK",
@@ -773,7 +869,8 @@
     "mass_da": 1297.6706,
     "mz_2plus": 649.8426,
     "mz_1plus": 1298.6779,
-    "hydrophobicity": -0.27
+    "hydrophobicity": -0.27,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "HPDAEDLISAK",
@@ -781,7 +878,8 @@
     "mass_da": 1194.588,
     "mz_2plus": 598.3013,
     "mz_1plus": 1195.5953,
-    "hydrophobicity": -0.736
+    "hydrophobicity": -0.736,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IQDDNVVNYK",
@@ -789,7 +887,8 @@
     "mass_da": 1206.588,
     "mz_2plus": 604.3013,
     "mz_1plus": 1207.5953,
-    "hydrophobicity": -0.98
+    "hydrophobicity": -0.98,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YIQYNEK",
@@ -797,7 +896,8 @@
     "mass_da": 956.4603,
     "mz_2plus": 479.2375,
     "mz_1plus": 957.4676,
-    "hydrophobicity": -1.786
+    "hydrophobicity": -1.786,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "NVAQPFSNAVR",
@@ -805,7 +905,8 @@
     "mass_da": 1201.6203,
     "mz_2plus": 601.8175,
     "mz_1plus": 1202.6276,
-    "hydrophobicity": -0.236
+    "hydrophobicity": -0.236,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IATPSGSISWVK",
@@ -813,7 +914,8 @@
     "mass_da": 1244.6765,
     "mz_2plus": 623.3455,
     "mz_1plus": 1245.6837,
-    "hydrophobicity": 0.425
+    "hydrophobicity": 0.425,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YPYQLVIR",
@@ -821,7 +923,8 @@
     "mass_da": 1050.5862,
     "mz_2plus": 526.3004,
     "mz_1plus": 1051.5935,
-    "hydrophobicity": 0.037
+    "hydrophobicity": 0.037,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QTLVIIYLK",
@@ -829,7 +932,8 @@
     "mass_da": 1089.6798,
     "mz_2plus": 545.8472,
     "mz_1plus": 1090.687,
-    "hydrophobicity": 1.267
+    "hydrophobicity": 1.267,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FGAYHSVVR",
@@ -837,7 +941,8 @@
     "mass_da": 1034.5297,
     "mz_2plus": 518.2722,
     "mz_1plus": 1035.537,
-    "hydrophobicity": 0.311
+    "hydrophobicity": 0.311,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "HNDANFR",
@@ -845,7 +950,8 @@
     "mass_da": 872.3889,
     "mz_2plus": 437.2017,
     "mz_1plus": 873.3962,
-    "hydrophobicity": -1.943
+    "hydrophobicity": -1.943,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YWVGWTLIR",
@@ -853,7 +959,8 @@
     "mass_da": 1192.6393,
     "mz_2plus": 597.3269,
     "mz_1plus": 1193.6466,
-    "hydrophobicity": 0.422
+    "hydrophobicity": 0.422,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TLHAPNK",
@@ -861,7 +968,8 @@
     "mass_da": 779.429,
     "mz_2plus": 390.7218,
     "mz_1plus": 780.4363,
-    "hydrophobicity": -1.043
+    "hydrophobicity": -1.043,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DYWIYGHK",
@@ -869,7 +977,8 @@
     "mass_da": 1080.5029,
     "mz_2plus": 541.2587,
     "mz_1plus": 1081.5101,
-    "hydrophobicity": -1.25
+    "hydrophobicity": -1.25,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FIVEWTDTGR",
@@ -877,7 +986,8 @@
     "mass_da": 1222.5982,
     "mz_2plus": 612.3064,
     "mz_1plus": 1223.6055,
-    "hydrophobicity": -0.27
+    "hydrophobicity": -0.27,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SQEYDEVDNK",
@@ -885,7 +995,8 @@
     "mass_da": 1225.5099,
     "mz_2plus": 613.7622,
     "mz_1plus": 1226.5171,
-    "hydrophobicity": -2.28
+    "hydrophobicity": -2.28,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YHSYVDQK",
@@ -893,7 +1004,8 @@
     "mass_da": 1038.477,
     "mz_2plus": 520.2458,
     "mz_1plus": 1039.4843,
-    "hydrophobicity": -1.663
+    "hydrophobicity": -1.663,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YSSYWGK",
@@ -901,7 +1013,8 @@
     "mass_da": 889.397,
     "mz_2plus": 445.7058,
     "mz_1plus": 890.4043,
-    "hydrophobicity": -1.343
+    "hydrophobicity": -1.343,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IPETQEYR",
@@ -909,7 +1022,8 @@
     "mass_da": 1034.5033,
     "mz_2plus": 518.2589,
     "mz_1plus": 1035.5105,
-    "hydrophobicity": -1.762
+    "hydrophobicity": -1.762,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FANLLGFEVDK",
@@ -917,7 +1031,8 @@
     "mass_da": 1251.6499,
     "mz_2plus": 626.8322,
     "mz_1plus": 1252.6572,
-    "hydrophobicity": 0.4
+    "hydrophobicity": 0.4,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ILAIVK",
@@ -925,7 +1040,8 @@
     "mass_da": 655.4632,
     "mz_2plus": 328.7389,
     "mz_1plus": 656.4705,
-    "hydrophobicity": 2.483
+    "hydrophobicity": 2.483,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ETFSSR",
@@ -933,7 +1049,8 @@
     "mass_da": 725.3344,
     "mz_2plus": 363.6745,
     "mz_1plus": 726.3417,
-    "hydrophobicity": -1.25
+    "hydrophobicity": -1.25,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DWFTEPSIEDLR",
@@ -941,7 +1058,8 @@
     "mass_da": 1506.699,
     "mz_2plus": 754.3568,
     "mz_1plus": 1507.7063,
-    "hydrophobicity": -0.95
+    "hydrophobicity": -0.95,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LFTNWR",
@@ -949,7 +1067,8 @@
     "mass_da": 835.4341,
     "mz_2plus": 418.7243,
     "mz_1plus": 836.4413,
-    "hydrophobicity": -0.5
+    "hydrophobicity": -0.5,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SSINEHK",
@@ -957,7 +1076,8 @@
     "mass_da": 813.3981,
     "mz_2plus": 407.7063,
     "mz_1plus": 814.4054,
-    "hydrophobicity": -1.6
+    "hydrophobicity": -1.6,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WTNLQDK",
@@ -965,7 +1085,8 @@
     "mass_da": 903.445,
     "mz_2plus": 452.7298,
     "mz_1plus": 904.4523,
-    "hydrophobicity": -1.743
+    "hydrophobicity": -1.743,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DQTNEIQIYTWK",
@@ -973,7 +1094,8 @@
     "mass_da": 1537.7413,
     "mz_2plus": 769.8779,
     "mz_1plus": 1538.7485,
-    "hydrophobicity": -1.333
+    "hydrophobicity": -1.333,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YEDFGHVETR",
@@ -981,7 +1103,8 @@
     "mass_da": 1251.552,
     "mz_2plus": 626.7833,
     "mz_1plus": 1252.5593,
-    "hydrophobicity": -1.36
+    "hydrophobicity": -1.36,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WNAFNQFPVK",
@@ -989,7 +1112,8 @@
     "mass_da": 1249.6244,
     "mz_2plus": 625.8195,
     "mz_1plus": 1250.6317,
-    "hydrophobicity": -0.53
+    "hydrophobicity": -0.53,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ANHFPIGSK",
@@ -997,7 +1121,8 @@
     "mass_da": 969.5032,
     "mz_2plus": 485.7589,
     "mz_1plus": 970.5105,
-    "hydrophobicity": -0.478
+    "hydrophobicity": -0.478,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AQYAFSPLDK",
@@ -1005,7 +1130,8 @@
     "mass_da": 1138.5658,
     "mz_2plus": 570.2902,
     "mz_1plus": 1139.5731,
-    "hydrophobicity": -0.44
+    "hydrophobicity": -0.44,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EEYEGGYHNR",
@@ -1013,7 +1139,8 @@
     "mass_da": 1252.5109,
     "mz_2plus": 627.2627,
     "mz_1plus": 1253.5181,
-    "hydrophobicity": -2.51
+    "hydrophobicity": -2.51,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IPTSWWK",
@@ -1021,7 +1148,8 @@
     "mass_da": 916.4807,
     "mz_2plus": 459.2476,
     "mz_1plus": 917.488,
-    "hydrophobicity": -0.614
+    "hydrophobicity": -0.614,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LEQALLK",
@@ -1029,7 +1157,8 @@
     "mass_da": 813.496,
     "mz_2plus": 407.7553,
     "mz_1plus": 814.5033,
-    "hydrophobicity": 0.329
+    "hydrophobicity": 0.329,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DLEDQK",
@@ -1037,7 +1166,8 @@
     "mass_da": 746.3446,
     "mz_2plus": 374.1796,
     "mz_1plus": 747.3519,
-    "hydrophobicity": -2.35
+    "hydrophobicity": -2.35,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LNYIGYLYVK",
@@ -1045,7 +1175,8 @@
     "mass_da": 1244.6805,
     "mz_2plus": 623.3475,
     "mz_1plus": 1245.6878,
-    "hydrophobicity": 0.46
+    "hydrophobicity": 0.46,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FVSVVR",
@@ -1053,7 +1184,8 @@
     "mass_da": 705.4173,
     "mz_2plus": 353.716,
     "mz_1plus": 706.4246,
-    "hydrophobicity": 1.683
+    "hydrophobicity": 1.683,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DFDTQFLIIWGR",
@@ -1061,7 +1193,8 @@
     "mass_da": 1509.7616,
     "mz_2plus": 755.8881,
     "mz_1plus": 1510.7689,
-    "hydrophobicity": 0.117
+    "hydrophobicity": 0.117,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "NWLEWFK",
@@ -1069,7 +1202,8 @@
     "mass_da": 1021.5021,
     "mz_2plus": 511.7583,
     "mz_1plus": 1022.5094,
-    "hydrophobicity": -0.871
+    "hydrophobicity": -0.871,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AELHVYYITDK",
@@ -1077,7 +1211,8 @@
     "mass_da": 1350.6819,
     "mz_2plus": 676.3483,
     "mz_1plus": 1351.6892,
-    "hydrophobicity": -0.282
+    "hydrophobicity": -0.282,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ATNWPVYGK",
@@ -1085,7 +1220,8 @@
     "mass_da": 1034.5185,
     "mz_2plus": 518.2665,
     "mz_1plus": 1035.5258,
-    "hydrophobicity": -0.7
+    "hydrophobicity": -0.7,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IDDQDDYK",
@@ -1093,7 +1229,8 @@
     "mass_da": 1010.4193,
     "mz_2plus": 506.2169,
     "mz_1plus": 1011.4265,
-    "hydrophobicity": -2.275
+    "hydrophobicity": -2.275,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EHEELR",
@@ -1101,7 +1238,8 @@
     "mass_da": 811.3824,
     "mz_2plus": 406.6985,
     "mz_1plus": 812.3897,
-    "hydrophobicity": -2.4
+    "hydrophobicity": -2.4,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LDEVQR",
@@ -1109,7 +1247,8 @@
     "mass_da": 758.3922,
     "mz_2plus": 380.2034,
     "mz_1plus": 759.3995,
-    "hydrophobicity": -1.167
+    "hydrophobicity": -1.167,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QLNTGPR",
@@ -1117,7 +1256,8 @@
     "mass_da": 784.4191,
     "mz_2plus": 393.2169,
     "mz_1plus": 785.4264,
-    "hydrophobicity": -1.486
+    "hydrophobicity": -1.486,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EAWFEINK",
@@ -1125,7 +1265,8 @@
     "mass_da": 1035.5025,
     "mz_2plus": 518.7585,
     "mz_1plus": 1036.5098,
-    "hydrophobicity": -0.775
+    "hydrophobicity": -0.775,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ELSPHWPK",
@@ -1133,7 +1274,8 @@
     "mass_da": 992.5079,
     "mz_2plus": 497.2613,
     "mz_1plus": 993.5152,
-    "hydrophobicity": -1.463
+    "hydrophobicity": -1.463,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PFGNFFGNPIR",
@@ -1141,7 +1283,8 @@
     "mass_da": 1264.6353,
     "mz_2plus": 633.3249,
     "mz_1plus": 1265.6425,
-    "hydrophobicity": -0.236
+    "hydrophobicity": -0.236,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "NYNDEVR",
@@ -1149,7 +1292,8 @@
     "mass_da": 908.3988,
     "mz_2plus": 455.2067,
     "mz_1plus": 909.4061,
-    "hydrophobicity": -2.229
+    "hydrophobicity": -2.229,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AQGNHR",
@@ -1157,7 +1301,8 @@
     "mass_da": 681.3307,
     "mz_2plus": 341.6726,
     "mz_1plus": 682.3379,
-    "hydrophobicity": -2.217
+    "hydrophobicity": -2.217,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VAFEGDSGVK",
@@ -1165,7 +1310,8 @@
     "mass_da": 1007.4923,
     "mz_2plus": 504.7534,
     "mz_1plus": 1008.4996,
-    "hydrophobicity": 0.05
+    "hydrophobicity": 0.05,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PSDSIK",
@@ -1173,7 +1319,8 @@
     "mass_da": 645.3333,
     "mz_2plus": 323.6739,
     "mz_1plus": 646.3406,
-    "hydrophobicity": -1.017
+    "hydrophobicity": -1.017,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FSVGLHHVAHR",
@@ -1181,7 +1328,8 @@
     "mass_da": 1258.6683,
     "mz_2plus": 630.3414,
     "mz_1plus": 1259.6756,
-    "hydrophobicity": 0.136
+    "hydrophobicity": 0.136,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VLNHFTDYLIWR",
@@ -1189,7 +1337,8 @@
     "mass_da": 1575.8198,
     "mz_2plus": 788.9172,
     "mz_1plus": 1576.827,
-    "hydrophobicity": 0.125
+    "hydrophobicity": 0.125,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LLAITQNK",
@@ -1197,7 +1346,8 @@
     "mass_da": 899.544,
     "mz_2plus": 450.7793,
     "mz_1plus": 900.5513,
-    "hydrophobicity": 0.287
+    "hydrophobicity": 0.287,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QVFTINDR",
@@ -1205,7 +1355,8 @@
     "mass_da": 991.5087,
     "mz_2plus": 496.7616,
     "mz_1plus": 992.516,
-    "hydrophobicity": -0.525
+    "hydrophobicity": -0.525,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ISVEQR",
@@ -1213,7 +1364,8 @@
     "mass_da": 730.3973,
     "mz_2plus": 366.206,
     "mz_1plus": 731.4046,
-    "hydrophobicity": -0.6
+    "hydrophobicity": -0.6,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FPPVQTPGIVR",
@@ -1221,7 +1373,8 @@
     "mass_da": 1209.687,
     "mz_2plus": 605.8508,
     "mz_1plus": 1210.6942,
-    "hydrophobicity": 0.164
+    "hydrophobicity": 0.164,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "HPTAPPIVQWR",
@@ -1229,7 +1382,8 @@
     "mass_da": 1300.704,
     "mz_2plus": 651.3593,
     "mz_1plus": 1301.7113,
-    "hydrophobicity": -0.645
+    "hydrophobicity": -0.645,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IYHEPQELR",
@@ -1237,7 +1391,8 @@
     "mass_da": 1183.5985,
     "mz_2plus": 592.8066,
     "mz_1plus": 1184.6058,
-    "hydrophobicity": -1.422
+    "hydrophobicity": -1.422,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IGADLYK",
@@ -1245,7 +1400,8 @@
     "mass_da": 778.4225,
     "mz_2plus": 390.2185,
     "mz_1plus": 779.4298,
-    "hydrophobicity": 0.143
+    "hydrophobicity": 0.143,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VITYTLGAK",
@@ -1253,7 +1409,8 @@
     "mass_da": 964.5593,
     "mz_2plus": 483.2869,
     "mz_1plus": 965.5666,
-    "hydrophobicity": 0.811
+    "hydrophobicity": 0.811,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VLHWDLFWGWQR",
@@ -1261,7 +1418,8 @@
     "mass_da": 1641.8204,
     "mz_2plus": 821.9175,
     "mz_1plus": 1642.8277,
-    "hydrophobicity": -0.267
+    "hydrophobicity": -0.267,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VWHYWNLNYK",
@@ -1269,7 +1427,8 @@
     "mass_da": 1421.688,
     "mz_2plus": 711.8513,
     "mz_1plus": 1422.6953,
-    "hydrophobicity": -1.05
+    "hydrophobicity": -1.05,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WEPLNQQK",
@@ -1277,7 +1436,8 @@
     "mass_da": 1041.5243,
     "mz_2plus": 521.7694,
     "mz_1plus": 1042.5316,
-    "hydrophobicity": -2.075
+    "hydrophobicity": -2.075,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GLTGIER",
@@ -1285,7 +1445,8 @@
     "mass_da": 744.413,
     "mz_2plus": 373.2138,
     "mz_1plus": 745.4203,
-    "hydrophobicity": -0.171
+    "hydrophobicity": -0.171,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QWVDIVTAR",
@@ -1293,7 +1454,8 @@
     "mass_da": 1086.5822,
     "mz_2plus": 544.2984,
     "mz_1plus": 1087.5894,
-    "hydrophobicity": 0.178
+    "hydrophobicity": 0.178,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ASPTVLYLR",
@@ -1301,7 +1463,8 @@
     "mass_da": 1018.5811,
     "mz_2plus": 510.2978,
     "mz_1plus": 1019.5884,
-    "hydrophobicity": 0.522
+    "hydrophobicity": 0.522,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YATQTHWGK",
@@ -1309,7 +1472,8 @@
     "mass_da": 1090.5196,
     "mz_2plus": 546.2671,
     "mz_1plus": 1091.5269,
-    "hydrophobicity": -1.422
+    "hydrophobicity": -1.422,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AEVGWHDNR",
@@ -1317,7 +1481,8 @@
     "mass_da": 1082.4893,
     "mz_2plus": 542.2519,
     "mz_1plus": 1083.4966,
-    "hydrophobicity": -1.5
+    "hydrophobicity": -1.5,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IWQQTNVR",
@@ -1325,7 +1490,8 @@
     "mass_da": 1043.5512,
     "mz_2plus": 522.7829,
     "mz_1plus": 1044.5585,
-    "hydrophobicity": -0.987
+    "hydrophobicity": -0.987,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EYADSLEDALIK",
@@ -1333,7 +1499,8 @@
     "mass_da": 1365.6663,
     "mz_2plus": 683.8405,
     "mz_1plus": 1366.6736,
-    "hydrophobicity": -0.358
+    "hydrophobicity": -0.358,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FHPFAPTTIK",
@@ -1341,7 +1508,8 @@
     "mass_da": 1157.6233,
     "mz_2plus": 579.8189,
     "mz_1plus": 1158.6306,
-    "hydrophobicity": 0.02
+    "hydrophobicity": 0.02,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LFPFDSVSER",
@@ -1349,7 +1517,8 @@
     "mass_da": 1195.5873,
     "mz_2plus": 598.8009,
     "mz_1plus": 1196.5946,
-    "hydrophobicity": -0.11
+    "hydrophobicity": -0.11,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VYFVSR",
@@ -1357,7 +1526,8 @@
     "mass_da": 769.4123,
     "mz_2plus": 385.7134,
     "mz_1plus": 770.4195,
-    "hydrophobicity": 0.767
+    "hydrophobicity": 0.767,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GVHNYWVNQLK",
@@ -1365,7 +1535,8 @@
     "mass_da": 1356.6938,
     "mz_2plus": 679.3542,
     "mz_1plus": 1357.7011,
-    "hydrophobicity": -0.727
+    "hydrophobicity": -0.727,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WLWTQAYR",
@@ -1373,7 +1544,8 @@
     "mass_da": 1122.5611,
     "mz_2plus": 562.2878,
     "mz_1plus": 1123.5683,
-    "hydrophobicity": -0.775
+    "hydrophobicity": -0.775,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YISNQNR",
@@ -1381,7 +1553,8 @@
     "mass_da": 893.4355,
     "mz_2plus": 447.725,
     "mz_1plus": 894.4428,
-    "hydrophobicity": -1.8
+    "hydrophobicity": -1.8,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AIELVYLYYR",
@@ -1389,7 +1562,8 @@
     "mass_da": 1301.7019,
     "mz_2plus": 651.8583,
     "mz_1plus": 1302.7092,
-    "hydrophobicity": 0.62
+    "hydrophobicity": 0.62,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AEPLTLPSYSVR",
@@ -1397,7 +1571,8 @@
     "mass_da": 1331.7085,
     "mz_2plus": 666.8615,
     "mz_1plus": 1332.7158,
-    "hydrophobicity": -0.1
+    "hydrophobicity": -0.1,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WNPNLFIR",
@@ -1405,7 +1580,8 @@
     "mass_da": 1058.5661,
     "mz_2plus": 530.2903,
     "mz_1plus": 1059.5734,
-    "hydrophobicity": -0.363
+    "hydrophobicity": -0.363,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "HIIYNR",
@@ -1413,7 +1589,8 @@
     "mass_da": 814.445,
     "mz_2plus": 408.2298,
     "mz_1plus": 815.4522,
-    "hydrophobicity": -0.583
+    "hydrophobicity": -0.583,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IPLSHR",
@@ -1421,7 +1598,8 @@
     "mass_da": 721.4235,
     "mz_2plus": 361.719,
     "mz_1plus": 722.4308,
-    "hydrophobicity": -0.3
+    "hydrophobicity": -0.3,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GNDDPK",
@@ -1429,7 +1607,8 @@
     "mass_da": 644.2766,
     "mz_2plus": 323.1456,
     "mz_1plus": 645.2838,
-    "hydrophobicity": -2.733
+    "hydrophobicity": -2.733,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YFAPYYWQHDR",
@@ -1437,7 +1616,8 @@
     "mass_da": 1544.6837,
     "mz_2plus": 773.3491,
     "mz_1plus": 1545.691,
-    "hydrophobicity": -1.5
+    "hydrophobicity": -1.5,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YFETYEDGGPEK",
@@ -1445,7 +1625,8 @@
     "mass_da": 1433.5987,
     "mz_2plus": 717.8066,
     "mz_1plus": 1434.6059,
-    "hydrophobicity": -1.733
+    "hydrophobicity": -1.733,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VLTWWR",
@@ -1453,7 +1634,8 @@
     "mass_da": 859.4704,
     "mz_2plus": 430.7425,
     "mz_1plus": 860.4777,
-    "hydrophobicity": 0.167
+    "hydrophobicity": 0.167,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VPDFIINEHLHK",
@@ -1461,7 +1643,8 @@
     "mass_da": 1460.7776,
     "mz_2plus": 731.3961,
     "mz_1plus": 1461.7848,
-    "hydrophobicity": -0.217
+    "hydrophobicity": -0.217,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AVWYPDK",
@@ -1469,7 +1652,8 @@
     "mass_da": 877.4334,
     "mz_2plus": 439.724,
     "mz_1plus": 878.4407,
-    "hydrophobicity": -0.743
+    "hydrophobicity": -0.743,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PWELNIVK",
@@ -1477,7 +1661,8 @@
     "mass_da": 997.5596,
     "mz_2plus": 499.7871,
     "mz_1plus": 998.5669,
-    "hydrophobicity": -0.113
+    "hydrophobicity": -0.113,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WPTNYR",
@@ -1485,7 +1670,8 @@
     "mass_da": 835.3977,
     "mz_2plus": 418.7061,
     "mz_1plus": 836.405,
-    "hydrophobicity": -2.083
+    "hydrophobicity": -2.083,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DVQNAK",
@@ -1493,7 +1679,8 @@
     "mass_da": 673.3395,
     "mz_2plus": 337.677,
     "mz_1plus": 674.3468,
-    "hydrophobicity": -1.4
+    "hydrophobicity": -1.4,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ANDHYWR",
@@ -1501,7 +1688,8 @@
     "mass_da": 960.4202,
     "mz_2plus": 481.2174,
     "mz_1plus": 961.4275,
-    "hydrophobicity": -2.157
+    "hydrophobicity": -2.157,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VYEYSVR",
@@ -1509,7 +1697,8 @@
     "mass_da": 914.4498,
     "mz_2plus": 458.2322,
     "mz_1plus": 915.4571,
-    "hydrophobicity": -0.429
+    "hydrophobicity": -0.429,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FHQVYPTK",
@@ -1517,7 +1706,8 @@
     "mass_da": 1018.5236,
     "mz_2plus": 510.2691,
     "mz_1plus": 1019.5309,
-    "hydrophobicity": -0.9
+    "hydrophobicity": -0.9,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EQNQFTAWR",
@@ -1525,7 +1715,8 @@
     "mass_da": 1178.5469,
     "mz_2plus": 590.2807,
     "mz_1plus": 1179.5541,
-    "hydrophobicity": -1.722
+    "hydrophobicity": -1.722,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ISYWDK",
@@ -1533,7 +1724,8 @@
     "mass_da": 810.3912,
     "mz_2plus": 406.2029,
     "mz_1plus": 811.3985,
-    "hydrophobicity": -0.983
+    "hydrophobicity": -0.983,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GPWYFALK",
@@ -1541,7 +1733,8 @@
     "mass_da": 980.512,
     "mz_2plus": 491.2633,
     "mz_1plus": 981.5192,
-    "hydrophobicity": 0.037
+    "hydrophobicity": 0.037,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AVELFWFK",
@@ -1549,7 +1742,8 @@
     "mass_da": 1038.5538,
     "mz_2plus": 520.2842,
     "mz_1plus": 1039.5611,
-    "hydrophobicity": 0.887
+    "hydrophobicity": 0.887,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PNVYYLWGR",
@@ -1557,7 +1751,8 @@
     "mass_da": 1166.5873,
     "mz_2plus": 584.3009,
     "mz_1plus": 1167.5945,
-    "hydrophobicity": -0.611
+    "hydrophobicity": -0.611,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GENVQNK",
@@ -1565,7 +1760,8 @@
     "mass_da": 787.3824,
     "mz_2plus": 394.6985,
     "mz_1plus": 788.3897,
-    "hydrophobicity": -2.014
+    "hydrophobicity": -2.014,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PYGWYSQR",
@@ -1573,7 +1769,8 @@
     "mass_da": 1055.4825,
     "mz_2plus": 528.7485,
     "mz_1plus": 1056.4897,
-    "hydrophobicity": -1.788
+    "hydrophobicity": -1.788,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QILTLVDQR",
@@ -1581,7 +1778,8 @@
     "mass_da": 1084.624,
     "mz_2plus": 543.3193,
     "mz_1plus": 1085.6313,
-    "hydrophobicity": 0.067
+    "hydrophobicity": 0.067,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TTGYDGQFWFR",
@@ -1589,7 +1787,8 @@
     "mass_da": 1376.6149,
     "mz_2plus": 689.3147,
     "mz_1plus": 1377.6222,
-    "hydrophobicity": -0.936
+    "hydrophobicity": -0.936,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GVGEYR",
@@ -1597,7 +1796,8 @@
     "mass_da": 679.3289,
     "mz_2plus": 340.6717,
     "mz_1plus": 680.3362,
-    "hydrophobicity": -0.983
+    "hydrophobicity": -0.983,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TEQTQYDK",
@@ -1605,7 +1805,8 @@
     "mass_da": 1011.4509,
     "mz_2plus": 506.7327,
     "mz_1plus": 1012.4582,
-    "hydrophobicity": -2.575
+    "hydrophobicity": -2.575,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PLEVFFR",
@@ -1613,7 +1814,8 @@
     "mass_da": 906.4963,
     "mz_2plus": 454.2554,
     "mz_1plus": 907.5036,
-    "hydrophobicity": 0.571
+    "hydrophobicity": 0.571,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PADQDPR",
@@ -1621,7 +1823,8 @@
     "mass_da": 797.3668,
     "mz_2plus": 399.6907,
     "mz_1plus": 798.374,
-    "hydrophobicity": -2.343
+    "hydrophobicity": -2.343,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VGLVHHHK",
@@ -1629,7 +1832,8 @@
     "mass_da": 925.5246,
     "mz_2plus": 463.7696,
     "mz_1plus": 926.5319,
-    "hydrophobicity": -0.213
+    "hydrophobicity": -0.213,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TLYGLWNWNK",
@@ -1637,7 +1841,8 @@
     "mass_da": 1293.6506,
     "mz_2plus": 647.8326,
     "mz_1plus": 1294.6579,
-    "hydrophobicity": -0.75
+    "hydrophobicity": -0.75,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WPHEWSPVNWPK",
@@ -1645,7 +1850,8 @@
     "mass_da": 1561.7466,
     "mz_2plus": 781.8806,
     "mz_1plus": 1562.7539,
-    "hydrophobicity": -1.517
+    "hydrophobicity": -1.517,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YFLTSPPAR",
@@ -1653,7 +1859,8 @@
     "mass_da": 1050.5498,
     "mz_2plus": 526.2822,
     "mz_1plus": 1051.5571,
-    "hydrophobicity": -0.233
+    "hydrophobicity": -0.233,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ADYPLSLK",
@@ -1661,7 +1868,8 @@
     "mass_da": 905.4858,
     "mz_2plus": 453.7502,
     "mz_1plus": 906.4931,
-    "hydrophobicity": -0.213
+    "hydrophobicity": -0.213,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QVHIGSNK",
@@ -1669,7 +1877,8 @@
     "mass_da": 881.4719,
     "mz_2plus": 441.7432,
     "mz_1plus": 882.4792,
-    "hydrophobicity": -0.825
+    "hydrophobicity": -0.825,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YPQFWEGK",
@@ -1677,7 +1886,8 @@
     "mass_da": 1053.492,
     "mz_2plus": 527.7533,
     "mz_1plus": 1054.4992,
-    "hydrophobicity": -1.538
+    "hydrophobicity": -1.538,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TSETANFWSNTR",
@@ -1685,7 +1895,8 @@
     "mass_da": 1412.632,
     "mz_2plus": 707.3233,
     "mz_1plus": 1413.6393,
-    "hydrophobicity": -1.25
+    "hydrophobicity": -1.25,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LYAQLK",
@@ -1693,7 +1904,8 @@
     "mass_da": 734.4327,
     "mz_2plus": 368.2236,
     "mz_1plus": 735.4399,
-    "hydrophobicity": 0.117
+    "hydrophobicity": 0.117,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WPVFGDDPYFK",
@@ -1701,7 +1913,8 @@
     "mass_da": 1369.6342,
     "mz_2plus": 685.8244,
     "mz_1plus": 1370.6415,
-    "hydrophobicity": -0.627
+    "hydrophobicity": -0.627,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GTWSVGR",
@@ -1709,7 +1922,8 @@
     "mass_da": 761.382,
     "mz_2plus": 381.6983,
     "mz_1plus": 762.3893,
-    "hydrophobicity": -0.5
+    "hydrophobicity": -0.5,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SSDTNK",
@@ -1717,7 +1931,8 @@
     "mass_da": 650.2871,
     "mz_2plus": 326.1508,
     "mz_1plus": 651.2944,
-    "hydrophobicity": -2.2
+    "hydrophobicity": -2.2,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WEIADR",
@@ -1725,7 +1940,8 @@
     "mass_da": 788.3817,
     "mz_2plus": 395.1981,
     "mz_1plus": 789.389,
-    "hydrophobicity": -1.017
+    "hydrophobicity": -1.017,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GIEIILR",
@@ -1733,7 +1949,8 @@
     "mass_da": 812.512,
     "mz_2plus": 407.2633,
     "mz_1plus": 813.5192,
-    "hydrophobicity": 1.271
+    "hydrophobicity": 1.271,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LQAHNDGVFEYR",
@@ -1741,7 +1958,8 @@
     "mass_da": 1447.6844,
     "mz_2plus": 724.8495,
     "mz_1plus": 1448.6917,
-    "hydrophobicity": -0.9
+    "hydrophobicity": -0.9,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SFWLDPWADYTR",
@@ -1749,7 +1967,8 @@
     "mass_da": 1555.7096,
     "mz_2plus": 778.8621,
     "mz_1plus": 1556.7168,
-    "hydrophobicity": -0.775
+    "hydrophobicity": -0.775,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FYWEEQGEGNR",
@@ -1757,7 +1976,8 @@
     "mass_da": 1413.5949,
     "mz_2plus": 707.8047,
     "mz_1plus": 1414.6022,
-    "hydrophobicity": -2.018
+    "hydrophobicity": -2.018,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PWVFFIVWK",
@@ -1765,7 +1985,8 @@
     "mass_da": 1220.6746,
     "mz_2plus": 611.3446,
     "mz_1plus": 1221.6819,
-    "hydrophobicity": 1.244
+    "hydrophobicity": 1.244,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QWTVFQVQR",
@@ -1773,7 +1994,8 @@
     "mass_da": 1190.6196,
     "mz_2plus": 596.3171,
     "mz_1plus": 1191.6269,
-    "hydrophobicity": -0.6
+    "hydrophobicity": -0.6,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GYEEEEVK",
@@ -1781,7 +2003,8 @@
     "mass_da": 981.4291,
     "mz_2plus": 491.7218,
     "mz_1plus": 982.4364,
-    "hydrophobicity": -1.925
+    "hydrophobicity": -1.925,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SGDQFVSVDPR",
@@ -1789,7 +2012,8 @@
     "mass_da": 1205.5676,
     "mz_2plus": 603.7911,
     "mz_1plus": 1206.5749,
-    "hydrophobicity": -0.673
+    "hydrophobicity": -0.673,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FIGYLFSR",
@@ -1797,7 +2021,8 @@
     "mass_da": 1001.5334,
     "mz_2plus": 501.774,
     "mz_1plus": 1002.5407,
-    "hydrophobicity": 0.862
+    "hydrophobicity": 0.862,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "NLVANK",
@@ -1805,7 +2030,8 @@
     "mass_da": 657.381,
     "mz_2plus": 329.6978,
     "mz_1plus": 658.3882,
-    "hydrophobicity": -0.183
+    "hydrophobicity": -0.183,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "NPQSAHK",
@@ -1813,7 +2039,8 @@
     "mass_da": 780.3878,
     "mz_2plus": 391.2012,
     "mz_1plus": 781.3951,
-    "hydrophobicity": -2.1
+    "hydrophobicity": -2.1,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TEGAEITVWR",
@@ -1821,7 +2048,8 @@
     "mass_da": 1160.5826,
     "mz_2plus": 581.2986,
     "mz_1plus": 1161.5898,
-    "hydrophobicity": -0.37
+    "hydrophobicity": -0.37,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SPQEDGK",
@@ -1829,7 +2057,8 @@
     "mass_da": 759.3399,
     "mz_2plus": 380.6772,
     "mz_1plus": 760.3472,
-    "hydrophobicity": -2.457
+    "hydrophobicity": -2.457,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DENWVYWVNIFR",
@@ -1837,7 +2066,8 @@
     "mass_da": 1639.7783,
     "mz_2plus": 820.8964,
     "mz_1plus": 1640.7856,
-    "hydrophobicity": -0.492
+    "hydrophobicity": -0.492,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FPYPDLTDK",
@@ -1845,7 +2075,8 @@
     "mass_da": 1094.5284,
     "mz_2plus": 548.2715,
     "mz_1plus": 1095.5357,
-    "hydrophobicity": -1.056
+    "hydrophobicity": -1.056,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PIGNPQK",
@@ -1853,7 +2084,8 @@
     "mass_da": 752.4181,
     "mz_2plus": 377.2163,
     "mz_1plus": 753.4254,
-    "hydrophobicity": -1.429
+    "hydrophobicity": -1.429,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YVHGTK",
@@ -1861,7 +2093,8 @@
     "mass_da": 703.3653,
     "mz_2plus": 352.6899,
     "mz_1plus": 704.3726,
-    "hydrophobicity": -0.883
+    "hydrophobicity": -0.883,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SETDVAWEQR",
@@ -1869,7 +2102,8 @@
     "mass_da": 1219.5469,
     "mz_2plus": 610.7807,
     "mz_1plus": 1220.5542,
-    "hydrophobicity": -1.49
+    "hydrophobicity": -1.49,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TVPFTAQHWR",
@@ -1877,7 +2111,8 @@
     "mass_da": 1241.6305,
     "mz_2plus": 621.8225,
     "mz_1plus": 1242.6378,
-    "hydrophobicity": -0.63
+    "hydrophobicity": -0.63,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VFLVTK",
@@ -1885,7 +2120,8 @@
     "mass_da": 705.4425,
     "mz_2plus": 353.7285,
     "mz_1plus": 706.4498,
-    "hydrophobicity": 1.733
+    "hydrophobicity": 1.733,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PQLQHEFIR",
@@ -1893,7 +2129,8 @@
     "mass_da": 1166.6196,
     "mz_2plus": 584.3171,
     "mz_1plus": 1167.6269,
-    "hydrophobicity": -0.967
+    "hydrophobicity": -0.967,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GLFGNIHK",
@@ -1901,7 +2138,8 @@
     "mass_da": 884.4868,
     "mz_2plus": 443.2507,
     "mz_1plus": 885.4941,
-    "hydrophobicity": -0.038
+    "hydrophobicity": -0.038,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EHYWWQQGWEYR",
@@ -1909,7 +2147,8 @@
     "mass_da": 1766.759,
     "mz_2plus": 884.3868,
     "mz_1plus": 1767.7662,
-    "hydrophobicity": -2.283
+    "hydrophobicity": -2.283,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PEETWDWIQYGK",
@@ -1917,7 +2156,8 @@
     "mass_da": 1550.7041,
     "mz_2plus": 776.3593,
     "mz_1plus": 1551.7114,
-    "hydrophobicity": -1.6
+    "hydrophobicity": -1.6,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FQEHDLWWK",
@@ -1925,7 +2165,8 @@
     "mass_da": 1287.6036,
     "mz_2plus": 644.8091,
     "mz_1plus": 1288.6109,
-    "hydrophobicity": -1.422
+    "hydrophobicity": -1.422,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SPTVQDQK",
@@ -1933,7 +2174,8 @@
     "mass_da": 901.4505,
     "mz_2plus": 451.7325,
     "mz_1plus": 902.4578,
-    "hydrophobicity": -1.663
+    "hydrophobicity": -1.663,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PTGEPTQK",
@@ -1941,7 +2183,8 @@
     "mass_da": 856.429,
     "mz_2plus": 429.2218,
     "mz_1plus": 857.4363,
-    "hydrophobicity": -1.988
+    "hydrophobicity": -1.988,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EVSASPHIQYK",
@@ -1949,7 +2192,8 @@
     "mass_da": 1257.6353,
     "mz_2plus": 629.8249,
     "mz_1plus": 1258.6426,
-    "hydrophobicity": -0.736
+    "hydrophobicity": -0.736,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GGEPFDR",
@@ -1957,7 +2201,8 @@
     "mass_da": 776.3453,
     "mz_2plus": 389.1799,
     "mz_1plus": 777.3526,
-    "hydrophobicity": -1.586
+    "hydrophobicity": -1.586,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GTGHHHWDVSLR",
@@ -1965,7 +2210,8 @@
     "mass_da": 1400.6698,
     "mz_2plus": 701.3422,
     "mz_1plus": 1401.677,
-    "hydrophobicity": -1.067
+    "hydrophobicity": -1.067,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PWLLPYISWR",
@@ -1973,7 +2219,8 @@
     "mass_da": 1329.7233,
     "mz_2plus": 665.869,
     "mz_1plus": 1330.7306,
-    "hydrophobicity": 0.05
+    "hydrophobicity": 0.05,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PTVHIGNDYSFK",
@@ -1981,7 +2228,8 @@
     "mass_da": 1376.6724,
     "mz_2plus": 689.3435,
     "mz_1plus": 1377.6797,
-    "hydrophobicity": -0.617
+    "hydrophobicity": -0.617,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "EHNWGVEK",
@@ -1989,7 +2237,8 @@
     "mass_da": 997.4617,
     "mz_2plus": 499.7381,
     "mz_1plus": 998.469,
-    "hydrophobicity": -1.837
+    "hydrophobicity": -1.837,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WSAVDTSLTESK",
@@ -1997,7 +2246,8 @@
     "mass_da": 1322.6354,
     "mz_2plus": 662.325,
     "mz_1plus": 1323.6427,
-    "hydrophobicity": -0.483
+    "hydrophobicity": -0.483,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QFQGGK",
@@ -2005,7 +2255,8 @@
     "mass_da": 663.334,
     "mz_2plus": 332.6743,
     "mz_1plus": 664.3413,
-    "hydrophobicity": -1.483
+    "hydrophobicity": -1.483,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YGYWAEAR",
@@ -2013,7 +2264,8 @@
     "mass_da": 1014.4559,
     "mz_2plus": 508.2352,
     "mz_1plus": 1015.4632,
-    "hydrophobicity": -1.038
+    "hydrophobicity": -1.038,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GVFPLPK",
@@ -2021,7 +2273,8 @@
     "mass_da": 756.4534,
     "mz_2plus": 379.234,
     "mz_1plus": 757.4607,
-    "hydrophobicity": 0.471
+    "hydrophobicity": 0.471,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LVWEFR",
@@ -2029,7 +2282,8 @@
     "mass_da": 848.4545,
     "mz_2plus": 425.2345,
     "mz_1plus": 849.4617,
-    "hydrophobicity": 0.317
+    "hydrophobicity": 0.317,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ALGPVASLVK",
@@ -2037,7 +2291,8 @@
     "mass_da": 953.5909,
     "mz_2plus": 477.8027,
     "mz_1plus": 954.5982,
-    "hydrophobicity": 1.29
+    "hydrophobicity": 1.29,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ESEATYDTSNK",
@@ -2045,7 +2300,8 @@
     "mass_da": 1243.5204,
     "mz_2plus": 622.7675,
     "mz_1plus": 1244.5277,
-    "hydrophobicity": -1.855
+    "hydrophobicity": -1.855,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ESLFQGDR",
@@ -2053,7 +2309,8 @@
     "mass_da": 950.4457,
     "mz_2plus": 476.2301,
     "mz_1plus": 951.453,
-    "hydrophobicity": -1.2
+    "hydrophobicity": -1.2,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QHWYHGEWDR",
@@ -2061,7 +2318,8 @@
     "mass_da": 1412.601,
     "mz_2plus": 707.3078,
     "mz_1plus": 1413.6083,
-    "hydrophobicity": -2.49
+    "hydrophobicity": -2.49,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DIDQPTR",
@@ -2069,7 +2327,8 @@
     "mass_da": 843.4086,
     "mz_2plus": 422.7116,
     "mz_1plus": 844.4159,
-    "hydrophobicity": -1.829
+    "hydrophobicity": -1.829,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DIPSDQNK",
@@ -2077,7 +2336,8 @@
     "mass_da": 915.4298,
     "mz_2plus": 458.7222,
     "mz_1plus": 916.437,
-    "hydrophobicity": -1.975
+    "hydrophobicity": -1.975,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SVTWTQHYYSNK",
@@ -2085,7 +2345,8 @@
     "mass_da": 1512.6997,
     "mz_2plus": 757.3572,
     "mz_1plus": 1513.707,
-    "hydrophobicity": -1.367
+    "hydrophobicity": -1.367,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VEVHPQFEQPR",
@@ -2093,7 +2354,8 @@
     "mass_da": 1364.6837,
     "mz_2plus": 683.3491,
     "mz_1plus": 1365.6909,
-    "hydrophobicity": -1.245
+    "hydrophobicity": -1.245,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VHWSWDSVR",
@@ -2101,7 +2363,8 @@
     "mass_da": 1170.557,
     "mz_2plus": 586.2858,
     "mz_1plus": 1171.5643,
-    "hydrophobicity": -0.689
+    "hydrophobicity": -0.689,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DETSHAGWDGK",
@@ -2109,7 +2372,8 @@
     "mass_da": 1201.4999,
     "mz_2plus": 601.7573,
     "mz_1plus": 1202.5072,
-    "hydrophobicity": -1.727
+    "hydrophobicity": -1.727,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "SSTDGWR",
@@ -2117,7 +2381,8 @@
     "mass_da": 807.3511,
     "mz_2plus": 404.6828,
     "mz_1plus": 808.3584,
-    "hydrophobicity": -1.657
+    "hydrophobicity": -1.657,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "WEGSTQNK",
@@ -2125,7 +2390,8 @@
     "mass_da": 948.4301,
     "mz_2plus": 475.2223,
     "mz_1plus": 949.4374,
-    "hydrophobicity": -2.15
+    "hydrophobicity": -2.15,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AHYTFR",
@@ -2133,7 +2399,8 @@
     "mass_da": 793.3871,
     "mz_2plus": 397.7008,
     "mz_1plus": 794.3944,
-    "hydrophobicity": -0.85
+    "hydrophobicity": -0.85,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "NWIPYIFGEWHR",
@@ -2141,7 +2408,8 @@
     "mass_da": 1616.7888,
     "mz_2plus": 809.4017,
     "mz_1plus": 1617.7961,
-    "hydrophobicity": -0.667
+    "hydrophobicity": -0.667,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QSEPPK",
@@ -2149,7 +2417,8 @@
     "mass_da": 684.3442,
     "mz_2plus": 343.1794,
     "mz_1plus": 685.3515,
-    "hydrophobicity": -2.483
+    "hydrophobicity": -2.483,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "HSLFIGLYASR",
@@ -2157,7 +2426,8 @@
     "mass_da": 1262.6771,
     "mz_2plus": 632.3458,
     "mz_1plus": 1263.6844,
-    "hydrophobicity": 0.518
+    "hydrophobicity": 0.518,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GEEPTYVVK",
@@ -2165,7 +2435,8 @@
     "mass_da": 1020.5127,
     "mz_2plus": 511.2637,
     "mz_1plus": 1021.52,
-    "hydrophobicity": -0.722
+    "hydrophobicity": -0.722,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QEWWSGK",
@@ -2173,7 +2444,8 @@
     "mass_da": 919.4188,
     "mz_2plus": 460.7167,
     "mz_1plus": 920.4261,
-    "hydrophobicity": -1.986
+    "hydrophobicity": -1.986,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GVDFGPHHQLSR",
@@ -2181,7 +2453,8 @@
     "mass_da": 1348.6636,
     "mz_2plus": 675.3391,
     "mz_1plus": 1349.6709,
-    "hydrophobicity": -0.858
+    "hydrophobicity": -0.858,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "AEDNIVAYPPYK",
@@ -2189,7 +2462,8 @@
     "mass_da": 1378.6768,
     "mz_2plus": 690.3457,
     "mz_1plus": 1379.6841,
-    "hydrophobicity": -0.658
+    "hydrophobicity": -0.658,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TPWEDHWVYWIR",
@@ -2197,7 +2471,8 @@
     "mass_da": 1686.7943,
     "mz_2plus": 844.4044,
     "mz_1plus": 1687.8016,
-    "hydrophobicity": -1.025
+    "hydrophobicity": -1.025,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GQQSTGSFQK",
@@ -2205,7 +2480,8 @@
     "mass_da": 1066.5043,
     "mz_2plus": 534.2594,
     "mz_1plus": 1067.5116,
-    "hydrophobicity": -1.47
+    "hydrophobicity": -1.47,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FNWLGFDPR",
@@ -2213,7 +2489,8 @@
     "mass_da": 1150.5559,
     "mz_2plus": 576.2853,
     "mz_1plus": 1151.5632,
-    "hydrophobicity": -0.556
+    "hydrophobicity": -0.556,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "VLHQQIHYWYPR",
@@ -2221,7 +2498,8 @@
     "mass_da": 1638.8419,
     "mz_2plus": 820.4282,
     "mz_1plus": 1639.8492,
-    "hydrophobicity": -0.875
+    "hydrophobicity": -0.875,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "ETWLIR",
@@ -2229,7 +2507,8 @@
     "mass_da": 816.4494,
     "mz_2plus": 409.232,
     "mz_1plus": 817.4567,
-    "hydrophobicity": -0.217
+    "hydrophobicity": -0.217,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "DPYYPK",
@@ -2237,7 +2516,8 @@
     "mass_da": 781.3646,
     "mz_2plus": 391.6896,
     "mz_1plus": 782.3719,
-    "hydrophobicity": -2.2
+    "hydrophobicity": -2.2,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PETWNFGFTR",
@@ -2245,7 +2525,8 @@
     "mass_da": 1253.5829,
     "mz_2plus": 627.7987,
     "mz_1plus": 1254.5902,
-    "hydrophobicity": -1.02
+    "hydrophobicity": -1.02,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QSGITDDDGQYR",
@@ -2253,7 +2534,8 @@
     "mass_da": 1353.5797,
     "mz_2plus": 677.7971,
     "mz_1plus": 1354.5869,
-    "hydrophobicity": -1.758
+    "hydrophobicity": -1.758,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GQQHTPR",
@@ -2261,7 +2543,8 @@
     "mass_da": 822.4096,
     "mz_2plus": 412.2121,
     "mz_1plus": 823.4169,
-    "hydrophobicity": -2.486
+    "hydrophobicity": -2.486,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YPYASQFVPK",
@@ -2269,7 +2552,8 @@
     "mass_da": 1198.6022,
     "mz_2plus": 600.3084,
     "mz_1plus": 1199.6095,
-    "hydrophobicity": -0.52
+    "hydrophobicity": -0.52,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YNLDYHTGLK",
@@ -2277,7 +2561,8 @@
     "mass_da": 1222.5982,
     "mz_2plus": 612.3064,
     "mz_1plus": 1223.6055,
-    "hydrophobicity": -1.02
+    "hydrophobicity": -1.02,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FIAWQVGVIR",
@@ -2285,7 +2570,8 @@
     "mass_da": 1187.6815,
     "mz_2plus": 594.848,
     "mz_1plus": 1188.6888,
-    "hydrophobicity": 1.27
+    "hydrophobicity": 1.27,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YDGIQYTQHR",
@@ -2293,7 +2579,8 @@
     "mass_da": 1279.5945,
     "mz_2plus": 640.8046,
     "mz_1plus": 1280.6018,
-    "hydrophobicity": -1.74
+    "hydrophobicity": -1.74,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QSNYILNPLR",
@@ -2301,7 +2588,8 @@
     "mass_da": 1216.6564,
     "mz_2plus": 609.3355,
     "mz_1plus": 1217.6637,
-    "hydrophobicity": -0.66
+    "hydrophobicity": -0.66,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PIYQYSNPFTTR",
@@ -2309,7 +2597,8 @@
     "mass_da": 1485.7252,
     "mz_2plus": 743.8699,
     "mz_1plus": 1486.7325,
-    "hydrophobicity": -1.017
+    "hydrophobicity": -1.017,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "GPDPESWNYIIR",
@@ -2317,7 +2606,8 @@
     "mass_da": 1445.6939,
     "mz_2plus": 723.8542,
     "mz_1plus": 1446.7012,
-    "hydrophobicity": -1.05
+    "hydrophobicity": -1.05,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QYFGAHVYR",
@@ -2325,7 +2615,8 @@
     "mass_da": 1139.5512,
     "mz_2plus": 570.7829,
     "mz_1plus": 1140.5585,
-    "hydrophobicity": -0.6
+    "hydrophobicity": -0.6,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "IPQPDELDHVK",
@@ -2333,7 +2624,8 @@
     "mass_da": 1289.6615,
     "mz_2plus": 645.838,
     "mz_1plus": 1290.6688,
-    "hydrophobicity": -1.073
+    "hydrophobicity": -1.073,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "TYHPDK",
@@ -2341,7 +2633,8 @@
     "mass_da": 759.3551,
     "mz_2plus": 380.6848,
     "mz_1plus": 760.3624,
-    "hydrophobicity": -2.367
+    "hydrophobicity": -2.367,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FQPWYGWR",
@@ -2349,7 +2642,8 @@
     "mass_da": 1138.5348,
     "mz_2plus": 570.2747,
     "mz_1plus": 1139.5421,
-    "hydrophobicity": -1.288
+    "hydrophobicity": -1.288,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "FQHWNHK",
@@ -2357,7 +2651,8 @@
     "mass_da": 995.4726,
     "mz_2plus": 498.7436,
     "mz_1plus": 996.4799,
-    "hydrophobicity": -2.2
+    "hydrophobicity": -2.2,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "QPIHTVQETFK",
@@ -2365,7 +2660,8 @@
     "mass_da": 1326.6932,
     "mz_2plus": 664.3539,
     "mz_1plus": 1327.7005,
-    "hydrophobicity": -0.827
+    "hydrophobicity": -0.827,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YQLANTK",
@@ -2373,7 +2669,8 @@
     "mass_da": 836.4392,
     "mz_2plus": 419.2269,
     "mz_1plus": 837.4465,
-    "hydrophobicity": -1.043
+    "hydrophobicity": -1.043,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "PHTPFPSLK",
@@ -2381,7 +2678,8 @@
     "mass_da": 1022.5549,
     "mz_2plus": 512.2847,
     "mz_1plus": 1023.5622,
-    "hydrophobicity": -0.756
+    "hydrophobicity": -0.756,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "YGWSVYK",
@@ -2389,7 +2687,8 @@
     "mass_da": 901.4334,
     "mz_2plus": 451.724,
     "mz_1plus": 902.4407,
-    "hydrophobicity": -0.629
+    "hydrophobicity": -0.629,
+    "source": "validated_proteomics"
   },
   {
     "sequence": "LEWSEFDIGHQR",
@@ -2397,6 +2696,7 @@
     "mass_da": 1515.7106,
     "mz_2plus": 758.8626,
     "mz_1plus": 1516.7179,
-    "hydrophobicity": -1.058
+    "hydrophobicity": -1.058,
+    "source": "validated_proteomics"
   }
 ]

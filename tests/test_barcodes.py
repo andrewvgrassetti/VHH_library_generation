@@ -8,6 +8,7 @@ from pathlib import Path
 from vhh_library.barcodes import (
     BarcodeGenerator,
     _barcode_passes_rules,
+    _hydrophobicity,
     _peptide_neutral_mass,
     _mz,
 )
@@ -300,3 +301,69 @@ class TestBarcodeReferenceTable:
         barcoded = generator.assign_barcodes(small_library, top_n=5)
         ref = generator.generate_barcode_reference(barcoded)
         assert (ref["mz_3plus"] < ref["mz_2plus"]).all()
+
+    def test_hydrophobicity_column_present(self, generator, small_library):
+        barcoded = generator.assign_barcodes(small_library, top_n=5)
+        ref = generator.generate_barcode_reference(barcoded)
+        assert "hydrophobicity" in ref.columns
+
+    def test_source_column_present(self, generator, small_library):
+        barcoded = generator.assign_barcodes(small_library, top_n=5)
+        ref = generator.generate_barcode_reference(barcoded)
+        assert "source" in ref.columns
+
+
+# ── barcode source tracking tests ────────────────────────────────────────────
+
+class TestBarcodeSourceTracking:
+    def test_pool_barcodes_have_source(self, generator, small_library):
+        """Barcodes drawn from the pool should be tagged as validated_proteomics."""
+        result = generator.assign_barcodes(small_library, top_n=5)
+        sources = result["barcode_source"]
+        assert all(s == "validated_proteomics" for s in sources), (
+            f"Expected all validated_proteomics, got: {list(sources)}"
+        )
+
+    def test_pool_entries_have_source_metadata(self, generator):
+        """The pool should carry source metadata for every sequence."""
+        assert len(generator._pool_sources) == len(generator.pool)
+        for seq in generator.pool:
+            assert seq in generator._pool_sources
+
+    def test_barcode_source_column_in_assignment(self, generator, small_library):
+        result = generator.assign_barcodes(small_library, top_n=3)
+        assert "barcode_source" in result.columns
+
+
+# ── biophysical distribution plot tests ──────────────────────────────────────
+
+class TestPlotBarcodeDistributions:
+    def test_returns_figure(self, generator, small_library):
+        import matplotlib.figure
+        barcoded = generator.assign_barcodes(small_library, top_n=5)
+        ref = generator.generate_barcode_reference(barcoded)
+        fig = generator.plot_barcode_distributions(ref)
+        assert isinstance(fig, matplotlib.figure.Figure)
+
+    def test_plot_has_three_axes(self, generator, small_library):
+        barcoded = generator.assign_barcodes(small_library, top_n=5)
+        ref = generator.generate_barcode_reference(barcoded)
+        fig = generator.plot_barcode_distributions(ref)
+        assert len(fig.axes) == 3
+
+    def test_plot_with_empty_ref_table(self, generator):
+        empty = pd.DataFrame()
+        fig = generator.plot_barcode_distributions(empty)
+        assert fig is not None
+
+    def test_plot_with_none_ref_table(self, generator):
+        fig = generator.plot_barcode_distributions(None)
+        assert fig is not None
+
+    def test_plot_without_source_column(self, generator, small_library):
+        """Plot should work even if source column is absent."""
+        barcoded = generator.assign_barcodes(small_library, top_n=5)
+        ref = generator.generate_barcode_reference(barcoded)
+        ref = ref.drop(columns=["source"])
+        fig = generator.plot_barcode_distributions(ref)
+        assert len(fig.axes) == 3
