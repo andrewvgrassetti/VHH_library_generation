@@ -1081,7 +1081,6 @@ def tab_barcoding():
             c for c in [
                 "variant_id", "combined_score", "mutations",
                 "barcode_id", "barcode_peptide", "barcoded_sequence", "barcode_tryptic_peptide",
-                "barcode_source",
             ] if c in barcoded.columns
         ]
         st.dataframe(barcoded[display_cols], use_container_width=True)

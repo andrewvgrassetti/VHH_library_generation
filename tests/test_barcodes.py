@@ -49,68 +49,77 @@ class TestBarcodeDesignRules:
     """_barcode_passes_rules must enforce all design constraints."""
 
     def test_valid_barcode_passes(self):
-        assert _barcode_passes_rules("KLVTDLT")
+        assert _barcode_passes_rules("KLVTDLK")
 
     def test_must_start_with_K_or_R(self):
-        assert not _barcode_passes_rules("ALVTDLT")  # starts with A
+        assert not _barcode_passes_rules("ALVTDLK")  # starts with A
 
     def test_starts_with_K(self):
-        assert _barcode_passes_rules("KLVTDLT")
+        assert _barcode_passes_rules("KLVTDLK")
 
     def test_starts_with_R(self):
-        assert _barcode_passes_rules("RLVTDLT")
+        assert _barcode_passes_rules("RLVTDLK")
+
+    def test_must_end_with_K_or_R(self):
+        assert not _barcode_passes_rules("KLVTDLT")  # ends with T
+
+    def test_ends_with_K(self):
+        assert _barcode_passes_rules("KLVTDLK")
+
+    def test_ends_with_R(self):
+        assert _barcode_passes_rules("KLVTDLR")
 
     def test_no_methionine(self):
-        assert not _barcode_passes_rules("KLVTDMT")  # contains M
+        assert not _barcode_passes_rules("KLVTDMK")  # contains M
 
     def test_no_cysteine(self):
-        assert not _barcode_passes_rules("KLVTDCT")  # contains C
+        assert not _barcode_passes_rules("KLVTDCK")  # contains C
 
     def test_no_NG_motif(self):
-        assert not _barcode_passes_rules("KLVDNGT")  # contains NG
+        assert not _barcode_passes_rules("KLVDNGK")  # contains NG
 
     def test_no_NS_motif(self):
-        assert not _barcode_passes_rules("KNSVLTT")  # contains NS
+        assert not _barcode_passes_rules("KNSVLTK")  # contains NS
 
     def test_no_glycosylation_sequon_NST(self):
         # N-X-T where X is not P should fail
-        assert not _barcode_passes_rules("KNATLTD")  # N-A-T
+        assert not _barcode_passes_rules("KNATLTK")  # N-A-T
 
     def test_glycosylation_sequon_NPS_passes(self):
         # N-P-S should NOT trigger the sequon rule (X == P is excepted)
-        assert _barcode_passes_rules("KANPSVE")
+        assert _barcode_passes_rules("KANPSVK")
 
     def test_must_have_basic_residue(self):
-        # K or R at start provides a basic residue → should pass
-        assert _barcode_passes_rules("KLVTDLT")  # has K (basic)
-        assert _barcode_passes_rules("RLVTDLT")  # has R (basic)
+        # K or R at start/end provides basic residues → should pass
+        assert _barcode_passes_rules("KLVTDLK")  # has K (basic)
+        assert _barcode_passes_rules("RLVTDLR")  # has R (basic)
         # H in the body also counts as basic
-        assert _barcode_passes_rules("KHLTDLT")
+        assert _barcode_passes_rules("KHLTDLK")
 
     def test_length_too_short(self):
-        assert not _barcode_passes_rules("KLVTD")  # only 5 chars
+        assert not _barcode_passes_rules("KLVDK")  # only 5 chars
 
     def test_length_too_long(self):
-        assert not _barcode_passes_rules("K" + "A" * 12)  # 13 chars → too long
-        assert _barcode_passes_rules("K" + "A" * 10 + "H")  # 12 chars → OK (H for basic)
+        assert not _barcode_passes_rules("K" + "A" * 11 + "K")  # 13 chars → too long
+        assert _barcode_passes_rules("K" + "A" * 10 + "K")  # 12 chars → OK
 
     def test_no_internal_lysine(self):
-        assert not _barcode_passes_rules("KLVKDLT")  # internal K
+        assert not _barcode_passes_rules("KLVKDLR")  # internal K
 
     def test_no_internal_arginine(self):
-        assert not _barcode_passes_rules("KLVRDLT")  # internal R
+        assert not _barcode_passes_rules("KLVRDLK")  # internal R
 
     def test_exactly_6_chars_passes(self):
-        assert _barcode_passes_rules("KAFHLG")  # 6 chars, starts K, has H (basic)
+        assert _barcode_passes_rules("KAFHLK")  # 6 chars, starts & ends K
 
     def test_exactly_12_chars_passes(self):
-        seq = "KAFEQTIVHLHE"
+        seq = "KAFEQTIVHLEK"
         assert len(seq) == 12
         assert _barcode_passes_rules(seq)
 
-    def test_old_c_terminal_barcode_fails(self):
-        """Barcodes with K/R at C-terminal end (old design) should now fail."""
-        assert not _barcode_passes_rules("LVTDLTK")  # old-style, starts with L
+    def test_old_n_only_barcode_fails(self):
+        """Barcodes with K/R only at N-terminal (old design) should now fail."""
+        assert not _barcode_passes_rules("KLVTDLT")  # no C-terminal K/R
 
 
 # ── tryptic digest tests ───────────────────────────────────────────────────────
@@ -224,9 +233,12 @@ class TestAssignBarcodes:
             assert row["barcoded_sequence"].endswith("AA")
 
     def test_c_terminal_tail_in_tryptic_peptide(self, generator, small_library):
+        """With K/R at C-terminus, trypsin cleaves there; tail is NOT in the tryptic peptide."""
         result = generator.assign_barcodes(small_library, top_n=5, linker="GGS", c_terminal_tail="GS")
         for _, row in result.iterrows():
-            assert row["barcode_tryptic_peptide"].endswith("GS")
+            # Tryptic peptide should NOT include the tail since trypsin
+            # cleaves after the C-terminal K/R of the barcode
+            assert not row["barcode_tryptic_peptide"].endswith("GS")
 
     def test_c_terminal_tail_rejects_K(self, generator, small_library):
         with pytest.raises(ValueError, match="must not contain K or R"):
@@ -304,7 +316,7 @@ class TestBarcodeReferenceTable:
         ref = generator.generate_barcode_reference(barcoded)
         for col in ("variant_id", "barcode_id", "barcode_peptide",
                     "barcode_tryptic_peptide", "neutral_mass_da",
-                    "mz_1plus", "mz_2plus", "mz_3plus"):
+                    "mz_1plus", "mz_2plus", "mz_3plus", "hydrophobicity"):
             assert col in ref.columns, f"Missing column: {col}"
 
     def test_mz_values_are_positive(self, generator, small_library):
@@ -329,33 +341,6 @@ class TestBarcodeReferenceTable:
         barcoded = generator.assign_barcodes(small_library, top_n=5)
         ref = generator.generate_barcode_reference(barcoded)
         assert "hydrophobicity" in ref.columns
-
-    def test_source_column_present(self, generator, small_library):
-        barcoded = generator.assign_barcodes(small_library, top_n=5)
-        ref = generator.generate_barcode_reference(barcoded)
-        assert "source" in ref.columns
-
-
-# ── barcode source tracking tests ────────────────────────────────────────────
-
-class TestBarcodeSourceTracking:
-    def test_pool_barcodes_have_source(self, generator, small_library):
-        """Barcodes drawn from the pool should be tagged as validated_proteomics."""
-        result = generator.assign_barcodes(small_library, top_n=5)
-        sources = result["barcode_source"]
-        assert all(s == "validated_proteomics" for s in sources), (
-            f"Expected all validated_proteomics, got: {list(sources)}"
-        )
-
-    def test_pool_entries_have_source_metadata(self, generator):
-        """The pool should carry source metadata for every sequence."""
-        assert len(generator._pool_sources) == len(generator.pool)
-        for seq in generator.pool:
-            assert seq in generator._pool_sources
-
-    def test_barcode_source_column_in_assignment(self, generator, small_library):
-        result = generator.assign_barcodes(small_library, top_n=3)
-        assert "barcode_source" in result.columns
 
 
 # ── biophysical distribution plot tests ──────────────────────────────────────
@@ -382,11 +367,3 @@ class TestPlotBarcodeDistributions:
     def test_plot_with_none_ref_table(self, generator):
         fig = generator.plot_barcode_distributions(None)
         assert fig is not None
-
-    def test_plot_without_source_column(self, generator, small_library):
-        """Plot should work even if source column is absent."""
-        barcoded = generator.assign_barcodes(small_library, top_n=5)
-        ref = generator.generate_barcode_reference(barcoded)
-        ref = ref.drop(columns=["source"])
-        fig = generator.plot_barcode_distributions(ref)
-        assert len(fig.axes) == 3
