@@ -16,6 +16,7 @@ from vhh_library.developability import (
 from vhh_library.orthogonal_scoring import (
     HumanStringContentScorer,
     ConsensusStabilityScorer,
+    NanoMeltStabilityScorer,
 )
 from vhh_library.sequence import VHHSequence
 
@@ -104,6 +105,7 @@ class MutationEngine:
         hydrophobicity_scorer: SurfaceHydrophobicityScorer | None = None,
         hsc_scorer: HumanStringContentScorer | None = None,
         consensus_scorer: ConsensusStabilityScorer | None = None,
+        nanomelt_scorer: NanoMeltStabilityScorer | None = None,
         w_humanness: float = 0.6,
         w_stability: float = 0.4,
         weights: dict | None = None,
@@ -116,6 +118,7 @@ class MutationEngine:
         self._hydrophobicity_scorer = hydrophobicity_scorer
         self._hsc_scorer = hsc_scorer
         self._consensus_scorer = consensus_scorer
+        self._nanomelt_scorer = nanomelt_scorer
 
         # Legacy two-weight API
         self.w_humanness = w_humanness
@@ -179,6 +182,16 @@ class MutationEngine:
             self._consensus_scorer = ConsensusStabilityScorer()
         return self._consensus_scorer
 
+    @property
+    def nanomelt_scorer(self) -> NanoMeltStabilityScorer | None:
+        """Return the NanoMelt scorer, or ``None`` if not configured.
+
+        Unlike the other scorers, NanoMelt is entirely optional — it is not
+        auto-instantiated when missing because the heavy dependencies may not
+        be installed.
+        """
+        return self._nanomelt_scorer
+
     # -- scoring helpers ------------------------------------------------------
 
     def _active_weights(self) -> dict[str, float]:
@@ -193,7 +206,7 @@ class MutationEngine:
         """Score a variant across all metrics.  Returns raw scores.
 
         Includes the five primary metrics used for the combined score
-        plus the two orthogonal scores (which are recorded but never
+        plus the orthogonal scores (which are recorded but never
         participate in the combined score).
         """
         scores: dict[str, float] = {}
@@ -211,6 +224,15 @@ class MutationEngine:
         # Orthogonal scores (informational only – not in combined score)
         scores["orthogonal_humanness"] = self.hsc_scorer.score(vhh)["composite_score"]
         scores["orthogonal_stability"] = self.consensus_scorer.score(vhh)["composite_score"]
+        # NanoMelt Tm (informational only – not in combined score)
+        if self._nanomelt_scorer is not None and self._nanomelt_scorer.is_available:
+            try:
+                nm_result = self._nanomelt_scorer.score(vhh)
+                scores["nanomelt_tm_score"] = nm_result["composite_score"]
+                scores["nanomelt_predicted_tm"] = nm_result["predicted_tm"]
+            except Exception:
+                scores["nanomelt_tm_score"] = float("nan")
+                scores["nanomelt_predicted_tm"] = float("nan")
         return scores
 
     def _combined_score(self, raw_scores: dict[str, float]) -> float:
@@ -408,7 +430,7 @@ class MutationEngine:
         raw_scores = self._score_variant(mutant_vhh)
         combined = self._combined_score(raw_scores)
 
-        return {
+        row = {
             "variant_id": f"VAR-{variant_counter + 1:06d}",
             "mutations": mut_str,
             "n_mutations": len(selected),
@@ -427,6 +449,13 @@ class MutationEngine:
             "combined_score": round(combined, 4),
             "aa_sequence": new_seq,
         }
+        # NanoMelt columns are only included when the scorer is active
+        if "nanomelt_tm_score" in raw_scores:
+            nm_score = raw_scores["nanomelt_tm_score"]
+            nm_tm = raw_scores["nanomelt_predicted_tm"]
+            row["nanomelt_tm_score"] = round(nm_score, 4) if not math.isnan(nm_score) else None
+            row["predicted_tm"] = round(nm_tm, 2) if not math.isnan(nm_tm) else None
+        return row
 
     def _generate_exhaustive(self, vhh_sequence, mut_list, n_mutations,
                              min_mutations, max_variants):

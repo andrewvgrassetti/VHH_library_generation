@@ -3,6 +3,7 @@ from vhh_library.sequence import VHHSequence
 from vhh_library.orthogonal_scoring import (
     HumanStringContentScorer,
     ConsensusStabilityScorer,
+    NanoMeltStabilityScorer,
 )
 
 SAMPLE_VHH = "QVQLVESGGGLVQAGGSLRLSCAASGRTFSSYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKGRFTISRDNAKNTVYLQMNSLKPEDTAVYYCAAAGVRAEWDYWGQGTLVTVSS"
@@ -129,3 +130,84 @@ class TestOrthogonalCorrelation:
         # Scores should be valid (may or may not change)
         assert 0.0 <= mut_h <= 1.0
         assert 0.0 <= mut_s <= 1.0
+
+
+# -- NanoMelt Stability Scorer ----------------------------------------------
+
+class TestNanoMeltStabilityScorer:
+    """Tests for NanoMeltStabilityScorer.
+
+    Because the nanomelt package may or may not be installed in the test
+    environment, most tests use the scorer's ``is_available`` flag to decide
+    what to assert.  This keeps the tests meaningful in both cases without
+    requiring heavy model weights in CI.
+    """
+
+    @pytest.fixture
+    def scorer(self):
+        return NanoMeltStabilityScorer()
+
+    def test_scorer_instantiation_does_not_raise(self):
+        """Creating the scorer must not import nanomelt eagerly."""
+        scorer = NanoMeltStabilityScorer()
+        assert scorer is not None
+
+    def test_is_available_returns_bool(self, scorer):
+        """is_available must return a bool regardless of install status."""
+        assert isinstance(scorer.is_available, bool)
+
+    def test_lazy_load_sets_available_flag(self, scorer):
+        """Accessing is_available should trigger lazy loading."""
+        _ = scorer.is_available
+        assert scorer._available is not None
+
+    def test_predict_mutation_effect_unavailable_returns_zero(self, vhh):
+        """If nanomelt is absent, predict_mutation_effect must return 0.0."""
+        scorer = NanoMeltStabilityScorer()
+        if scorer.is_available:
+            pytest.skip("nanomelt is installed; skipping unavailable-path test")
+        delta = scorer.predict_mutation_effect(vhh, 1, "E")
+        assert delta == 0.0
+
+    def test_score_raises_import_error_when_unavailable(self, vhh):
+        """If nanomelt is absent, score() must raise ImportError."""
+        scorer = NanoMeltStabilityScorer()
+        if scorer.is_available:
+            pytest.skip("nanomelt is installed; skipping unavailable-path test")
+        with pytest.raises(ImportError, match="nanomelt"):
+            scorer.score(vhh)
+
+    def test_score_returns_valid_dict_when_available(self, vhh):
+        """If nanomelt is installed, score() returns expected keys and ranges."""
+        scorer = NanoMeltStabilityScorer()
+        if not scorer.is_available:
+            pytest.skip("nanomelt not installed; skipping live prediction test")
+        result = scorer.score(vhh)
+        assert isinstance(result, dict)
+        assert "composite_score" in result
+        assert "predicted_tm" in result
+        assert 0.0 <= result["composite_score"] <= 1.0
+        # Tm should be in a plausible range for nanobodies
+        assert 20.0 <= result["predicted_tm"] <= 120.0
+
+    def test_predict_mutation_effect_returns_float_when_available(self, vhh):
+        scorer = NanoMeltStabilityScorer()
+        if not scorer.is_available:
+            pytest.skip("nanomelt not installed; skipping live prediction test")
+        delta = scorer.predict_mutation_effect(vhh, 1, "E")
+        assert isinstance(delta, float)
+
+    def test_predict_mutation_effect_same_aa_returns_zero(self, vhh):
+        scorer = NanoMeltStabilityScorer()
+        if not scorer.is_available:
+            pytest.skip("nanomelt not installed; skipping live prediction test")
+        aa = vhh.sequence[0]
+        delta = scorer.predict_mutation_effect(vhh, 1, aa)
+        assert delta == 0.0
+
+    def test_predict_mutation_effect_out_of_range_returns_zero(self, vhh):
+        scorer = NanoMeltStabilityScorer()
+        if not scorer.is_available:
+            pytest.skip("nanomelt not installed; skipping live prediction test")
+        delta = scorer.predict_mutation_effect(vhh, 9999, "A")
+        assert delta == 0.0

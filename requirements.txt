@@ -5,3 +5,5 @@ pytest>=7.4.0
 numpy>=1.24.0
 matplotlib>=3.7.0
 scipy>=1.11.0
+# Optional: NanoMelt for continuous thermostability prediction (requires PyTorch + ESM weights)
+# nanomelt
