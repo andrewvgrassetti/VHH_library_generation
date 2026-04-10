@@ -17,8 +17,9 @@ logger = logging.getLogger(__name__)
 # Default path relative to the package data directory
 _DEFAULT_POOL_PATH = Path(__file__).parent.parent / "data" / "barcode_pool.json"
 
-# Amino acids allowed in barcodes (no C = disulfide, no M = oxidation-prone)
-_ALLOWED_AAs = list("ADEFGHIKLNPQRSTVWY")
+# Amino acids allowed in the barcode body (no C = disulfide, no M = oxidation-prone,
+# no K/R = internal trypsin cleavage sites that cause incomplete digestion)
+_ALLOWED_AAs = list("ADEFGHILNPQSTVWY")
 _BASIC_AAs = set("KRH")
 
 # Monoisotopic residue masses (Da)
@@ -49,6 +50,10 @@ def _barcode_passes_rules(seq: str) -> bool:
         return False
     # Must end in K or R (tryptic release)
     if seq[-1] not in "KR":
+        return False
+    # No internal K or R (would create internal trypsin cleavage sites,
+    # causing incomplete digestion and loss of intact barcode peptide)
+    if any(aa in "KR" for aa in seq[:-1]):
         return False
     # No Met (oxidation-prone) or Cys (disulfide interference)
     if "M" in seq or "C" in seq:
