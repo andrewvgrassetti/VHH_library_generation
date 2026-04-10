@@ -1,5 +1,6 @@
 import itertools
 import logging
+from typing import Optional
 import pandas as pd
 from vhh_library.humanness import HumAnnotator
 from vhh_library.stability import StabilityScorer
@@ -17,7 +18,7 @@ class MutationEngine:
         self.w_stability = w_stability
 
     def rank_single_mutations(self, vhh_sequence: VHHSequence, off_limits: set = None,
-                              forbidden_substitutions: dict | None = None) -> pd.DataFrame:
+                              forbidden_substitutions: Optional[dict] = None) -> pd.DataFrame:
         if off_limits is None:
             off_limits = set()
         if forbidden_substitutions is None:

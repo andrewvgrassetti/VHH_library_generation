@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from typing import Optional
 from vhh_library.sequence import VHHSequence
 from vhh_library.utils import AMINO_ACIDS
 
@@ -66,7 +67,7 @@ class HumAnnotator:
         }
 
     def get_mutation_suggestions(self, vhh_sequence: VHHSequence, off_limits: set,
-                                forbidden_substitutions: dict | None = None) -> list:
+                                forbidden_substitutions: Optional[dict] = None) -> list:
         """Get mutation suggestions for a VHH sequence.
 
         Args:
