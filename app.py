@@ -145,22 +145,24 @@ def tab_input(humanness_scorer, stability_scorer, viz):
 
 
 def _parse_off_limit_csv(uploaded_file) -> dict:
-    """Parse a CSV of per-position forbidden substitutions.
+    """Parse a CSV of per-amino-acid forbidden substitutions.
 
     Expected CSV format (with or without header):
-        Column 1: IMGT position number (integer)
-        Column 2: One-letter amino acid codes that are forbidden at that position
-                   (e.g. "ACDE" or "A,C,D,E")
+        Column 1: Single-letter amino acid code (the original residue, e.g. "A")
+        Column 2: One-letter amino acid codes that are forbidden as replacements
+                   for the amino acid in column 1 (e.g. "VIL" or "V,I,L")
+
+    For example, if column 1 is ``A`` and column 2 is ``VIL``, then any
+    position in the VHH sequence that contains ``A`` cannot be mutated to
+    ``V``, ``I``, or ``L``.
 
     Returns:
-        dict mapping IMGT position (int) -> set of forbidden one-letter AA codes.
+        dict mapping original amino acid (str, single letter) -> set of
+        forbidden replacement one-letter AA codes.
     """
     content = uploaded_file.read().decode("utf-8")
     uploaded_file.seek(0)
     try:
-        # Use header=None so every row (including a header row) is treated as
-        # data.  Header rows are harmlessly skipped during position parsing
-        # because labels like "position" won't convert to a valid integer.
         df = pd.read_csv(io.StringIO(content), header=None)
     except Exception:
         return {}
@@ -168,30 +170,51 @@ def _parse_off_limit_csv(uploaded_file) -> dict:
     if len(df.columns) < 2:
         return {}
 
-    forbidden = {}
+    valid_aas = set("ACDEFGHIKLMNPQRSTVWY")
+    forbidden: dict[str, set[str]] = {}
     for _, row in df.iterrows():
-        pos_val = row.iloc[0]
+        orig_aa = str(row.iloc[0]).strip().upper()
         forbidden_str = str(row.iloc[1]).strip()
 
-        # Parse position: integer, or residue+position like "Q1"
-        try:
-            pos = int(pos_val)
-        except (ValueError, TypeError):
-            # Try extracting trailing digits from e.g. "Q1" -> 1
-            pos_str = str(pos_val).strip()
-            if len(pos_str) >= 2 and pos_str[0].isalpha() and pos_str[1:].isdigit():
-                pos = int(pos_str[1:])
-            else:
-                continue
+        # Column 1 must be a single valid amino acid letter
+        if len(orig_aa) != 1 or orig_aa not in valid_aas:
+            continue
 
-        # Parse forbidden AAs: could be "ACDE" or "A,C,D,E" or "A C D E"
+        # Parse forbidden AAs: could be "VIL" or "V,I,L" or "V I L"
         forbidden_str = forbidden_str.replace(",", "").replace(" ", "").upper()
-        valid_aas = set("ACDEFGHIKLMNPQRSTVWY")
         forbidden_aas = set(c for c in forbidden_str if c in valid_aas)
         if forbidden_aas:
-            forbidden[pos] = forbidden_aas
+            if orig_aa in forbidden:
+                forbidden[orig_aa] |= forbidden_aas
+            else:
+                forbidden[orig_aa] = forbidden_aas
 
     return forbidden
+
+
+def _aa_forbidden_to_position_forbidden(
+    aa_forbidden: dict[str, set[str]],
+    vhh: "VHHSequence",
+) -> dict[int, set[str]]:
+    """Convert amino-acid-level forbidden substitutions to position-level.
+
+    Parameters
+    ----------
+    aa_forbidden:
+        Dict mapping original amino acid (single letter) to a set of
+        forbidden replacement amino acids.
+    vhh:
+        The VHH sequence whose IMGT positions are used for expansion.
+
+    Returns
+    -------
+    Dict mapping IMGT position (int) -> set of forbidden replacement AA codes.
+    """
+    position_forbidden: dict[int, set[str]] = {}
+    for pos, aa in vhh.imgt_numbered.items():
+        if aa in aa_forbidden:
+            position_forbidden[pos] = aa_forbidden[aa]
+    return position_forbidden
 
 
 def tab_mutations(humanness_scorer, stability_scorer):
@@ -204,18 +227,73 @@ def tab_mutations(humanness_scorer, stability_scorer):
 
     # --- Off-limit position selection via interactive sequence selector ---
     st.subheader("Off-Limit Mutation Positions")
-    st.caption(
-        "Click individual residues (or click-and-drag) in the sequence below to "
-        "toggle them as off-limits.  Use the region checkboxes for bulk selection. "
-        "CDR regions are off-limits by default."
-    )
 
     # Initialize off-limit region toggles in session state
     if "off_limit_regions" not in st.session_state:
         st.session_state.off_limit_regions = {"CDR1": True, "CDR2": True, "CDR3": True,
                                                "FR1": False, "FR2": False, "FR3": False, "FR4": False}
 
-    # Region toggle row (convenience for bulk selection)
+    # --- CSV upload for per-amino-acid forbidden substitutions ---
+    # Parsed first so that forbidden-substitution markers appear on the
+    # interactive selector below.
+    st.subheader("Upload Forbidden Substitutions (CSV)")
+    st.caption(
+        "Upload a CSV where **column 1** is a single-letter amino acid code "
+        "(A, R, K, etc.) and **column 2** lists the amino acids that are **not "
+        "allowed** to replace the amino acid in column 1 anywhere in the VHH "
+        "sequence (e.g. `VIL` or `V,I,L`). For example, a row `A,VIL` means "
+        "that any position containing **A** cannot be mutated to **V**, **I**, or **L**."
+    )
+
+    col_upload, col_template = st.columns([3, 1])
+    with col_template:
+        # Provide a downloadable template
+        template_csv = "original_aa,forbidden_replacements\nA,VIL\nC,FGHI\n"
+        st.download_button(
+            "📄 Template CSV",
+            template_csv.encode(),
+            "forbidden_substitutions_template.csv",
+            "text/csv",
+            help="Download a template CSV to fill in your forbidden substitutions.",
+        )
+
+    aa_forbidden: dict = {}
+    forbidden_substitutions: dict = {}
+    with col_upload:
+        uploaded_csv = st.file_uploader(
+            "Upload forbidden substitutions CSV",
+            type=["csv"],
+            key="forbidden_csv_upload",
+        )
+        if uploaded_csv is not None:
+            aa_forbidden = _parse_off_limit_csv(uploaded_csv)
+            if aa_forbidden:
+                # Convert AA-level rules to position-level for downstream use
+                forbidden_substitutions = _aa_forbidden_to_position_forbidden(aa_forbidden, vhh)
+                st.success(
+                    f"Loaded forbidden substitution rules for **{len(aa_forbidden)}** amino acid(s), "
+                    f"affecting **{len(forbidden_substitutions)}** positions."
+                )
+                with st.expander("View loaded forbidden substitutions"):
+                    rows = []
+                    for orig_aa in sorted(aa_forbidden.keys()):
+                        rows.append({
+                            "Original AA": orig_aa,
+                            "Forbidden Replacements": ", ".join(sorted(aa_forbidden[orig_aa])),
+                        })
+                    st.dataframe(pd.DataFrame(rows), use_container_width=True)
+            else:
+                st.warning("Could not parse any forbidden substitutions from the uploaded CSV.")
+
+    # --- Region toggles and interactive sequence selector kept adjacent ---
+    st.markdown("---")
+    st.subheader("Interactive Sequence Selector")
+    st.caption(
+        "Click individual residues (or click-and-drag) in the sequence below to "
+        "toggle them as off-limits.  Use the region checkboxes for bulk selection. "
+        "CDR regions are off-limits by default."
+    )
+
     st.markdown("**Toggle regions off-limits:**")
     region_cols = st.columns(7)
     region_names = ["FR1", "CDR1", "FR2", "CDR2", "FR3", "CDR3", "FR4"]
@@ -237,55 +315,6 @@ def tab_mutations(humanness_scorer, stability_scorer):
                 if p in vhh.imgt_numbered:
                     region_off_limit_positions.add(p)
 
-    # --- CSV upload for per-position forbidden substitutions ---
-    st.markdown("---")
-    st.subheader("Upload Forbidden Substitutions (CSV)")
-    st.caption(
-        "Upload a CSV where **column 1** is the IMGT position number and "
-        "**column 2** lists the one-letter amino acid codes that are forbidden "
-        "as mutation targets at that position (e.g. `ACDE` or `A,C,D,E`)."
-    )
-
-    col_upload, col_template = st.columns([3, 1])
-    with col_template:
-        # Provide a downloadable template
-        template_csv = "position,forbidden_residues\n1,AC\n23,FGHI\n"
-        st.download_button(
-            "📄 Template CSV",
-            template_csv.encode(),
-            "forbidden_substitutions_template.csv",
-            "text/csv",
-            help="Download a template CSV to fill in your forbidden substitutions.",
-        )
-
-    forbidden_substitutions: dict = {}
-    with col_upload:
-        uploaded_csv = st.file_uploader(
-            "Upload forbidden substitutions CSV",
-            type=["csv"],
-            key="forbidden_csv_upload",
-        )
-        if uploaded_csv is not None:
-            forbidden_substitutions = _parse_off_limit_csv(uploaded_csv)
-            if forbidden_substitutions:
-                st.success(
-                    f"Loaded forbidden substitutions for **{len(forbidden_substitutions)}** positions."
-                )
-                with st.expander("View loaded forbidden substitutions"):
-                    rows = []
-                    for pos in sorted(forbidden_substitutions.keys()):
-                        aa_at_pos = vhh.imgt_numbered.get(pos, "?")
-                        rows.append({
-                            "IMGT Position": pos,
-                            "Current AA": aa_at_pos,
-                            "Forbidden Targets": ", ".join(sorted(forbidden_substitutions[pos])),
-                        })
-                    st.dataframe(pd.DataFrame(rows), use_container_width=True)
-            else:
-                st.warning("Could not parse any forbidden substitutions from the uploaded CSV.")
-
-    # --- Interactive sequence selector with annotations above ---
-    st.markdown("---")
     st.markdown(
         "**Click residues below** to toggle off-limits (darkened = off-limit). "
         "Click-and-drag to select a range."

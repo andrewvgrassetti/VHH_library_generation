@@ -415,8 +415,7 @@ function onStreamlitRender(event) {
   imgtNumbered = args.imgtNumbered || {};
   regions = args.regions || [];
   notablePositions = args.notablePositions || {};
-  // Max residues shown — matches the IMGT numbering scheme for VHH domains (positions 1–128)
-  seqLen = Math.min(sequence.length, 128);
+  seqLen = sequence.length;
 
   // Off-limit positions from Python
   offLimitSet = new Set(args.offLimitPositions || []);
