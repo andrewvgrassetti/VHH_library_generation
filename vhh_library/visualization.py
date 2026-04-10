@@ -37,6 +37,9 @@ MUT_COLORS = {
 }
 
 # Notable residue categories for the legend
+# IMGT positions for conserved structural features of VHH domains:
+#   Cys23 and Cys104 form the canonical intradomain disulfide bond
+#   Trp47 (FR2 hallmark) and Trp118 (conserved in FR4) are VHH hallmark residues
 NOTABLE_RESIDUES = {
     "Cys (disulfide)": {"positions": {23, 104}, "color": "#FFD600", "text_color": "#000"},
     "Trp (VHH hallmark)": {"positions": {47, 118}, "color": "#AB47BC", "text_color": "#FFF"},

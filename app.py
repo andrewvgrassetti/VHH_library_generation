@@ -169,21 +169,21 @@ def _parse_off_limit_csv(uploaded_file) -> dict:
         pos_val = row.iloc[0]
         forbidden_str = str(row.iloc[1]).strip()
 
-        # Parse position: could be int or like "Q1" (residue + position)
+        # Parse position: integer, or residue+position like "Q1"
         try:
             pos = int(pos_val)
         except (ValueError, TypeError):
-            # Try stripping leading letter: e.g. "Q1" -> 1
+            # Try extracting trailing digits from e.g. "Q1" -> 1
             pos_str = str(pos_val).strip()
-            digits = "".join(c for c in pos_str if c.isdigit())
-            if digits:
-                pos = int(digits)
+            if len(pos_str) >= 2 and pos_str[0].isalpha() and pos_str[1:].isdigit():
+                pos = int(pos_str[1:])
             else:
                 continue
 
         # Parse forbidden AAs: could be "ACDE" or "A,C,D,E" or "A C D E"
         forbidden_str = forbidden_str.replace(",", "").replace(" ", "").upper()
-        forbidden_aas = set(c for c in forbidden_str if c.isalpha() and len(c) == 1)
+        valid_aas = set("ACDEFGHIKLMNPQRSTVWY")
+        forbidden_aas = set(c for c in forbidden_str if c in valid_aas)
         if forbidden_aas:
             forbidden[pos] = forbidden_aas
 
