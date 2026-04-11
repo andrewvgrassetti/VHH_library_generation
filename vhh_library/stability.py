@@ -1,6 +1,9 @@
+import logging
 import math
 from vhh_library.sequence import VHHSequence
 from vhh_library.utils import KYTE_DOOLITTLE, pKa_VALUES, AA_PROPERTIES, sliding_window
+
+logger = logging.getLogger(__name__)
 
 VHH_HALLMARKS = {
     37: {"F", "Y"},
@@ -32,6 +35,10 @@ _BLOSUM62_ROWS = {
           "T": -2, "W": -2, "Y": -3, "V": -3},
 }
 
+# Typical VHH apparent Tm range used for NanoMelt normalisation.
+_NANOMELT_TM_MIN = 45.0   # °C — poor thermostability
+_NANOMELT_TM_MAX = 85.0   # °C — excellent thermostability
+
 
 def _blosum62_similarity(observed: str, expected_aas) -> float:
     """Return a BLOSUM62-based similarity score in [0, 1].
@@ -55,16 +62,127 @@ def _blosum62_similarity(observed: str, expected_aas) -> float:
     return min(1.0, best)
 
 
+def _nanomelt_available() -> bool:
+    """Return True if the nanomelt package is importable."""
+    try:
+        from nanomelt.model.nanomelt import NanoMeltPredPipe  # type: ignore[import]
+        return True
+    except ImportError:
+        return False
+
+
+def _predict_nanomelt_tm(sequence: str) -> float:
+    """Return predicted Tm (°C) for *sequence* via NanoMelt."""
+    from nanomelt.model.nanomelt import NanoMeltPredPipe  # type: ignore[import]
+    from Bio.SeqRecord import SeqRecord  # type: ignore[import]
+    from Bio.Seq import Seq  # type: ignore[import]
+
+    seq_records = [SeqRecord(Seq(sequence), id="query")]
+    result_df = NanoMeltPredPipe(seq_records, do_align=False, ncpus=1)
+    return float(result_df["NanoMelt Tm (C)"].iloc[0])
+
+
+def _esm2_pll_available() -> bool:
+    """Return True if ESM-2 pseudo-log-likelihood scoring is available."""
+    try:
+        import torch  # type: ignore[import]
+        import esm  # type: ignore[import]
+        return True
+    except ImportError:
+        return False
+
+
+# Module-level cache for the ESM-2 model to avoid reloading on every call.
+_esm2_cache: dict = {}
+
+
+def compute_esm2_pll(sequences: list[str]) -> list[float]:
+    """Compute ESM-2 pseudo-log-likelihood (PLL) for a list of sequences.
+
+    Each sequence is scored by masking each position one at a time and
+    summing the log-probability of the true amino acid under ESM-2
+    (``esm2_t6_8M_UR50D`` — the smallest ESM-2 checkpoint for CPU use).
+
+    The model is loaded once and cached for subsequent calls.
+
+    Parameters
+    ----------
+    sequences:
+        List of amino-acid strings.
+
+    Returns
+    -------
+    List of PLL values (higher = more likely / more stable).
+    Raises ``ImportError`` if ``torch`` or ``esm`` are not installed.
+    """
+    import torch  # type: ignore[import]
+    import esm  # type: ignore[import]
+
+    if "model" not in _esm2_cache:
+        model, alphabet = esm.pretrained.esm2_t6_8M_UR50D()
+        model.eval()
+        _esm2_cache["model"] = model
+        _esm2_cache["alphabet"] = alphabet
+    model = _esm2_cache["model"]
+    alphabet = _esm2_cache["alphabet"]
+    batch_converter = alphabet.get_batch_converter()
+
+    pll_scores: list[float] = []
+
+    for seq in sequences:
+        data = [("query", seq)]
+        _, _, tokens = batch_converter(data)
+
+        seq_len = len(seq)
+        log_prob_sum = 0.0
+
+        with torch.no_grad():
+            for i in range(1, seq_len + 1):  # skip BOS token at 0
+                masked = tokens.clone()
+                masked[0, i] = alphabet.mask_idx
+                logits = model(masked)["logits"]
+                log_probs = torch.nn.functional.log_softmax(logits[0, i], dim=-1)
+                true_token = tokens[0, i].item()
+                log_prob_sum += log_probs[true_token].item()
+
+        pll_scores.append(round(log_prob_sum, 4))
+
+    return pll_scores
+
+
 class StabilityScorer:
-    def __init__(self):
+    """VHH stability scorer.
+
+    By default, uses NanoMelt predicted Tm as the composite stability score
+    (normalised to [0, 1]).  When NanoMelt is not installed, falls back to
+    the legacy biophysical heuristic composite.
+
+    The sub-scores (hydrophobic core, charge balance, aggregation, disulfide,
+    VHH hallmarks) are always computed and included in the result dict for
+    diagnostic purposes.
+    """
+
+    def __init__(self, *, use_nanomelt: bool = True):
         self.kd_scale = KYTE_DOOLITTLE
         self.pka = pKa_VALUES
+        self._use_nanomelt = use_nanomelt and _nanomelt_available()
+        if use_nanomelt and not self._use_nanomelt:
+            logger.info(
+                "NanoMelt not installed; StabilityScorer falling back to "
+                "legacy biophysical composite."
+            )
+
+    @property
+    def nanomelt_active(self) -> bool:
+        """True if NanoMelt is being used for the composite score."""
+        return self._use_nanomelt
 
     def score(self, vhh_sequence: VHHSequence) -> dict:
         seq = vhh_sequence.sequence
         numbered = vhh_sequence.imgt_numbered
         warnings = []
 
+        # --- sub-scores (always computed) ---
         kd_values = [self.kd_scale.get(aa, 0.0) for aa in seq]
         avg_kd = sum(kd_values) / len(kd_values) if kd_values else 0.0
         hydrophobic_core_score = min(1.0, max(0.0, (avg_kd + 2.0) / 4.0))
@@ -91,9 +209,6 @@ class StabilityScorer:
             disulfide_base = 0.0
             warnings.append("Neither canonical Cys23 nor Cys104 found; canonical disulfide absent.")
 
-        # Continuous adjustment: average KD hydrophobicity of ±2 flanking residues
-        # around each present canonical Cys (affects disulfide bond accessibility).
-        # Scaled to a small ±0.04 adjustment to maintain granularity.
         flank_kd_sum = 0.0
         flank_count = 0
         for cys_imgt, has_cys in ((CANONICAL_DISULFIDE[0], has_c23), (CANONICAL_DISULFIDE[1], has_c104)):
@@ -105,14 +220,11 @@ class StabilityScorer:
                         flank_count += 1
         if flank_count > 0:
             avg_flank_kd = flank_kd_sum / flank_count
-            # KD values roughly in [-4.5, 4.5]; map to [-0.04, 0.04]
             flank_adj = avg_flank_kd * (0.04 / 4.5)
         else:
             flank_adj = 0.0
         disulfide_score = min(1.0, max(0.0, disulfide_base + flank_adj))
 
-        # Fractional hallmark scoring using BLOSUM62-based similarity.
-        # Each position contributes a continuous value in [0, 1] rather than 0 or 1.
         hallmark_score_sum = 0.0
         for imgt_pos, expected_aas in VHH_HALLMARKS.items():
             aa = numbered.get(imgt_pos, "")
@@ -121,18 +233,10 @@ class StabilityScorer:
                 hallmark_score_sum += sim
                 if aa not in expected_aas:
                     warnings.append(f"IMGT position {imgt_pos}: expected {expected_aas}, found '{aa}' (VHH hallmark).")
-            # Missing position contributes 0 to the sum
         vhh_hallmark_score = hallmark_score_sum / len(VHH_HALLMARKS)
 
-        composite_score = (
-            0.2 * hydrophobic_core_score +
-            0.15 * charge_balance_score +
-            0.2 * aggregation_score +
-            0.25 * disulfide_score +
-            0.2 * vhh_hallmark_score
-        )
-
-        return {
+        # --- composite score ---
+        result: dict = {
             "hydrophobic_core_score": round(hydrophobic_core_score, 4),
             "charge_balance_score": round(charge_balance_score, 4),
             "net_charge": round(net_charge, 4),
@@ -140,9 +244,49 @@ class StabilityScorer:
             "aggregation_score": round(aggregation_score, 4),
             "disulfide_score": round(disulfide_score, 4),
             "vhh_hallmark_score": round(vhh_hallmark_score, 4),
-            "composite_score": round(min(1.0, max(0.0, composite_score)), 4),
             "warnings": warnings,
         }
+
+        if self._use_nanomelt:
+            try:
+                tm = _predict_nanomelt_tm(seq)
+                normalized = min(
+                    1.0,
+                    max(0.0, (tm - _NANOMELT_TM_MIN) / (_NANOMELT_TM_MAX - _NANOMELT_TM_MIN)),
+                )
+                result["composite_score"] = round(normalized, 4)
+                result["predicted_tm"] = round(tm, 2)
+                result["scoring_method"] = "nanomelt"
+            except Exception as exc:
+                logger.warning("NanoMelt prediction failed (%s); using legacy composite.", exc)
+                legacy = self._legacy_composite(
+                    hydrophobic_core_score, charge_balance_score,
+                    aggregation_score, disulfide_score, vhh_hallmark_score,
+                )
+                result["composite_score"] = round(min(1.0, max(0.0, legacy)), 4)
+                result["scoring_method"] = "legacy"
+        else:
+            legacy = self._legacy_composite(
+                hydrophobic_core_score, charge_balance_score,
+                aggregation_score, disulfide_score, vhh_hallmark_score,
+            )
+            result["composite_score"] = round(min(1.0, max(0.0, legacy)), 4)
+            result["scoring_method"] = "legacy"
+
+        return result
+
+    @staticmethod
+    def _legacy_composite(hydrophobic_core: float, charge_balance: float,
+                          aggregation: float, disulfide: float,
+                          hallmark: float) -> float:
+        """Original heuristic composite used as fallback."""
+        return (
+            0.2 * hydrophobic_core +
+            0.15 * charge_balance +
+            0.2 * aggregation +
+            0.25 * disulfide +
+            0.2 * hallmark
+        )
 
     def _net_charge(self, seq: str, pH: float = 7.4) -> float:
         charge = 0.0

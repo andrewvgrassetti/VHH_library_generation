@@ -20,8 +20,6 @@ from vhh_library.visualization import SequenceVisualizer
 from vhh_library.components import sequence_selector
 from vhh_library.barcodes import BarcodeGenerator
 from vhh_library.developability import (
-    PTMLiabilityScorer,
-    ClearanceRiskScorer,
     SurfaceHydrophobicityScorer,
 )
 from vhh_library.orthogonal_scoring import (
@@ -31,6 +29,7 @@ from vhh_library.orthogonal_scoring import (
     _NANOMELT_TM_MIN,
     _NANOMELT_TM_MAX,
 )
+from vhh_library.stability import _esm2_pll_available, compute_esm2_pll
 
 st.set_page_config(
     page_title="VHH Biosimilar Library Generator",
@@ -45,8 +44,6 @@ SAMPLE_VHH = "QVQLVESGGGLVQAGGSLRLSCAASGRTFSSYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKG
 def load_scorers():
     h = HumAnnotator()
     s = StabilityScorer()
-    ptm = PTMLiabilityScorer()
-    clr = ClearanceRiskScorer()
     shyd = SurfaceHydrophobicityScorer()
     hsc = HumanStringContentScorer()
     cons = ConsensusStabilityScorer()
@@ -54,7 +51,7 @@ def load_scorers():
     nm = NanoMeltStabilityScorer()
     if not nm.is_available:
         nm = None
-    return h, s, ptm, clr, shyd, hsc, cons, nm
+    return h, s, shyd, hsc, cons, nm
 
 
 def init_state():
@@ -62,12 +59,11 @@ def init_state():
         "vhh_seq": None,
         "humanness_scores": None,
         "stability_scores": None,
-        "ptm_scores": None,
-        "clearance_scores": None,
         "hydrophobicity_scores": None,
         "orthogonal_humanness_scores": None,
         "orthogonal_stability_scores": None,
         "nanomelt_scores": None,
+        "esm2_pll_scores": None,
         "ranked_mutations": None,
         "library": None,
         "library_manager": LibraryManager(),
@@ -106,10 +102,8 @@ def sidebar():
     # --- Metric toggles and weight sliders ---
     _METRICS = [
         ("humanness", "Humanness", True, 0.35),
-        ("stability", "Stability", True, 0.25),
-        ("ptm_liability", "PTM Liability", False, 0.15),
-        ("clearance_risk", "Clearance Risk", False, 0.15),
-        ("surface_hydrophobicity", "Surface Hydrophobicity", False, 0.10),
+        ("stability", "Stability", True, 0.50),
+        ("surface_hydrophobicity", "Surface Hydrophobicity", False, 0.15),
     ]
     enabled_metrics: dict[str, bool] = {}
     raw_weights: dict[str, float] = {}
@@ -181,7 +175,7 @@ def sidebar():
     return raw_weights, enabled_metrics, min_mut, n_mut, max_var, host, strategy
 
 
-def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
+def tab_input(humanness_scorer, stability_scorer,
               hydrophobicity_scorer, hsc_scorer, consensus_scorer, nanomelt_scorer, viz):
     st.header("🔬 Input & Analysis")
     seq_input = st.text_area("Paste VHH amino acid sequence:", value=SAMPLE_VHH, height=100)
@@ -192,8 +186,6 @@ def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
             st.session_state.vhh_seq = vhh
             st.session_state.humanness_scores = humanness_scorer.score(vhh)
             st.session_state.stability_scores = stability_scorer.score(vhh)
-            st.session_state.ptm_scores = ptm_scorer.score(vhh)
-            st.session_state.clearance_scores = clearance_scorer.score(vhh)
             st.session_state.hydrophobicity_scores = hydrophobicity_scorer.score(vhh)
             st.session_state.orthogonal_humanness_scores = hsc_scorer.score(vhh)
             st.session_state.orthogonal_stability_scores = consensus_scorer.score(vhh)
@@ -263,27 +255,27 @@ def tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
                 st.warning(w)
 
     # --- Developability Metrics ---
-    ptm = st.session_state.ptm_scores
-    clr = st.session_state.clearance_scores
     shyd = st.session_state.hydrophobicity_scores
-    if ptm and clr and shyd:
+    if shyd:
         st.subheader("Developability Metrics")
         dev_html = ""
-        dev_html += viz.render_score_bar(ptm["composite_score"], "PTM Liability (higher = fewer liabilities)", "#E91E63")
-        dev_html += viz.render_score_bar(clr["composite_score"], f"Clearance Risk (pI={clr['pI']:.1f})", "#FF5722")
         dev_html += viz.render_score_bar(shyd["composite_score"], "Surface Hydrophobicity (higher = fewer patches)", "#795548")
-        st.components.v1.html(dev_html, height=200)
+        st.components.v1.html(dev_html, height=80)
 
-        col1, col2, col3 = st.columns(3)
-        col1.metric("PTM Motifs Found", len(ptm.get("hits", [])))
-        col2.metric("pI Deviation", f"{clr.get('pI_deviation', 0):.2f}")
-        col3.metric("Hydrophobic Patches", shyd.get("n_patches", 0))
+        col1, col2 = st.columns(2)
+        col1.metric("Hydrophobic Patches", shyd.get("n_patches", 0))
+        col2.metric("Max Patch Score", f"{shyd.get('max_patch_score', 0):.2f}")
 
-        all_warnings = ptm.get("warnings", []) + clr.get("warnings", []) + shyd.get("warnings", [])
-        if all_warnings:
+        shyd_warnings = shyd.get("warnings", [])
+        if shyd_warnings:
             with st.expander("Developability Warnings"):
-                for w in all_warnings:
+                for w in shyd_warnings:
                     st.warning(w)
+
+        st.info(
+            "ℹ️ PTM liabilities (isomerization, deamidation, glycosylation) are enforced "
+            "as hard-coded restrictions — mutations introducing these motifs are automatically rejected."
+        )
 
     # --- Orthogonal Scoring (Cross-Validation) ---
     orth_h = st.session_state.orthogonal_humanness_scores
@@ -648,16 +640,6 @@ def tab_library(viz):
             ("humanness_score", "Humanness", "#4CAF50", orig_h),
             ("stability_score", "Stability", "#2196F3", orig_s),
         ]
-        if "ptm_liability_score" in lib.columns and st.session_state.ptm_scores:
-            _SCORE_COLS.append((
-                "ptm_liability_score", "PTM Liability", "#E91E63",
-                st.session_state.ptm_scores.get("composite_score"),
-            ))
-        if "clearance_risk_score" in lib.columns and st.session_state.clearance_scores:
-            _SCORE_COLS.append((
-                "clearance_risk_score", "Clearance Risk", "#FF5722",
-                st.session_state.clearance_scores.get("composite_score"),
-            ))
         if "surface_hydrophobicity_score" in lib.columns and st.session_state.hydrophobicity_scores:
             _SCORE_COLS.append((
                 "surface_hydrophobicity_score", "Surface Hydrophobicity", "#795548",
@@ -835,6 +817,46 @@ def tab_library(viz):
                     fig_sub.tight_layout()
                     st.pyplot(fig_sub)
                     plt.close(fig_sub)
+
+    # --- ESM-2 Pseudo-Log-Likelihood (PLL) Rescoring ---
+    if len(lib) > 0 and "aa_sequence" in lib.columns:
+        st.subheader("ESM-2 Pseudo-Log-Likelihood (PLL) Rescoring")
+        esm2_available = _esm2_pll_available()
+        if not esm2_available:
+            st.info(
+                "ESM-2 PLL requires `torch` and `esm` packages. "
+                "Install with: `pip install torch fair-esm`. "
+                "This runs on CPU and is slow per sequence, so it is intended "
+                "for rescoring a small selection of top candidates."
+            )
+        else:
+            pll_top_n = st.number_input(
+                "Number of top sequences to rescore with ESM-2 PLL",
+                min_value=1,
+                max_value=min(100, len(lib)),
+                value=min(10, len(lib)),
+                step=1,
+                key="esm2_pll_top_n",
+                help="ESM-2 PLL is computationally expensive on CPU. Select a small N.",
+            )
+            if st.button("Run ESM-2 PLL", key="run_esm2_pll"):
+                top_seqs = list(lib.head(pll_top_n)["aa_sequence"])
+                with st.spinner(f"Computing ESM-2 PLL for top {pll_top_n} sequences (CPU — this may take a while)..."):
+                    try:
+                        pll_scores = compute_esm2_pll(top_seqs)
+                        st.session_state.esm2_pll_scores = pll_scores
+                        st.success(f"ESM-2 PLL computed for {len(pll_scores)} sequences.")
+                    except Exception as e:
+                        st.error(f"ESM-2 PLL failed: {e}")
+
+            if st.session_state.esm2_pll_scores is not None:
+                pll_scores = st.session_state.esm2_pll_scores
+                pll_df = lib.head(len(pll_scores)).copy()
+                pll_df["esm2_pll"] = pll_scores
+                st.dataframe(
+                    pll_df[["variant_id", "mutations", "combined_score", "stability_score", "esm2_pll"]],
+                    use_container_width=True,
+                )
 
     col1, col2 = st.columns(2)
     with col1:
@@ -1171,10 +1193,6 @@ def tab_history():
                 save_data["humanness_scores"] = st.session_state.humanness_scores
             if st.session_state.stability_scores:
                 save_data["stability_scores"] = st.session_state.stability_scores
-            if st.session_state.ptm_scores:
-                save_data["ptm_scores"] = st.session_state.ptm_scores
-            if st.session_state.clearance_scores:
-                save_data["clearance_scores"] = st.session_state.clearance_scores
             if st.session_state.hydrophobicity_scores:
                 save_data["hydrophobicity_scores"] = st.session_state.hydrophobicity_scores
             if st.session_state.orthogonal_humanness_scores:
@@ -1183,6 +1201,8 @@ def tab_history():
                 save_data["orthogonal_stability_scores"] = st.session_state.orthogonal_stability_scores
             if st.session_state.nanomelt_scores:
                 save_data["nanomelt_scores"] = st.session_state.nanomelt_scores
+            if st.session_state.esm2_pll_scores:
+                save_data["esm2_pll_scores"] = st.session_state.esm2_pll_scores
             if st.session_state.library is not None:
                 save_data["library"] = st.session_state.library
             try:
@@ -1194,7 +1214,7 @@ def tab_history():
 
 def main():
     init_state()
-    humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer, hydrophobicity_scorer, hsc_scorer, consensus_scorer, nanomelt_scorer = load_scorers()
+    humanness_scorer, stability_scorer, hydrophobicity_scorer, hsc_scorer, consensus_scorer, nanomelt_scorer = load_scorers()
     optimizer = CodonOptimizer()
     tag_manager = TagManager()
     viz = SequenceVisualizer()
@@ -1203,7 +1223,7 @@ def main():
 
     tabs = st.tabs(["🔬 Input & Analysis", "🎯 Mutation Selection", "📚 Library Results", "🧬 Barcoding", "🔧 Construct Builder", "📁 Session History"])
     with tabs[0]:
-        tab_input(humanness_scorer, stability_scorer, ptm_scorer, clearance_scorer,
+        tab_input(humanness_scorer, stability_scorer,
                   hydrophobicity_scorer, hsc_scorer, consensus_scorer, nanomelt_scorer, viz)
     with tabs[1]:
         tab_mutations(humanness_scorer, stability_scorer)
