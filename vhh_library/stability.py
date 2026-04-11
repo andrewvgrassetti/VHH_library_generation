@@ -92,12 +92,18 @@ def _esm2_pll_available() -> bool:
         return False
 
 
+# Module-level cache for the ESM-2 model to avoid reloading on every call.
+_esm2_cache: dict = {}
+
+
 def compute_esm2_pll(sequences: list[str]) -> list[float]:
     """Compute ESM-2 pseudo-log-likelihood (PLL) for a list of sequences.
 
     Each sequence is scored by masking each position one at a time and
     summing the log-probability of the true amino acid under ESM-2
     (``esm2_t6_8M_UR50D`` — the smallest ESM-2 checkpoint for CPU use).
+
+    The model is loaded once and cached for subsequent calls.
 
     Parameters
     ----------
@@ -112,8 +118,13 @@ def compute_esm2_pll(sequences: list[str]) -> list[float]:
     import torch  # type: ignore[import]
     import esm  # type: ignore[import]
 
-    model, alphabet = esm.pretrained.esm2_t6_8M_UR50D()
-    model.eval()
+    if "model" not in _esm2_cache:
+        model, alphabet = esm.pretrained.esm2_t6_8M_UR50D()
+        model.eval()
+        _esm2_cache["model"] = model
+        _esm2_cache["alphabet"] = alphabet
+    model = _esm2_cache["model"]
+    alphabet = _esm2_cache["alphabet"]
     batch_converter = alphabet.get_batch_converter()
 
     pll_scores: list[float] = []
