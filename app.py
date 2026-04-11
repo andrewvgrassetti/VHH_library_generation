@@ -39,6 +39,8 @@ st.set_page_config(
 
 SAMPLE_VHH = "QVQLVESGGGLVQAGGSLRLSCAASGRTFSSYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKGRFTISRDNAKNTVYLQMNSLKPEDTAVYYCAAAGVRAEWDYWGQGTLVTVSS"
 
+_ESM2_PLL_DEFAULT_TOP_N = 10
+
 
 @st.cache_resource
 def load_scorers():
@@ -47,7 +49,6 @@ def load_scorers():
     shyd = SurfaceHydrophobicityScorer()
     hsc = HumanStringContentScorer()
     cons = ConsensusStabilityScorer()
-    # NanoMelt is optional — gracefully skip if package is not installed
     nm = NanoMeltStabilityScorer()
     if not nm.is_available:
         nm = None
@@ -171,6 +172,27 @@ def sidebar():
     st.sidebar.subheader("Expression System")
     host = st.sidebar.selectbox("Host", ["e_coli", "s_cerevisiae", "p_pastoris", "h_sapiens"], key="host")
     strategy = st.sidebar.selectbox("Codon Strategy", ["most_frequent", "harmonized", "gc_balanced"], key="strategy")
+
+    st.sidebar.subheader("ESM-2 PLL Rescoring")
+    esm2_enabled = st.sidebar.checkbox(
+        "Enable ESM-2 PLL",
+        value=True,
+        key="esm2_pll_enabled",
+        help=(
+            "ESM-2 Pseudo-Log-Likelihood rescoring uses a protein language model "
+            "to evaluate sequence fitness. Computationally expensive on CPU."
+        ),
+    )
+    esm2_top_n = st.sidebar.number_input(
+        "Top N sequences to rescore",
+        min_value=1,
+        max_value=100,
+        value=_ESM2_PLL_DEFAULT_TOP_N,
+        step=1,
+        key="esm2_pll_sidebar_top_n",
+        disabled=not esm2_enabled,
+        help="Number of top-ranked library variants to rescore with ESM-2 PLL.",
+    )
 
     return raw_weights, enabled_metrics, min_mut, n_mut, max_var, host, strategy
 
@@ -821,42 +843,50 @@ def tab_library(viz):
     # --- ESM-2 Pseudo-Log-Likelihood (PLL) Rescoring ---
     if len(lib) > 0 and "aa_sequence" in lib.columns:
         st.subheader("ESM-2 Pseudo-Log-Likelihood (PLL) Rescoring")
-        esm2_available = _esm2_pll_available()
-        if not esm2_available:
+        esm2_enabled = st.session_state.get("esm2_pll_enabled", True)
+        if not esm2_enabled:
             st.info(
-                "ESM-2 PLL requires `torch` and `esm` packages. "
-                "Install with: `pip install torch fair-esm`. "
-                "This runs on CPU and is slow per sequence, so it is intended "
-                "for rescoring a small selection of top candidates."
+                "ESM-2 PLL rescoring is disabled. Enable it in the sidebar "
+                "under **ESM-2 PLL Rescoring** to use this feature."
             )
         else:
-            pll_top_n = st.number_input(
-                "Number of top sequences to rescore with ESM-2 PLL",
-                min_value=1,
-                max_value=min(100, len(lib)),
-                value=min(10, len(lib)),
-                step=1,
-                key="esm2_pll_top_n",
-                help="ESM-2 PLL is computationally expensive on CPU. Select a small N.",
-            )
-            if st.button("Run ESM-2 PLL", key="run_esm2_pll"):
-                top_seqs = list(lib.head(pll_top_n)["aa_sequence"])
-                with st.spinner(f"Computing ESM-2 PLL for top {pll_top_n} sequences (CPU — this may take a while)..."):
-                    try:
-                        pll_scores = compute_esm2_pll(top_seqs)
-                        st.session_state.esm2_pll_scores = pll_scores
-                        st.success(f"ESM-2 PLL computed for {len(pll_scores)} sequences.")
-                    except Exception as e:
-                        st.error(f"ESM-2 PLL failed: {e}")
-
-            if st.session_state.esm2_pll_scores is not None:
-                pll_scores = st.session_state.esm2_pll_scores
-                pll_df = lib.head(len(pll_scores)).copy()
-                pll_df["esm2_pll"] = pll_scores
-                st.dataframe(
-                    pll_df[["variant_id", "mutations", "combined_score", "stability_score", "esm2_pll"]],
-                    use_container_width=True,
+            esm2_available = _esm2_pll_available()
+            if not esm2_available:
+                st.warning(
+                    "ESM-2 PLL packages (`torch`, `esm`) could not be loaded. "
+                    "Reinstall with: `pip install torch fair-esm`."
                 )
+            else:
+                pll_top_n = st.number_input(
+                    "Number of top sequences to rescore with ESM-2 PLL",
+                    min_value=1,
+                    max_value=min(100, len(lib)),
+                    value=min(
+                        st.session_state.get("esm2_pll_sidebar_top_n", _ESM2_PLL_DEFAULT_TOP_N),
+                        len(lib),
+                    ),
+                    step=1,
+                    key="esm2_pll_top_n",
+                    help="ESM-2 PLL is computationally expensive on CPU. Select a small N.",
+                )
+                if st.button("Run ESM-2 PLL", key="run_esm2_pll"):
+                    top_seqs = list(lib.head(pll_top_n)["aa_sequence"])
+                    with st.spinner(f"Computing ESM-2 PLL for top {pll_top_n} sequences (CPU — this may take a while)..."):
+                        try:
+                            pll_scores = compute_esm2_pll(top_seqs)
+                            st.session_state.esm2_pll_scores = pll_scores
+                            st.success(f"ESM-2 PLL computed for {len(pll_scores)} sequences.")
+                        except Exception as e:
+                            st.error(f"ESM-2 PLL failed: {e}")
+
+                if st.session_state.esm2_pll_scores is not None:
+                    pll_scores = st.session_state.esm2_pll_scores
+                    pll_df = lib.head(len(pll_scores)).copy()
+                    pll_df["esm2_pll"] = pll_scores
+                    st.dataframe(
+                        pll_df[["variant_id", "mutations", "combined_score", "stability_score", "esm2_pll"]],
+                        use_container_width=True,
+                    )
 
     col1, col2 = st.columns(2)
     with col1:
