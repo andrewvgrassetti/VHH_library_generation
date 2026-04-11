@@ -8,7 +8,8 @@ A computational tool for designing humanized and stability-optimized VHH (nanobo
 - **Humanness Scoring**: Framework comparison against human VH germline position-frequency matrices
 - **Stability Analysis**: VHH hallmark detection, disulfide scoring, pI/charge calculation, aggregation prediction
 - **Orthogonal Scoring**: Independent cross-validation via Human String Content (k-mer) humanness and VHH consensus stability scoring
-- **NanoMelt Integration**: Continuous thermostability prediction (predicted Tm in °C) using ESM-based nanobody embeddings — install `nanomelt` to enable
+- **NanoMelt Integration**: Continuous thermostability prediction (predicted Tm in °C) using ESM-based nanobody embeddings — installed by default
+- **ESM-2 PLL Rescoring**: Pseudo-log-likelihood rescoring of top library candidates using the ESM-2 protein language model — toggle on/off in the sidebar
 - **Mutation Engine**: Ranked single mutations + combinatorial library generation (up to 10,000 variants)
 - **Codon Optimization**: E. coli, S. cerevisiae, P. pastoris with most-frequent, harmonized, and GC-balanced strategies
 - **Construct Builder**: N/C-terminal tag attachment (6xHis, HA, Myc, FLAG, Aga2p, pIII_pelB) with linker support
@@ -22,16 +23,15 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### Optional: NanoMelt thermostability prediction
+### NanoMelt and ESM-2
 
-NanoMelt provides continuous predicted melting temperature (Tm in °C) as an orthogonal stability score.
-It requires PyTorch and downloads ESM model weights on first use (~several hundred MB).
+NanoMelt (thermostability prediction) and ESM-2 PLL (pseudo-log-likelihood rescoring)
+are installed by default. Both require PyTorch and download ESM model weights on first
+use (~several hundred MB).
 
-```bash
-pip install nanomelt
-```
-
-Once installed, NanoMelt scores are automatically computed during sequence analysis and library generation.
+NanoMelt scores are automatically computed during sequence analysis and library
+generation. ESM-2 PLL rescoring can be enabled or disabled via the sidebar toggle
+in the Streamlit UI.
 
 ## Usage
 

@@ -57,6 +57,26 @@ def test_esm2_pll_available_returns_bool():
 def test_nanomelt_available_returns_bool():
     assert isinstance(_nanomelt_available(), bool)
 
+def test_esm2_pll_is_available_by_default():
+    """ESM-2 PLL packages (torch, esm) are default dependencies.
+
+    This test verifies availability when the full dependency set is installed.
+    It is skipped in lightweight CI environments where PyTorch is not present.
+    """
+    if not _esm2_pll_available():
+        pytest.skip("torch/esm not installed in this environment")
+    assert _esm2_pll_available() is True
+
+def test_nanomelt_is_available_by_default():
+    """NanoMelt is a default dependency.
+
+    This test verifies availability when the full dependency set is installed.
+    It is skipped in lightweight CI environments where nanomelt is not present.
+    """
+    if not _nanomelt_available():
+        pytest.skip("nanomelt not installed in this environment")
+    assert _nanomelt_available() is True
+
 def test_compute_esm2_pll_when_unavailable():
     if _esm2_pll_available():
         pytest.skip("ESM-2 is installed; skipping unavailable test")
