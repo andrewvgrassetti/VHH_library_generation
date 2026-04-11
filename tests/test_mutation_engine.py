@@ -56,11 +56,11 @@ def test_generate_library_min_mutations(engine, vhh):
 def test_generate_library_large_sampling(engine, vhh):
     """With high mutation counts the engine should use sampling and finish quickly."""
     ranked = engine.rank_single_mutations(vhh, off_limits=set())
-    if len(ranked) >= 14:
+    if len(ranked) >= 10:
         import time
         start = time.time()
         library = engine.generate_library(
-            vhh, ranked, n_mutations=14, max_variants=200, min_mutations=12,
+            vhh, ranked, n_mutations=10, max_variants=200, min_mutations=8,
         )
         elapsed = time.time() - start
         assert isinstance(library, pd.DataFrame)
@@ -68,19 +68,18 @@ def test_generate_library_large_sampling(engine, vhh):
         assert len(library) <= 200
         # Must complete in seconds, not hours
         assert elapsed < 120, f"Library generation took {elapsed:.1f}s (expected <120s)"
-        assert library["n_mutations"].min() >= 12
-        assert library["n_mutations"].max() <= 14
+        assert library["n_mutations"].min() >= 8
+        assert library["n_mutations"].max() <= 10
 
 
 def test_generate_library_has_developability_columns(engine, vhh):
-    """Library output should include the three new developability score columns."""
+    """Library output should include the surface hydrophobicity score column."""
     ranked = engine.rank_single_mutations(vhh, off_limits=set())
     if len(ranked) >= 2:
         library = engine.generate_library(vhh, ranked.head(5), n_mutations=2, max_variants=50)
         assert isinstance(library, pd.DataFrame)
         if len(library) > 0:
-            for col in ("ptm_liability_score", "clearance_risk_score", "surface_hydrophobicity_score"):
-                assert col in library.columns, f"Missing column: {col}"
+            assert "surface_hydrophobicity_score" in library.columns
 
 
 def test_generate_library_has_orthogonal_columns(engine, vhh):
@@ -114,21 +113,18 @@ def test_engine_enabled_metrics():
     s = StabilityScorer()
     engine_all = MutationEngine(
         h, s,
-        weights={"humanness": 0.2, "stability": 0.2, "ptm_liability": 0.2,
-                 "clearance_risk": 0.2, "surface_hydrophobicity": 0.2},
-        enabled_metrics={"humanness": True, "stability": True, "ptm_liability": True,
-                         "clearance_risk": True, "surface_hydrophobicity": True},
+        weights={"humanness": 0.3, "stability": 0.4, "surface_hydrophobicity": 0.3},
+        enabled_metrics={"humanness": True, "stability": True, "surface_hydrophobicity": True},
     )
     engine_two = MutationEngine(
         h, s,
-        weights={"humanness": 0.5, "stability": 0.5},
-        enabled_metrics={"humanness": True, "stability": True, "ptm_liability": False,
-                         "clearance_risk": False, "surface_hydrophobicity": False},
+        weights={"humanness": 0.35, "stability": 0.5},
+        enabled_metrics={"humanness": True, "stability": True, "surface_hydrophobicity": False},
     )
     # Both should produce valid active weights
     aw_all = engine_all._active_weights()
     aw_two = engine_two._active_weights()
-    assert len(aw_all) == 5
+    assert len(aw_all) == 3
     assert len(aw_two) == 2
     assert abs(sum(aw_all.values()) - 1.0) < 1e-6
     assert abs(sum(aw_two.values()) - 1.0) < 1e-6
@@ -198,3 +194,28 @@ def test_iterative_anchoring(engine, vhh):
 
     # No duplicate mutation combinations
     assert library["mutations"].is_unique
+
+
+def test_ptm_liability_hard_restriction(engine, vhh):
+    """Mutations that would introduce isomerization/deamidation/glycosylation
+    motifs should be filtered out by the hard-coded restriction."""
+    from vhh_library.mutation_engine import _introduces_ptm_liability
+
+    # DG is an isomerization motif: introducing D before G should be flagged
+    parent = "QVQLVESGGGLVQ"
+    mutant = "QVQLVEDGGGLVQ"  # S→D at pos 6 (0-idx), creates DG at pos 6-7
+    assert _introduces_ptm_liability(parent, mutant, 6) is True
+
+    # A benign substitution should pass
+    parent2 = "ACDEFGHIKLMNPQ"
+    mutant2 = "ACAEFGHIKLMNPQ"  # D→A at pos 2 (0-idx)
+    assert _introduces_ptm_liability(parent2, mutant2, 2) is False
+
+
+def test_stability_is_heaviest_weight():
+    """Default stability weight should be the largest among all metrics."""
+    h = HumAnnotator()
+    s = StabilityScorer()
+    engine = MutationEngine(h, s)
+    max_weight_key = max(engine.weights, key=engine.weights.get)
+    assert max_weight_key == "stability"

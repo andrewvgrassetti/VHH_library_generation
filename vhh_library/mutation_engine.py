@@ -4,13 +4,12 @@ import itertools
 import logging
 import math
 import random
+import re
 from typing import Optional
 import pandas as pd
 from vhh_library.humanness import HumAnnotator
 from vhh_library.stability import StabilityScorer
 from vhh_library.developability import (
-    PTMLiabilityScorer,
-    ClearanceRiskScorer,
     SurfaceHydrophobicityScorer,
 )
 from vhh_library.orthogonal_scoring import (
@@ -21,6 +20,37 @@ from vhh_library.orthogonal_scoring import (
 from vhh_library.sequence import VHHSequence
 
 logger = logging.getLogger(__name__)
+
+# Hard-coded PTM liability motifs that must not be *introduced* by mutations.
+# Each entry is (compiled regex, human-readable category).
+_PTM_LIABILITY_MOTIFS = [
+    # Isomerization-prone: DG, DS, DT, DD
+    (re.compile(r"D[GSTD]"), "isomerization"),
+    # Deamidation-prone: NG, NS, NH
+    (re.compile(r"N[GSH]"), "deamidation"),
+    # N-linked glycosylation motif N-X-[ST] where X != P
+    (re.compile(r"N[^P][ST]"), "glycosylation"),
+]
+
+
+def _introduces_ptm_liability(parent_seq: str, mutant_seq: str, position_0idx: int) -> bool:
+    """Return True if *mutant_seq* introduces a new PTM liability motif
+    near *position_0idx* that was not present in *parent_seq*.
+
+    Only checks a local window of ±3 residues around the mutation site
+    to keep the check fast.
+    """
+    start = max(0, position_0idx - 3)
+    end = min(len(mutant_seq), position_0idx + 4)
+    parent_window = parent_seq[start:end]
+    mutant_window = mutant_seq[start:end]
+
+    for pattern, _category in _PTM_LIABILITY_MOTIFS:
+        parent_hits = {m.start() for m in pattern.finditer(parent_window)}
+        mutant_hits = {m.start() for m in pattern.finditer(mutant_window)}
+        if mutant_hits - parent_hits:
+            return True
+    return False
 
 # When the combinatorial space exceeds this threshold we switch from exhaustive
 # enumeration to random sampling.
@@ -68,17 +98,24 @@ def _total_combinations(n: int, k_min: int, k_max: int) -> int:
 class MutationEngine:
     """Generate and rank VHH variant libraries.
 
-    Supports up to five scoring metrics.  Each metric has a boolean *enabled*
+    Supports three scoring metrics.  Each metric has a boolean *enabled*
     flag and a *weight*.  Disabled metrics are excluded from the combined
     score but their raw values are still recorded in the output DataFrame.
+
+    Stability is the most heavily weighted metric by default (0.5) to
+    prioritise thermostability.
+
+    Mutations that would introduce isomerization, deamidation, or
+    glycosylation motifs (PTM liabilities) are automatically rejected as
+    a hard-coded restriction.
 
     Parameters
     ----------
     humanness_scorer, stability_scorer:
         Always-required core scorers.
-    ptm_scorer, clearance_scorer, hydrophobicity_scorer:
-        Optional developability scorers.  If ``None`` they are created
-        lazily the first time a metric is enabled.
+    hydrophobicity_scorer:
+        Optional developability scorer.  If ``None`` it is created
+        lazily the first time the metric is enabled.
     weights:
         Dict mapping metric name → float weight.  Unknown keys are ignored.
     enabled_metrics:
@@ -90,8 +127,6 @@ class MutationEngine:
     METRIC_NAMES = (
         "humanness",
         "stability",
-        "ptm_liability",
-        "clearance_risk",
         "surface_hydrophobicity",
     )
 
@@ -100,21 +135,17 @@ class MutationEngine:
         humanness_scorer: HumAnnotator,
         stability_scorer: StabilityScorer,
         *,
-        ptm_scorer: PTMLiabilityScorer | None = None,
-        clearance_scorer: ClearanceRiskScorer | None = None,
         hydrophobicity_scorer: SurfaceHydrophobicityScorer | None = None,
         hsc_scorer: HumanStringContentScorer | None = None,
         consensus_scorer: ConsensusStabilityScorer | None = None,
         nanomelt_scorer: NanoMeltStabilityScorer | None = None,
-        w_humanness: float = 0.6,
-        w_stability: float = 0.4,
+        w_humanness: float = 0.35,
+        w_stability: float = 0.5,
         weights: dict | None = None,
         enabled_metrics: dict | None = None,
     ):
         self.humanness_scorer = humanness_scorer
         self.stability_scorer = stability_scorer
-        self._ptm_scorer = ptm_scorer
-        self._clearance_scorer = clearance_scorer
         self._hydrophobicity_scorer = hydrophobicity_scorer
         self._hsc_scorer = hsc_scorer
         self._consensus_scorer = consensus_scorer
@@ -128,9 +159,7 @@ class MutationEngine:
         self.weights: dict[str, float] = {
             "humanness": w_humanness,
             "stability": w_stability,
-            "ptm_liability": 0.0,
-            "clearance_risk": 0.0,
-            "surface_hydrophobicity": 0.0,
+            "surface_hydrophobicity": 0.15,
         }
         if weights:
             for k, v in weights.items():
@@ -141,8 +170,6 @@ class MutationEngine:
         self.enabled_metrics: dict[str, bool] = {
             "humanness": True,
             "stability": True,
-            "ptm_liability": False,
-            "clearance_risk": False,
             "surface_hydrophobicity": False,
         }
         if enabled_metrics:
@@ -151,18 +178,6 @@ class MutationEngine:
                     self.enabled_metrics[k] = v
 
     # -- lazy scorer accessors ------------------------------------------------
-
-    @property
-    def ptm_scorer(self) -> PTMLiabilityScorer:
-        if self._ptm_scorer is None:
-            self._ptm_scorer = PTMLiabilityScorer()
-        return self._ptm_scorer
-
-    @property
-    def clearance_scorer(self) -> ClearanceRiskScorer:
-        if self._clearance_scorer is None:
-            self._clearance_scorer = ClearanceRiskScorer()
-        return self._clearance_scorer
 
     @property
     def hydrophobicity_scorer(self) -> SurfaceHydrophobicityScorer:
@@ -205,7 +220,7 @@ class MutationEngine:
     def _score_variant(self, vhh: VHHSequence) -> dict[str, float]:
         """Score a variant across all metrics.  Returns raw scores.
 
-        Includes the five primary metrics used for the combined score
+        Includes the three primary metrics used for the combined score
         plus the orthogonal scores (which are recorded but never
         participate in the combined score).
         """
@@ -218,8 +233,9 @@ class MutationEngine:
         scores["hydrophobic_core_score"] = stability_result["hydrophobic_core_score"]
         scores["disulfide_score"] = stability_result["disulfide_score"]
         scores["vhh_hallmark_score"] = stability_result["vhh_hallmark_score"]
-        scores["ptm_liability"] = self.ptm_scorer.score(vhh)["composite_score"]
-        scores["clearance_risk"] = self.clearance_scorer.score(vhh)["composite_score"]
+        scores["scoring_method"] = stability_result.get("scoring_method", "legacy")
+        if "predicted_tm" in stability_result:
+            scores["predicted_tm"] = stability_result["predicted_tm"]
         scores["surface_hydrophobicity"] = self.hydrophobicity_scorer.score(vhh)["composite_score"]
         # Orthogonal scores (informational only – not in combined score)
         scores["orthogonal_humanness"] = self.hsc_scorer.score(vhh)["composite_score"]
@@ -254,26 +270,25 @@ class MutationEngine:
         )
 
         active_w = self._active_weights()
+        parent_seq = vhh_sequence.sequence
         rows = []
         for s in suggestions:
             imgt_pos = s["position"]
+
+            # Hard-coded PTM liability restriction: reject mutations that
+            # introduce isomerization, deamidation, or glycosylation motifs.
+            seq_list = list(parent_seq)
+            idx_0 = imgt_pos - 1
+            if 0 <= idx_0 < len(seq_list):
+                seq_list[idx_0] = s["suggested_aa"]
+                mutant_seq = "".join(seq_list)
+                if _introduces_ptm_liability(parent_seq, mutant_seq, idx_0):
+                    continue
+
             delta_h = s["delta_humanness"]
             delta_s = self.stability_scorer.predict_mutation_effect(vhh_sequence, imgt_pos, s["suggested_aa"])
 
             deltas: dict[str, float] = {"humanness": delta_h, "stability": delta_s}
-
-            # Optional metric deltas (only computed when enabled to save time)
-            if self.enabled_metrics.get("ptm_liability"):
-                deltas["ptm_liability"] = self.ptm_scorer.predict_mutation_effect(
-                    vhh_sequence, imgt_pos, s["suggested_aa"])
-            else:
-                deltas["ptm_liability"] = 0.0
-
-            if self.enabled_metrics.get("clearance_risk"):
-                deltas["clearance_risk"] = self.clearance_scorer.predict_mutation_effect(
-                    vhh_sequence, imgt_pos, s["suggested_aa"])
-            else:
-                deltas["clearance_risk"] = 0.0
 
             if self.enabled_metrics.get("surface_hydrophobicity"):
                 deltas["surface_hydrophobicity"] = self.hydrophobicity_scorer.predict_mutation_effect(
@@ -290,8 +305,6 @@ class MutationEngine:
                 "suggested_aa": s["suggested_aa"],
                 "delta_humanness": round(delta_h, 4),
                 "delta_stability": round(delta_s, 4),
-                "delta_ptm_liability": round(deltas["ptm_liability"], 4),
-                "delta_clearance_risk": round(deltas["clearance_risk"], 4),
                 "delta_surface_hydrophobicity": round(deltas["surface_hydrophobicity"], 4),
                 "combined_score": round(combined, 4),
                 "reason": s["reason"],
@@ -441,14 +454,16 @@ class MutationEngine:
             "hydrophobic_core_score": round(raw_scores["hydrophobic_core_score"], 4),
             "disulfide_score": round(raw_scores["disulfide_score"], 4),
             "vhh_hallmark_score": round(raw_scores["vhh_hallmark_score"], 4),
-            "ptm_liability_score": round(raw_scores["ptm_liability"], 4),
-            "clearance_risk_score": round(raw_scores["clearance_risk"], 4),
             "surface_hydrophobicity_score": round(raw_scores["surface_hydrophobicity"], 4),
             "orthogonal_humanness_score": round(raw_scores["orthogonal_humanness"], 4),
             "orthogonal_stability_score": round(raw_scores["orthogonal_stability"], 4),
             "combined_score": round(combined, 4),
             "aa_sequence": new_seq,
         }
+        if "scoring_method" in raw_scores:
+            row["scoring_method"] = raw_scores["scoring_method"]
+        if "predicted_tm" in raw_scores:
+            row["predicted_tm"] = round(raw_scores["predicted_tm"], 2)
         # NanoMelt columns are only included when the scorer is active
         if "nanomelt_tm_score" in raw_scores:
             nm_score = raw_scores["nanomelt_tm_score"]

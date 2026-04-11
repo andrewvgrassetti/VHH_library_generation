@@ -1,6 +1,6 @@
 import pytest
 from vhh_library.sequence import VHHSequence
-from vhh_library.stability import StabilityScorer
+from vhh_library.stability import StabilityScorer, _nanomelt_available, _esm2_pll_available, compute_esm2_pll
 
 SAMPLE_VHH = "QVQLVESGGGLVQAGGSLRLSCAASGRTFSSYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKGRFTISRDNAKNTVYLQMNSLKPEDTAVYYCAAAGVRAEWDYWGQGTLVTVSS"
 
@@ -33,3 +33,32 @@ def test_disulfide_score(scorer, vhh):
 def test_predict_mutation_effect(scorer, vhh):
     delta = scorer.predict_mutation_effect(vhh, 1, "E")
     assert isinstance(delta, float)
+
+def test_scoring_method_present(scorer, vhh):
+    result = scorer.score(vhh)
+    assert "scoring_method" in result
+    assert result["scoring_method"] in ("legacy", "nanomelt")
+
+def test_legacy_fallback():
+    """When use_nanomelt=False, scorer uses legacy composite."""
+    scorer = StabilityScorer(use_nanomelt=False)
+    vhh = VHHSequence(SAMPLE_VHH)
+    result = scorer.score(vhh)
+    assert result["scoring_method"] == "legacy"
+    assert 0.0 <= result["composite_score"] <= 1.0
+
+def test_nanomelt_active_property():
+    scorer = StabilityScorer(use_nanomelt=False)
+    assert scorer.nanomelt_active is False
+
+def test_esm2_pll_available_returns_bool():
+    assert isinstance(_esm2_pll_available(), bool)
+
+def test_nanomelt_available_returns_bool():
+    assert isinstance(_nanomelt_available(), bool)
+
+def test_compute_esm2_pll_when_unavailable():
+    if _esm2_pll_available():
+        pytest.skip("ESM-2 is installed; skipping unavailable test")
+    with pytest.raises(ImportError):
+        compute_esm2_pll(["ACDEFGHIKLMNPQRSTVWY"])

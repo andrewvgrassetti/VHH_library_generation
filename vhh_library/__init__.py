@@ -1,6 +1,6 @@
 from vhh_library.sequence import VHHSequence
 from vhh_library.humanness import HumAnnotator
-from vhh_library.stability import StabilityScorer
+from vhh_library.stability import StabilityScorer, compute_esm2_pll
 from vhh_library.mutation_engine import MutationEngine
 from vhh_library.codon_optimizer import CodonOptimizer
 from vhh_library.tags import TagManager
@@ -22,4 +22,5 @@ __all__ = [
     "CodonOptimizer", "TagManager", "LibraryManager", "SequenceVisualizer",
     "PTMLiabilityScorer", "ClearanceRiskScorer", "SurfaceHydrophobicityScorer",
     "HumanStringContentScorer", "ConsensusStabilityScorer",
+    "compute_esm2_pll",
 ]
