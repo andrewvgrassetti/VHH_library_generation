@@ -18,6 +18,30 @@ A computational tool for designing humanized and stability-optimized VHH (nanobo
 
 ## Installation
 
+### Python Version Requirement
+
+**Python 3.12 is required.** A transitive dependency of `nanomelt` (`scikit-learn-extra`) does not publish pre-built wheels for Python 3.13 on Windows, which causes a C compilation error during installation. Python 3.12 has pre-built wheels available and works correctly.
+
+Download Python 3.12 from [python.org/downloads](https://www.python.org/downloads/release/python-3129/) (use the **Windows installer (64-bit)** on Windows — check "Add python.exe to PATH" during installation).
+
+### Set Up a Virtual Environment
+
+**Windows:**
+
+```powershell
+py -3.12 -m venv venv
+venv\Scripts\activate
+```
+
+**macOS / Linux:**
+
+```bash
+python3.12 -m venv venv
+source venv/bin/activate
+```
+
+### Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 pip install -e .
