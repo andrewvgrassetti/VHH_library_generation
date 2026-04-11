@@ -39,6 +39,8 @@ st.set_page_config(
 
 SAMPLE_VHH = "QVQLVESGGGLVQAGGSLRLSCAASGRTFSSYAMGWFRQAPGKEREFVAAISWSGGSTYYADSVKGRFTISRDNAKNTVYLQMNSLKPEDTAVYYCAAAGVRAEWDYWGQGTLVTVSS"
 
+_ESM2_PLL_DEFAULT_TOP_N = 10
+
 
 @st.cache_resource
 def load_scorers():
@@ -185,7 +187,7 @@ def sidebar():
         "Top N sequences to rescore",
         min_value=1,
         max_value=100,
-        value=10,
+        value=_ESM2_PLL_DEFAULT_TOP_N,
         step=1,
         key="esm2_pll_sidebar_top_n",
         disabled=not esm2_enabled,
@@ -860,7 +862,7 @@ def tab_library(viz):
                     min_value=1,
                     max_value=min(100, len(lib)),
                     value=min(
-                        st.session_state.get("esm2_pll_sidebar_top_n", 10),
+                        st.session_state.get("esm2_pll_sidebar_top_n", _ESM2_PLL_DEFAULT_TOP_N),
                         len(lib),
                     ),
                     step=1,
